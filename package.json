@@ -1,0 +1,60 @@
+{
+	"name": "@bombitmanbomb/cloudx",
+	"version": "0.1.0",
+	"description": "Neos CloudX Internal",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"scripts": {
+		"test": "node Tests/Test.js --unhandled-rejections=strict",
+		"lint": "prettier --use-tabs --write ./src/. && eslint -c .eslintrc.json --fix ./src/**/*",
+		"document": "jsdoc -t node_modules/docdash ./src/ -c jsdoc.json -d ./docs/",
+		"ready": "npm run document && npm run lint",
+		"build": "Del lib /S /Q && tsc",
+		"prepublish": "tsc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PolyLogiX-Studio/CloudX.js.git"
+	},
+	"author": "Ethan Snow",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/PolyLogiX-Studio/CloudX.js/issues"
+	},
+	"homepage": "https://github.com/PolyLogiX-Studio/CloudX.js#readme",
+	"peerDependencies": {
+		"@octokit/rest": "^18.2.0"
+	},
+	"peerDependenciesMeta": {
+		"@octokit/rest": {
+			"optional": true
+		}
+	},
+	"devDependencies": {
+		"@babel/core": "^7.12.10",
+		"@babel/plugin-transform-flow-strip-types": "^7.12.1",
+		"@types/minimist": "^1.2.0",
+		"@types/node": "^15.0.2",
+		"@types/normalize-package-data": "^2.4.0",
+		"@types/unist": "^2.0.3",
+		"@types/uuid": "^8.3.0",
+		"@typescript-eslint/eslint-plugin": "^4.22.1",
+		"@typescript-eslint/parser": "^4.22.1",
+		"docdash": "^1.2.0",
+		"documentation": "^13.1.0",
+		"dotenv": "^8.2.0",
+		"eslint": "^7.12.1",
+		"eslint-plugin-jsdoc": "^33.1.0",
+		"jsdoc-tsimport-plugin": "^1.0.5",
+		"prettier": "^2.1.2",
+		"typescript": "^4.2.4",
+		"typescript-eslint": "^0.0.1-alpha.0"
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"dependencies": {
+		"@bombitmanbomb/utils": "2.8.1",
+		"uuid": "^8.3.2"
+	}
+}

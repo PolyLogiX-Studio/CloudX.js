@@ -1,0 +1,150 @@
+toc:
+  - name: Neos.js Library
+    description: |
+      This is the Neos.js library for interfacing with NeosVR
+    children:
+      - Neos.js
+  - Neos
+  - name: CloudX
+    description: |
+      Supporting Documentation for Neos.js
+      Docs are still being Created, And will likely be a mess for now
+
+      Children: {[Shared](#shared),[Util](#util)}
+  - name: Shared
+    description: |
+      Core NeosVR API
+
+      [CloudX.Shared](#shared)
+
+      Properties Listed Below
+  - AccountType
+  - AssetDiff
+  - AssetEntry
+  - AssetInfo
+  - AssetMetadataRequest
+  - AssetUploadData
+  - AssetUtil
+  - AssetVariantComputationTask
+  - AssetVariantEntityType
+  - AuthenticationHeaderValue
+  - BatchQuery
+  - CheckContactData
+  - ChildRecordDiff
+  - CloudMessage
+  - CloudResult
+  - CloudVariable
+  - CloudVariableDefinition
+  - CloudXInterface
+  - ComputationLock
+  - CreditTransaction
+  - CryptoHelper
+  - CurrencyRates
+  - Endpoints
+  - ExitMessage
+  - ExternalQueueObject
+  - Friend
+  - FriendManager
+  - FriendStatus
+  - Group
+  - HubPatreons
+  - IdUtil
+  - IRecord
+  - License
+  - LoginCredentials
+  - Member
+  - Membership
+  - Message
+  - MessageManager
+  - MessageType
+  - MetadataBatchQuery
+  - MetamovieAccount
+  - NeosAccount
+  - NeosDB_Endpoint
+  - NeosDBAsset
+  - NeosSession
+  - OneTimeVerificationKey
+  - OnlineStatus
+  - OnlineStatusHelper
+  - OnlineUserStats
+  - OutputDevice
+  - OwnerType
+  - PicturePatreon
+  - Record
+  - RecordBatchQuery
+  - RecordHelper
+  - RecordId
+  - RecordPreprocessState
+  - RecordPreprocessStatus
+  - RecordSearch
+  - RecordTags
+  - RecordUtil
+  - RSAParametersData
+  - SearchParameters
+  - SearchQueryParser
+  - SearchResults
+  - SearchSortDirection
+  - SearchSortParameter
+  - ServerStatistics
+  - SessionAccessLevel
+  - SessionIndo
+  - SessionUpdate
+  - SessionUser
+  - Submission
+  - SugarCube
+  - TemporaryUtility
+  - ThimbnailInfo
+  - TransactionManager
+  - TransactionMessage
+  - TransactionType
+  - TransactionUtil
+  - UploadState
+  - User
+  - UserPatreonData
+  - UserProfile
+  - UserSession
+  - UserStatus
+  - UserTags
+  - VerificationKeyUse
+  - Visit
+  - name: Util
+    description: |
+      Supporting Classes and Types
+
+      [CloudX.Util](#util)
+
+      Properties Listed Below
+  - CancellationTokenSource
+  - Char
+  - Dictionary
+  - Enumerable
+  - HashSet
+  - HTTP_CLIENT
+  - HttpMethod
+  - HttpRequestMessage
+  - HttpResponseMessage
+  - List
+  - Out
+  - Path
+  - StringBuilder
+  - Task
+  - TaskCompletionSource
+  - TimeSpan
+  - Uri
+  - name: Arguments
+    description: |
+      Special Argument Type Definitions. These do not have Classes and are included solely for Typing and Descriptions.
+    children:
+      - AssetDiffEnum
+      - Dictionary.AddOrUpdate~callback
+      - Dictionary.Reduce~callback
+      - GroupMemberUpdated
+      - GroupUpdatedFunction
+      - MembershipsUpdatedFunction
+      - NeosGeneratorOptions
+      - SessionChangedFunction
+      - UserUpdatedFunction
+  - name: Uncategorized
+    description: |
+      None of these have been categorized yet. WIP
+      Want to contribute? [Contributing Guide](https://github.com/PolyLogiX-Studio/Neos.js/blob/master/.github/CONTRIBUTING.md)

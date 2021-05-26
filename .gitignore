@@ -7,3 +7,4 @@ UpdateCheck.WinMerge
 tsconfig.tsbuildinfo
 lib/
 dist/
+docs/
