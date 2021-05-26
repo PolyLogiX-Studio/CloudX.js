@@ -9,7 +9,7 @@ export class AssetEntry<E> {
 	public OwnerId: string;
 	public ComputeLock: ComputationLock;
 	public Entry: any;
-	constructor($b: AssetEntryJSON<E>) {
+	constructor($b: AssetEntryJSON<E> = {} as AssetEntryJSON<E>) {
 		this.Id = $b.id;
 		this.OwnerId = $b.ownerId;
 		this.ComputeLock =
@@ -34,7 +34,7 @@ export class AssetEntry<E> {
 		return {
 			id: this.Id,
 			ownerId: this.OwnerId,
-			computeLock: this.ComputeLock.toJSON(),
+			computeLock: this.ComputeLock?.toJSON(),
 			entry: this.Entry,
 		};
 	}
