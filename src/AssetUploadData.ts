@@ -7,7 +7,7 @@ export class AssetUploadData {
 	public ChunkSize: number;
 	public TotalChunks: number;
 	public UploadState: UploadState;
-	constructor($b: AssetUploadDataJSON) {
+	constructor($b: AssetUploadDataJSON = {} as AssetUploadDataJSON) {
 		this.Signature = $b.signature;
 		this.Variant = $b.variant;
 		this.OwnerId = $b.ownerId;
