@@ -3,7 +3,7 @@ export class AssetDiff {
 	public Bytes: number;
 	public State: Diff;
 	public IsUploaded?: boolean;
-	constructor($b: AssetDiffJSON) {
+	constructor($b: AssetDiffJSON = {} as AssetDiffJSON) {
 		this.Hash = $b.hash;
 		this.Bytes = $b.bytes;
 		this.State = $b.state;
