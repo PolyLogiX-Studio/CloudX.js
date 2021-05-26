@@ -9,7 +9,7 @@ export class BuildVariant {
 	public Runtime: BuildRuntime;
 	public PackageSignature: string;
 	public Files: List<BuildFile>;
-	constructor($b: BuildVariantJSON) {
+	constructor($b: BuildVariantJSON = {} as BuildVariantJSON) {
 		this.VersionNumber = $b.versionNumber;
 		this.Platform = $b.platform;
 		this.Runtime = $b.runtime;
