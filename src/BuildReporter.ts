@@ -3,7 +3,7 @@ export class BuildReporter {
 	public NeosUserID: string;
 	public DiscordHandle: string;
 	public GithubHandle: string;
-	constructor($b: BuildReporterJSON) {
+	constructor($b: BuildReporterJSON = {} as BuildReporterJSON) {
 		this.Username = $b.username;
 		this.NeosUserID = $b.neosUserID;
 		this.DiscordHandle = $b.discordHandle;
