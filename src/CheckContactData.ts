@@ -3,7 +3,7 @@ export class CheckContactData {
 	OwnerId: string;
 	Verificationkey: string;
 	Contacts: List<string>;
-	constructor($b: CheckContactDataJSON) {
+	constructor($b: CheckContactDataJSON = {} as CheckContactDataJSON) {
 		this.OwnerId = $b.ownerId;
 		this.Verificationkey = $b.verificationKey;
 		this.Contacts =
