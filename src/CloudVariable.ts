@@ -3,7 +3,7 @@ export class CloudVariable {
 	public VariableOwnerId: string;
 	public Path: string;
 	public Value: string;
-	constructor($b: CloudVariableJSON) {
+	constructor($b: CloudVariableJSON = {} as CloudVariableJSON) {
 		this.VariableOwnerId = $b.ownerId;
 		this.Path = $b.path;
 		this.Value = $b.value;
