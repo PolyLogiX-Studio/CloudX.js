@@ -191,7 +191,8 @@ export class CloudVariableHelper {
 		let cloudVariableParser;
 		if (type == null || type.trim() == "") {
 			cloudVariableParser = CloudVariableHelper.GetUnsafeValueParser<T>();
-			if (cloudVariableParser == null) throw new Error("Unsupported type:"); //TODO
+			if (cloudVariableParser == null)
+				throw new Error("Unsupported type: " + type); //TODO
 		} else {
 			cloudVariableParser = CloudVariableHelper.GetValueParser(type);
 			if (cloudVariableParser == null)
