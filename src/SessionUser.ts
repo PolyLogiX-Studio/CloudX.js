@@ -4,7 +4,7 @@ export class SessionUser {
 	public UserID: string;
 	public IsPresent: boolean;
 	public OutputDevice: OutputDevice;
-	constructor($b: SessionUserJSON) {
+	constructor($b: SessionUserJSON = {} as SessionUserJSON) {
 		this.Username = $b.username;
 		this.UserID = $b.userID;
 		this.IsPresent = $b.isPresent;
