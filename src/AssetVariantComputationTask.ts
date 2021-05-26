@@ -3,7 +3,9 @@ export class AssetVariantComputationTask {
 	AssetSignature: string;
 	VariantId: string;
 	EntityType: AssetVariantEntityType;
-	constructor($b: AssetVariantComputationTaskJSON) {
+	constructor(
+		$b: AssetVariantComputationTaskJSON = {} as AssetVariantComputationTaskJSON
+	) {
 		this.AssetSignature = $b.assetSignature;
 		this.VariantId = $b.variantId;
 		this.EntityType = $b.entityType;
