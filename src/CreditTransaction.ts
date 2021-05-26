@@ -6,7 +6,7 @@ export class CreditTransaction {
 	public Comment: string;
 	public TransactionType: TransactionType;
 	public Anonymous: boolean;
-	constructor($b: CreditTransactionJSON) {
+	constructor($b: CreditTransactionJSON = {} as CreditTransactionJSON) {
 		this.Token = $b.token;
 		this.FromUserId = $b.fromUserId;
 		this.Amount = $b.amount;
