@@ -1,7 +1,7 @@
 export class BuildFile {
 	public Signature: string;
 	public Path: string;
-	constructor($b: BuildFileJSON) {
+	constructor($b: BuildFileJSON = {} as BuildFileJSON) {
 		this.Signature = $b.signature;
 		this.Path = $b.path;
 	}
