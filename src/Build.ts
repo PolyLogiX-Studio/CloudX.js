@@ -6,7 +6,7 @@ export class Build {
 	public Changes: List<BuildChange>;
 	public KnownIssues: List<string>;
 	public Notes: List<string>;
-	constructor($b: BuildJSON) {
+	constructor($b: BuildJSON = {} as BuildJSON) {
 		this.VersionNumber = $b.versionNumber;
 		this.AlternateVersionNumber = $b.alternateVersionNumber;
 		this.Changes =
