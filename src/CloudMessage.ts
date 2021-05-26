@@ -1,6 +1,6 @@
 export class CloudMessage {
 	public Message: string;
-	constructor($b: CloudMessageJSON) {
+	constructor($b: CloudMessageJSON = {} as CloudMessageJSON) {
 		this.Message = $b.Message;
 	}
 	public static ExtractMessage(content: string): string {
