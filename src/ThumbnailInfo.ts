@@ -16,7 +16,7 @@ export class ThumbnailInfo {
 	public UploaderIP?: string;
 	public SessionId?: string;
 	public UploaderOwnerId?: string;
-	constructor($b: ThumbnailInfoJSON) {
+	constructor($b: ThumbnailInfoJSON = {} as ThumbnailInfoJSON) {
 		this.Id = $b.id;
 		this.Key = $b.key;
 		this.UploaderIP = $b.uploaderIP;
