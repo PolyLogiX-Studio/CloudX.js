@@ -7,7 +7,9 @@ export class CloudVariableDefinition {
 	ReadPermissions: List<string>;
 	WritePermissions: List<string>;
 	ListPermissions: List<string>;
-	constructor($b: CloudVariableDefinitionJSON) {
+	constructor(
+		$b: CloudVariableDefinitionJSON = {} as CloudVariableDefinitionJSON
+	) {
 		this.DefinitionOwnerId = $b.definitionOwnerId;
 		this.Subpath = $b.subpath;
 		this.VariableType = $b.variableType;
