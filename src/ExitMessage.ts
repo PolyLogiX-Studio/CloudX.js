@@ -2,7 +2,7 @@ export class ExitMessage {
 	public MessageIndex: number;
 	public Message: string;
 	public AddedByUserId: string;
-	constructor($b: ExitMessageJSON) {
+	constructor($b: ExitMessageJSON = {} as ExitMessageJSON) {
 		this.Message = $b.message;
 		this.MessageIndex = $b.messageIndex;
 		this.AddedByUserId = $b.addedByUserId;
