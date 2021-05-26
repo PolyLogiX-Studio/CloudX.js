@@ -7,7 +7,7 @@ export class BuildChange {
 	public WorkInProgress: boolean;
 	public GithubIssueNumbers: List<number>;
 	public Reporters: List<BuildReporter>;
-	constructor($b: BuildChangeJSON) {
+	constructor($b: BuildChangeJSON = {} as BuildChangeJSON) {
 		this.Description = $b.description;
 		this.Type = $b.type;
 		this.WorkInProgress = $b.workInProgress;
