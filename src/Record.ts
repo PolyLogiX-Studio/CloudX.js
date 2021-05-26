@@ -34,7 +34,7 @@ export class Record implements IRecord {
 	public Submissions: List<Submission>;
 	public Manifest?: List<string>;
 	public NeosDBManifest?: List<NeosDBAsset>;
-	constructor($b: RecordJSON) {
+	constructor($b: RecordJSON = {} as RecordJSON) {
 		this.RecordId = $b.id;
 		this.OwnerId = $b.ownerId;
 		this.AssetURI = $b.assetURI;
