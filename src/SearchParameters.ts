@@ -21,7 +21,7 @@ export class SearchParameters {
 	public SortBy: SearchSortParameter;
 	public SortDirection: SearchSortDirection;
 	public ExtraSignatures!: List<string>;
-	constructor($b: SearchParametersJSON) {
+	constructor($b: SearchParametersJSON = {} as SearchParametersJSON) {
 		this.Count = $b.count ?? 100;
 		this.Offset = $b.offset;
 		this.Private = $b.private;
