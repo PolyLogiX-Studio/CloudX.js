@@ -9,7 +9,9 @@ export class RecordPreprocessStatus {
 	Progress: number;
 	FailReason: string;
 	ResultDiffs: List<AssetDiff>;
-	constructor($b: RecordPreprocessStatusJSON) {
+	constructor(
+		$b: RecordPreprocessStatusJSON = {} as RecordPreprocessStatusJSON
+	) {
 		this.PreprocessId = $b.id;
 		this.OwnerId = $b.ownerId;
 		this.RecordId = $b.recordId;
@@ -29,7 +31,7 @@ export class RecordPreprocessStatus {
 			state: this.State,
 			progress: this.Progress,
 			failReason: this.FailReason,
-			resultDiffs: (this.ResultDiffs.toJSON() as unknown) as AssetDiffJSON[],
+			resultDiffs: (this.ResultDiffs?.toJSON() as unknown) as AssetDiffJSON[],
 		};
 	}
 }
