@@ -5,7 +5,7 @@ export class RecordInfo {
 	AssetUri: string;
 	ThumbnailUri: string;
 	Globalversion: number;
-	constructor($b: RecordInfoJSON) {
+	constructor($b: RecordInfoJSON = {} as RecordInfoJSON) {
 		this.RecordId = $b.recordId;
 		this.OwnerId = $b.ownerId;
 		this.Name = $b.name;
