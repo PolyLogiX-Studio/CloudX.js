@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 export class ComputationLock {
 	public Token: string;
 	public ExpireTimestamp: Date;
-	constructor($b: ComputationLockJSON) {
+	constructor($b: ComputationLockJSON = {} as ComputationLockJSON) {
 		this.Token = $b.token;
 		this.ExpireTimestamp = $b.timestamp;
 	}
