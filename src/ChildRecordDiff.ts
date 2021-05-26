@@ -6,7 +6,7 @@ export class ChildRecordDiff {
 	public Created: Date;
 	public ParentRecord: RecordId;
 	public RecordInfo: RecordInfo;
-	constructor($b: ChildRecordDiffJSON) {
+	constructor($b: ChildRecordDiffJSON = {} as ChildRecordDiffJSON) {
 		this.Operation = $b.operation;
 		this.Created = $b.created;
 		this.ParentRecord =
@@ -22,8 +22,8 @@ export class ChildRecordDiff {
 		return {
 			operation: this.Operation,
 			created: this.Created,
-			parentRecord: this.ParentRecord.toJSON() as RecordIdJSON,
-			recordInfo: this.RecordInfo.toJSON() as RecordInfoJSON,
+			parentRecord: this.ParentRecord?.toJSON() as RecordIdJSON,
+			recordInfo: this.RecordInfo?.toJSON() as RecordInfoJSON,
 		};
 	}
 }
