@@ -9,7 +9,7 @@ export class AssetInfo {
 	public IsUploaded: boolean;
 	public UploaderUserId?: string;
 	public CountsAgainstMemberQuota?: boolean;
-	constructor($b: AssetInfoJSON) {
+	constructor($b: AssetInfoJSON = {} as AssetInfoJSON) {
 		this.OwnerId = $b.ownerId;
 		this.AssetHash = $b.assetHash;
 		this.Bytes = $b.bytes;
