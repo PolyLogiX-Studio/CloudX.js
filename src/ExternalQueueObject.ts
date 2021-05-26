@@ -2,7 +2,7 @@ export class ExternalQueueObject<T> {
 	Id: string;
 	PopReceipt: string;
 	Object: T;
-	constructor($b: ExternalQueueObjectJSON) {
+	constructor($b: ExternalQueueObjectJSON = {} as ExternalQueueObjectJSON) {
 		this.Id = $b.id;
 		this.PopReceipt = $b.popReceipt;
 		this.Object = $b.object;
