@@ -6,7 +6,7 @@ export class UserProfile {
 	ProfileWorldUrl: string;
 	ShowcaseItems: List<string>;
 	TokenOptOut: List<string>;
-	constructor($b: UserProfileJSON) {
+	constructor($b: UserProfileJSON = {} as UserProfileJSON) {
 		this.IconUrl = $b.iconUrl;
 		this.BackgroundUrl = $b.backgroundUrl;
 		this.TagLine = $b.tagLine;
@@ -38,8 +38,8 @@ export class UserProfile {
 			backgroundUrl: this.BackgroundUrl,
 			tagLine: this.TagLine,
 			profileWorldUrl: this.ProfileWorldUrl,
-			showcaseItems: this.ShowcaseItems,
-			tokenOptOut: this.TokenOptOut,
+			showcaseItems: this.ShowcaseItems?.toJSON(),
+			tokenOptOut: this.TokenOptOut?.toJSON(),
 		};
 	}
 }
