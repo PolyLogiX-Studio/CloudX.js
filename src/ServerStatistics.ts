@@ -1,7 +1,7 @@
 export class ServerStatistics {
 	public LastUpdate: Date;
 	public ResponseTimeMilliseconds: number;
-	constructor($b: ServerStatisticsJSON) {
+	constructor($b: ServerStatisticsJSON = {} as ServerStatisticsJSON) {
 		this.LastUpdate = $b.lastUpdate;
 		this.ResponseTimeMilliseconds = $b.responseTimeMilliseconds;
 	}
