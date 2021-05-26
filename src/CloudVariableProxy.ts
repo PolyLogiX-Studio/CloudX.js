@@ -83,6 +83,7 @@ export class CloudVariableProxy {
 				});
 			});
 		};
+		Loop();
 	}
 	public Register(onChanged: () => unknown): void {
 		if (this.State == CloudVariableState.Unregistered)
