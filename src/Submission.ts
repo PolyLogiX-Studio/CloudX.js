@@ -10,7 +10,7 @@ export class Submission {
 	public Featured: boolean;
 	public FeaturedByUserId: string;
 	public FeaturedTimestamp?: Date;
-	constructor($b: SubmissionJSON) {
+	constructor($b: SubmissionJSON = {} as SubmissionJSON) {
 		this.Id = $b.id;
 		this.GroupId = $b.ownerId;
 		this.TargetRecordId =
@@ -28,7 +28,7 @@ export class Submission {
 		return {
 			id: this.Id,
 			ownerId: this.GroupId,
-			targetRecordId: this.TargetRecordId.toJSON(),
+			targetRecordId: this.TargetRecordId?.toJSON(),
 			submissionTime: this.SubmissionTime,
 			submittedById: this.SubmittedById,
 			submittedByName: this.SubmittedByName,
