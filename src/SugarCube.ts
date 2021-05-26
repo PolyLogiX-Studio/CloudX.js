@@ -22,10 +22,10 @@ export class SugarCube {
 		this.GreenChannel = $b.greenChannel;
 		this.BlueChannel = $b.blueChannel;
 	}
-	public get Color(): color {
-		return new color(this.RedChannel, this.GreenChannel, this.BlueChannel);
+	public get Color(): color|{ r: number; g: number; b: number } {
+		return new color(this.RedChannel, this.GreenChannel, this.BlueChannel)
 	}
-	public set Color(value: { r: number; g: number; b: number }) {
+	public set Color(value: { r: number; g: number; b: number }|color) {
 		this.RedChannel = value.r;
 		this.GreenChannel = value.g;
 		this.BlueChannel = value.b;
