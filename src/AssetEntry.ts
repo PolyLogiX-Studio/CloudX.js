@@ -1,9 +1,5 @@
 import { ComputationLock } from "./ComputationLock";
 import type { ComputationLockJSON } from "./ComputationLock";
-/** AssetEntry Type
- * @class AssetEntry
- * @template E
- */
 export class AssetEntry<E> {
 	public Id: string;
 	public OwnerId: string;
