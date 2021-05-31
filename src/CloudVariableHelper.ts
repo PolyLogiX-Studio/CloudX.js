@@ -1,3 +1,4 @@
+/*
 import { VariablePermissionType } from "./VariablePermissionType";
 import { OwnerType } from "./OwnerType";
 import { List, Out } from "@bombitmanbomb/utils";
@@ -233,3 +234,4 @@ export class CloudVariableHelper {
 		}; //TODO
 	}
 }
+*/
