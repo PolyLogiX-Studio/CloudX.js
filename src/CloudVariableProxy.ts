@@ -12,6 +12,7 @@ import {
 	Out,
 } from "@bombitmanbomb/utils";
 import { CloudVariableHelper } from "./CloudVariableHelper";
+import { CloudXInterface } from "./CloudXInterface";
 export class CloudVariableProxy {
 	public static WRITE_DELAY_SECONDS = 30.0;
 	public static REFRESH_INTERVAL_SECONDS = 300.0;
