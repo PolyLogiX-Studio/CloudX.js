@@ -108,7 +108,7 @@ export class UserStatus {
 			publicRSAKey: this.PublicRSAKey?.toJSON(),
 			outputDevice: this.OutputDevice,
 			isMobile: this.IsMobile,
-			activeSessions: this.ActiveSessions?.toJSON() as SessionInfoJSON[],
+			activeSessions: this.ActiveSessions?.toJSON() as unknown as SessionInfoJSON[],
 		};
 	}
 }
