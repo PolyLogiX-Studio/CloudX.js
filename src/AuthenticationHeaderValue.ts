@@ -1,6 +1,6 @@
 export class AuthenticationHeaderValue {
-	public Authorication: string;
+	public Authorization: string;
 	constructor(bearer: string, token: string) {
-		this.Authorication = bearer + " " + token;
+		this.Authorization = bearer + " " + token;
 	}
 }
