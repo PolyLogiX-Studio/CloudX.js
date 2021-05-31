@@ -1,6 +1,3 @@
-/** AssetInfo.
- * @class AssetInfo
- */
 export class AssetInfo {
 	public OwnerId: string;
 	public AssetHash: string;
