@@ -1,8 +1,3 @@
-/**
- * Account Type Enumerable.
- *
- * @enum {number}
- */
 export enum AccountType {
 	Normal = "Normal",
 	AgentSmith = "AgentSmith",
