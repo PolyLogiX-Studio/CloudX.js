@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildFile } from "./BuildFile";
+import { BuildFile, BuildFileJSON } from "./BuildFile";
 import type { BuildPlatform } from "./BuildPlatform";
 import type { BuildRuntime } from "./BuildRuntime";
 
@@ -23,7 +23,7 @@ export class BuildVariant {
 			platform: this.Platform,
 			runtime: this.Runtime,
 			packageSignature: this.PackageSignature,
-			files: this.Files,
+			files: (this.Files?.toJSON() as unknown) as BuildFileJSON[],
 		};
 	}
 }
@@ -32,5 +32,5 @@ export interface BuildVariantJSON {
 	platform: BuildPlatform;
 	runtime: BuildRuntime;
 	packageSignature: string;
-	files: BuildFile[];
+	files: BuildFileJSON[];
 }
