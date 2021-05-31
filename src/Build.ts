@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildChange } from "./BuildChange";
+import { BuildChange, BuildChangeJSON } from "./BuildChange";
 export class Build {
 	public VersionNumber: string;
 	public AlternateVersionNumber: string;
@@ -23,16 +23,16 @@ export class Build {
 		return {
 			versionNumber: this.VersionNumber,
 			alternateVersionNumber: this.AlternateVersionNumber,
-			changes: this.Changes,
-			knownIssues: this.KnownIssues,
-			notes: this.Notes,
+			changes: (this.Changes?.toJSON() as unknown) as BuildChangeJSON[],
+			knownIssues: this.KnownIssues?.toJSON(),
+			notes: this.Notes?.toJSON(),
 		};
 	}
 }
 export interface BuildJSON {
 	versionNumber: string;
 	alternateVersionNumber: string;
-	changes: BuildChange[];
+	changes: BuildChangeJSON[];
 	knownIssues: string[];
 	notes: string[];
 }
