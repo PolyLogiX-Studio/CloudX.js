@@ -6,7 +6,7 @@ export class RecordSearch<R extends IRecord> {
 	public static DEFAULT_BATCH_SIZE = 100;
 	public BatchSize = 100;
 	private searchParameters!: SearchParameters;
-	private cloud: CloudXInterface;
+	private cloud!: CloudXInterface;
 	private Records!: List<R>;
 	public HasMoreResults!: boolean;
 
