@@ -54,8 +54,8 @@
 		"node": ">=14.0.0"
 	},
 	"dependencies": {
-		"@bombitmanbomb/http-client": "^2.0.0",
-		"@bombitmanbomb/utils": "2.8.3",
+		"@bombitmanbomb/http-client": "2.1.1",
+		"@bombitmanbomb/utils": "2.8.4",
 		"uuid": "^8.3.2"
 	}
 }
