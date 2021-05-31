@@ -13,7 +13,7 @@ export class CheckContactData {
 		return {
 			ownerId: this.OwnerId,
 			verificationKey: this.Verificationkey,
-			contacts: this.Contacts,
+			contacts: this.Contacts?.toJSON(),
 		};
 	}
 }
