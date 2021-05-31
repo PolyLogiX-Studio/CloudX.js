@@ -10,7 +10,7 @@ export class AssetDiff {
 		this.IsUploaded = $b.isUploaded;
 	}
 	get Diff(): typeof Diff {
-		return Diff;
+		return Diff; // Oh
 	}
 	toJSON(): AssetDiffJSON {
 		return {
