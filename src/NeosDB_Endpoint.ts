@@ -1,6 +1,6 @@
 export enum NeosDB_Endpoint {
-  Default = "Default",
-  Blob = "Blob",
-  CDN = "CDN",
-  VideoCDN = "VideoCDN"
+	Default = "Default",
+	Blob = "Blob",
+	CDN = "CDN",
+	VideoCDN = "VideoCDN",
 }
