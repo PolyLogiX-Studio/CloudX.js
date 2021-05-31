@@ -1,6 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
-import type { BuildChangeType } from "./BuildChangeType";
-import { BuildReporter } from "./BuildReporter";
+import { BuildChangeType } from "./BuildChangeType";
+import { BuildReporter, BuildReporterJSON } from "./BuildReporter";
 export class BuildChange {
 	public Description: string;
 	public Type: BuildChangeType;
@@ -25,8 +25,8 @@ export class BuildChange {
 			description: this.Description,
 			type: this.Type,
 			workInProgress: this.WorkInProgress,
-			githubIssueNumbers: this.GithubIssueNumbers,
-			reporters: this.Reporters,
+			githubIssueNumbers: this.GithubIssueNumbers?.toJSON(),
+			reporters: (this.Reporters?.toJSON() as unknown) as BuildReporterJSON[],
 		};
 	}
 }
@@ -35,5 +35,5 @@ export interface BuildChangeJSON {
 	type: BuildChangeType;
 	workInProgress: boolean;
 	githubIssueNumbers: number[];
-	reporters: BuildReporter[];
+	reporters: BuildReporterJSON[];
 }
