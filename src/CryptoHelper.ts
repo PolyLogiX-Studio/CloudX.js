@@ -84,5 +84,5 @@ function toUTF8(str: string): string {
 		}
 	}
 
-	return utf8.join();
+	return utf8.join("");
 }
