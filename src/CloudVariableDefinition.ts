@@ -33,9 +33,9 @@ export class CloudVariableDefinition {
 			subpath: this.Subpath,
 			variableType: this.VariableType,
 			defaultValue: this.DefaultValue,
-			readPermissions: this.ReadPermissions,
-			writePermissions: this.WritePermissions,
-			listPermissions: this.ListPermissions,
+			readPermissions: this.ReadPermissions?.toJSON(),
+			writePermissions: this.WritePermissions?.toJSON(),
+			listPermissions: this.ListPermissions?.toJSON(),
 		};
 	}
 }
