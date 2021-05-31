@@ -17,6 +17,9 @@ export class RSAParametersData {
 		this.InverseQ = rsa.InverseQ;
 		this.D = rsa.D;
 	}
+	toJSON(): RSAParameters {
+		return { ...this };
+	}
 }
 export interface RSAParameters {
 	Exponent: unknown[];
