@@ -26,6 +26,7 @@ export class ChildRecordDiff {
 			recordInfo: this.RecordInfo?.toJSON() as RecordInfoJSON,
 		};
 	}
+	public RecordInfoOperation: typeof RecordInfoOperation = RecordInfoOperation;
 }
 export interface ChildRecordDiffJSON {
 	operation: RecordInfoOperation;
