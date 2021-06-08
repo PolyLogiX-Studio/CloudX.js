@@ -36,14 +36,14 @@ export class User {
 		this.QuotaBytes = $b.quotaBytes;
 		this.UsedBytes = $b.usedBytes;
 		this.IsVerified = $b.isVerified;
-		this.AccountBanExpiration = $b.accountBanExpiration;
-		this.PublicBanExpiration = $b.publicBanExpiration;
-		this.PublicBanType = $b.publicBanType;
-		this.SpectatorBanExpiration = $b.spectatorBanExpiration;
-		this.MuteBanExpiration = $b.muteBanExpiration;
-		this.ListingBanExpiration = $b.listingBanExpiration;
-		this.Password = $b.password;
-		this.RecoverCode = $b.recoverCode;
+		this.AccountBanExpiration = $b.accountBanExpiration as Date;
+		this.PublicBanExpiration = $b.publicBanExpiration as Date;
+		this.PublicBanType = $b.publicBanType as PublicBanType;
+		this.SpectatorBanExpiration = $b.spectatorBanExpiration as Date;
+		this.MuteBanExpiration = $b.muteBanExpiration as Date;
+		this.ListingBanExpiration = $b.listingBanExpiration as Date;
+		this.Password = $b.password as string;
+		this.RecoverCode = $b.recoverCode as string;
 		this.UniqueDeviceIDs =
 			$b.uniqueDeviceIDs instanceof List
 				? $b.uniqueDeviceIDs
@@ -126,20 +126,20 @@ export class User {
 		return {
 			id: this.Id,
 			username: this.Username,
-			email: this.Email,
+			email: this.Email as string,
 			registrationDate: this.RegistrationDate,
 			quotaBytes: this.QuotaBytes,
 			usedBytes: this.UsedBytes,
 			isVerified: this.IsVerified,
-			accountBanExpiration: this.AccountBanExpiration,
-			publicBanExpiration: this.PublicBanExpiration,
-			publicBanType: this.PublicBanType,
-			spectatorBanExpiration: this.SpectatorBanExpiration,
-			muteBanExpiration: this.MuteBanExpiration,
-			listingBanExpiration: this.ListingBanExpiration,
-			password: this.Password,
-			recoverCode: this.RecoverCode,
-			uniqueDeviceIDs: this.UniqueDeviceIDs?.toJSON(),
+			accountBanExpiration: this.AccountBanExpiration as Date,
+			publicBanExpiration: this.PublicBanExpiration as Date,
+			publicBanType: this.PublicBanType as PublicBanType,
+			spectatorBanExpiration: this.SpectatorBanExpiration as Date,
+			muteBanExpiration: this.MuteBanExpiration as Date,
+			listingBanExpiration: this.ListingBanExpiration as Date,
+			password: this.Password as string,
+			recoverCode: this.RecoverCode as string,
+			uniqueDeviceIDs: this.UniqueDeviceIDs?.toJSON() as string[],
 			tags: this.Tags?.toJSON(),
 			patreonData: this.PatreonData?.toJSON(),
 			credits: this.Credits?.toJSON(),
