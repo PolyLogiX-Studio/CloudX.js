@@ -31,7 +31,7 @@ export class Record implements IRecord {
 	public FirstPublishTime?: Date;
 	public CreationTime?: Date;
 	public LastModificationTime: Date;
-	public Submissions: List<Submission>;
+	public Submissions?: List<Submission>;
 	public Manifest?: List<string>;
 	public NeosDBManifest?: List<NeosDBAsset>;
 	constructor($b: RecordJSON = {} as RecordJSON) {
@@ -60,7 +60,9 @@ export class Record implements IRecord {
 		this.Submissions =
 			$b.submissions instanceof List
 				? $b.submissions
-				: List.ToListAs($b.submissions, Submission);
+				: $b.submissions != null
+					? List.ToListAs($b.submissions, Submission)
+					: void 0;
 		this.NeosDBManifest =
 			$b.neosDBmanifest instanceof List
 				? $b.neosDBmanifest
@@ -113,7 +115,7 @@ export class Record implements IRecord {
 			firstPublishTime: this.FirstPublishTime,
 			creationTime: this.CreationTime,
 			lastModificationTime: this.LastModificationTime,
-			submissions: this.Submissions,
+			submissions: (this.Submissions?.toJSON() as unknown) as SubmissionJSON[],
 			neosDBmanifest: (this.NeosDBManifest?.toJSON() as unknown) as NeosDBAssetJSON[],
 		};
 	}
