@@ -3,7 +3,7 @@ export class Member {
 	public GroupId: string;
 	public QuotaBytes: number;
 	public UsedBytes: number;
-	constructor($b: MemberJSON) {
+	constructor($b: MemberJSON = {} as MemberJSON) {
 		this.UserId = $b.id;
 		this.GroupId = $b.ownerId;
 		this.QuotaBytes = $b.quotaBytes;
