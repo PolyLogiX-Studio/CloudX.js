@@ -1,4 +1,3 @@
-/*
 import { VariablePermissionType } from "./VariablePermissionType";
 import { OwnerType } from "./OwnerType";
 import { List, Out } from "@bombitmanbomb/utils";
@@ -186,7 +185,7 @@ export class CloudVariableHelper {
 	}
 	public static ParseValue<T>(
 		encodedValue: string,
-		type: string,
+		type: string | null,
 		value: Out<T>
 	): boolean {
 		let cloudVariableParser;
@@ -234,4 +233,3 @@ export class CloudVariableHelper {
 		}; //TODO
 	}
 }
-*/
