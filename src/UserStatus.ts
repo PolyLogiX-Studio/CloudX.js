@@ -75,7 +75,7 @@ export class UserStatus {
 				: a.SessionId.localeCompare(b.SessionId);
 		});
 	}
-	constructor($b: UserStatusJSON) {
+	constructor($b: UserStatusJSON = {} as UserStatusJSON) {
 		this.OnlineStatus = $b.onlineStatus;
 		this.LastStatusChange = $b.lastStatusChange;
 		this.CurrentSessionId = $b.currentSessionId;
@@ -108,7 +108,7 @@ export class UserStatus {
 			publicRSAKey: this.PublicRSAKey?.toJSON(),
 			outputDevice: this.OutputDevice,
 			isMobile: this.IsMobile,
-			activeSessions: this.ActiveSessions?.toJSON() as unknown as SessionInfoJSON[],
+			activeSessions: (this.ActiveSessions?.toJSON() as unknown) as SessionInfoJSON[],
 		};
 	}
 }
