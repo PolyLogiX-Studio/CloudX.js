@@ -48,6 +48,9 @@ import { UserStatus } from "./UserStatus";
 import { UserProfile } from "./UserProfile";
 import { Friend } from "./Friend";
 import { Message } from "./Message";
+import { SessionUpdate } from './SessionUpdate';
+import { SessionInfo } from "./SessionInfo";
+import { CreditTransaction } from './CreditTransaction';
 //Huge Class - Core Component
 
 export enum CloudEndpoint {
@@ -1420,6 +1423,59 @@ export class CloudXInterface {
 		} else {
 			return this.PATCH(`api/users/${this.CurrentUser.Id}/messages`, messages);
 		}
+	}
+
+	public UpdateSessions(update:SessionUpdate):Promise<CloudResult<unknown>> {
+		return this.PUT("api/sessions", update);
+	}
+
+	public async GetSession(sessionId:string):Promise<CloudResult<SessionInfo>> {
+		return (await this.GET<SessionInfo>(`api/sessions/${sessionId}`)).Convert(SessionInfo);
+	}
+
+	public async GetSessions(
+		updatedSince?:Date|null,
+		includeEnded:boolean = false,
+		compatibilityHash?:null|string,
+		name?:null|string,
+		universeId?:null|string,
+		hostName?:null|string,
+		hostId?:null|string,
+		minActiveUsers?:null|number,
+		includeEmptyHeadless:boolean = true
+	):Promise<CloudResult<List<SessionInfo>>> {
+		let stringBuilder = new StringBuilder
+		if (updatedSince != null) {
+			stringBuilder.Append("&updatedSince="+updatedSince.toISOString())
+		}
+		if (includeEnded)
+			stringBuilder.Append("&includeEnded=true")
+		if (compatibilityHash!= null && compatibilityHash.trim() != "")
+			stringBuilder.Append(`&compatibilityHash=${encodeURIComponent(compatibilityHash)}`)
+		if (name != null && name.trim()!="")
+			stringBuilder.Append(`&name=${encodeURIComponent(name)}`)
+		if (universeId != null && universeId.trim() != "")
+			stringBuilder.Append(`&universeId=${encodeURIComponent(universeId)}`)
+		if (hostName != null && hostName.trim() != "")
+			stringBuilder.Append(`&hostName=${encodeURIComponent(hostName)}`)
+		if (hostId!=null && hostId.trim()!="")
+			stringBuilder.Append(`&hostId=${encodeURIComponent(hostId)}`)
+		if (minActiveUsers!= null)
+			stringBuilder.Append(`&minActiveUsers=${encodeURIComponent(minActiveUsers)}`)
+		stringBuilder.Append(`&includeEmptyHeadless=${includeEmptyHeadless?"true":"false"}`)
+		if (stringBuilder.Length>0)
+			stringBuilder.String[0] = "?"
+		let cloudResult = await this.GET<List<SessionInfo>>(`api/sessions${stringBuilder.toString()}`)
+		cloudResult.Content = List.ToListAs(cloudResult.Entity, SessionInfo)
+		return cloudResult
+	}
+
+	public SendTransaction(transaction:CreditTransaction):Promise<CloudResult<unknown>> {
+		return this.POST(`api/transactions/${transaction.Token}`, transaction)
+	}
+
+	public RequestDepositAddress():Promise<CloudResult<unknown>> {
+		return this.GET(`api/users/${this.CurrentUser.Id}/depositAddress`)
 	}
 }
 
