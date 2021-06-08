@@ -9,34 +9,33 @@ export class LoginCredentials {
 	SecretMachineId?: string;
 	UniqueDeviceID?: string;
 	RememberMe?: boolean;
-	constructor($b?: LoginCredentialsJSON) {
-		if ($b == null) return;
-		this.OwnerId = $b.ownerId;
-		this.Username = $b.username;
-		this.Email = $b.email;
-		this.Password = $b.password;
-		this.RecoverCode = $b.recoverCode;
-		this.SessionToken = $b.sessionToken;
-		this.SecretMachineId = $b.secretMachineId;
-		this.UniqueDeviceID = $b.uniqueDeviceID;
-		this.RememberMe = $b.rememberMe;
+	constructor($b: Partial<LoginCredentialsJSON> = {}) {
+		this.OwnerId = $b.ownerId as string;
+		this.Username = $b.username as string;
+		this.Email = $b.email as string;
+		this.Password = $b.password as string;
+		this.RecoverCode = $b.recoverCode as string;
+		this.SessionToken = $b.sessionToken as string;
+		this.SecretMachineId = $b.secretMachineId as string;
+		this.UniqueDeviceID = $b.uniqueDeviceID as string;
+		this.RememberMe = $b.rememberMe as boolean;
 	}
 	toJSON(): LoginCredentialsJSON {
 		return {
-			ownerId: this.OwnerId,
-			username: this.Username,
-			email: this.Email,
-			password: this.Password,
-			recoverCode: this.RecoverCode,
-			sessionToken: this.SessionToken,
-			secretMachineId: this.SecretMachineId,
-			uniqueDeviceID: this.UniqueDeviceID,
-			rememberMe: this.RememberMe,
+			ownerId: this.OwnerId as string,
+			username: this.Username as string,
+			email: this.Email as string,
+			password: this.Password as string,
+			recoverCode: this.RecoverCode as string,
+			sessionToken: this.SessionToken as string,
+			secretMachineId: this.SecretMachineId as string,
+			uniqueDeviceID: this.UniqueDeviceID as string,
+			rememberMe: this.RememberMe as boolean,
 		};
 	}
 	public Preprocess(): void {
-		this.Username = this.Username?.trim();
-		this.Email = this.Email?.trim()?.toLowerCase();
+		this.Username = (this.Username as string)?.trim();
+		this.Email = (this.Email as string)?.trim()?.toLowerCase();
 	}
 	public get IsPasswordValid(): boolean {
 		return CryptoHelper.IsValidPassword(this.Password as string);
