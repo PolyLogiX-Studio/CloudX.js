@@ -8,7 +8,7 @@ export class UserSession {
 	public get IsExpired(): boolean {
 		return new Date() > this.SessionExpire;
 	}
-	constructor($b: UserSessionJSON) {
+	constructor($b: UserSessionJSON = {} as UserSessionJSON) {
 		this.UserId = $b.userId;
 		this.SessionToken = $b.token;
 		this.SessionCreated = $b.created;
