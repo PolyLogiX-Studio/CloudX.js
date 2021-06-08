@@ -3,8 +3,8 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/core': ^7.12.10
   '@babel/plugin-transform-flow-strip-types': ^7.12.1
-  '@bombitmanbomb/http-client': 2.1.1
-  '@bombitmanbomb/utils': 2.8.4
+  '@bombitmanbomb/http-client': 2.1.2
+  '@bombitmanbomb/utils': 2.9.2
   '@types/minimist': ^1.2.0
   '@types/node': ^15.0.2
   '@types/normalize-package-data': ^2.4.0
@@ -24,8 +24,8 @@ specifiers:
   uuid: ^8.3.2
 
 dependencies:
-  '@bombitmanbomb/http-client': 2.1.1
-  '@bombitmanbomb/utils': 2.8.4
+  '@bombitmanbomb/http-client': 2.1.2
+  '@bombitmanbomb/utils': 2.9.2
   uuid: 8.3.2
 
 devDependencies:
@@ -302,18 +302,25 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@bombitmanbomb/http-client/2.1.1:
-    resolution: {integrity: sha512-IF56G0LYkmlnlLmHRhJ26XB7A6QFGVFwEeoWDVitI5Tl9y9Z5XpGxp8EbzMZhrvE5BGK5kBZkO/0DvmLQtG6mA==}
+  /@bombitmanbomb/http-client/2.1.2:
+    resolution: {integrity: sha512-LWU9hZiTkg4K3xv1376HN5dkooF6G7Btfkgr+tDnFmXxH9x4Y2TAidyxlGwfLUfj1htuXDLnTdg40g/KutKa6g==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@bombitmanbomb/utils': 2.8.4
+      '@bombitmanbomb/utils': 2.8.7
       abort-controller: 3.0.0
       form-data: 4.0.0
       node-fetch: 2.6.1
     dev: false
 
-  /@bombitmanbomb/utils/2.8.4:
-    resolution: {integrity: sha512-sUblBWRxnlkELCpQ0NTssgpppgWDQjPuh9MZaeVQtDJCPaCvy8m7kNmg1ob+tjImFHu4kxpjzXGwSwSTCsLg5g==}
+  /@bombitmanbomb/utils/2.8.7:
+    resolution: {integrity: sha512-FuQTsB9D0mAIikCokUzAc7Mt/p72rkH5yiGlsXtaIlK6QAhSYF4GwpojsGS4BOceuzwKy9fOOKVfAk8o33HyIw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      abort-controller: 3.0.0
+    dev: false
+
+  /@bombitmanbomb/utils/2.9.2:
+    resolution: {integrity: sha512-mx8tUP7PDXHkHfvX+j6WGQgB7zFWFsfat5MA8gebBi5fwlv6yld85D2SWWmcSWi66A+S6q/SJNzsHp8aAFxUqg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       abort-controller: 3.0.0
@@ -1956,7 +1963,7 @@ packages:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.30
+      mime-types: 2.1.31
     dev: false
 
   /fragment-cache/0.2.1:
@@ -3169,16 +3176,16 @@ packages:
       picomatch: 2.2.3
     dev: true
 
-  /mime-db/1.47.0:
-    resolution: {integrity: sha512-QBmA/G2y+IfeS4oktet3qRZ+P5kPhCKRXxXnQEudYqUaEioAU1/Lq2us3D/t1Jfo4hE9REQPrbB7K5sOczJVIw==}
+  /mime-db/1.48.0:
+    resolution: {integrity: sha512-FM3QwxV+TnZYQ2aRqhlKBMHxk10lTbMt3bBkMAp54ddrNeVSfcQYOOKuGuy3Ddrm38I04If834fOUSq1yzslJQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
-  /mime-types/2.1.30:
-    resolution: {integrity: sha512-crmjA4bLtR8m9qLpHvgxSChT+XoSlZi8J4n/aIdn3z92e/U47Z0V/yl+Wh9W046GgFVAmoNR/fmdbZYcSSIUeg==}
+  /mime-types/2.1.31:
+    resolution: {integrity: sha512-XGZnNzm3QvgKxa8dpzyhFTHmpP3l5YNusmne07VUOXxou9CqUqYa/HBy124RqtVh/O2pECas/MOcsDgpilPOPg==}
     engines: {node: '>= 0.6'}
     dependencies:
-      mime-db: 1.47.0
+      mime-db: 1.48.0
     dev: false
 
   /mime/2.5.2:
