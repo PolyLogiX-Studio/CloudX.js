@@ -1,5 +1,12 @@
 import { HttpMethod, Http, CloudResult } from "@bombitmanbomb/http-client";
-import { TimeSpan, Dictionary, List, Out, Uri } from "@bombitmanbomb/utils";
+import {
+	TimeSpan,
+	Dictionary,
+	List,
+	Out,
+	Uri,
+	StringBuilder,
+} from "@bombitmanbomb/utils";
 import { UserSession } from "./UserSession";
 import { Membership } from "./Membership";
 import { User, UserJSON } from "./User";
@@ -18,6 +25,29 @@ import { NeosDB_Endpoint } from "./NeosDB_Endpoint";
 import { ThumbnailInfo } from "./ThumbnailInfo";
 import { LoginCredentials } from "./LoginCredentials";
 import { UserTags } from "./UserTags";
+import { RecordUtil } from "./RecordUtil";
+import { IRecord } from "./IRecord";
+import { RecordId } from "./RecordId";
+import { Record } from "./Record";
+import { SearchParameters } from "./SearchParameters";
+import { SearchResults } from "./SearchResults";
+import { CloudMessage } from "./CloudMessage";
+import { RecordPreprocessStatus } from "./RecordPreprocessStatus";
+import { AssetInfo } from "./AssetInfo";
+import { AssetUploadData } from "./AssetUploadData";
+import { UploadState } from "./UploadState";
+import { Submission, SubmissionJSON } from "./Submission";
+import { CloudVariableDefinition } from "./CloudVariableDefinition";
+import { CloudVariable } from "./CloudVariable";
+import { CloudVariableHelper } from "./CloudVariableHelper";
+import { VariableReadRequest } from "./VariableReadRequest";
+import { VariableReadResult } from "./VariableReadResult";
+import { Visit } from "./Visit";
+import { NeosSession } from "./NeosSession";
+import { UserStatus } from "./UserStatus";
+import { UserProfile } from "./UserProfile";
+import { Friend } from "./Friend";
+import { Message } from "./Message";
 //Huge Class - Core Component
 
 export enum CloudEndpoint {
@@ -238,7 +268,7 @@ export class CloudXInterface {
 	public TryGetCurrentUserGroupMembership(groupId: string): Membership {
 		return this._groupMemberships.find((m) => m.GroupId == groupId);
 	}
-	public SessionChanged;
+	public SessionChanged; //TODO Impliment Overrides
 	public UserUpdated;
 	public MembershipsUpdated;
 	public GroupUpdated;
@@ -263,13 +293,15 @@ export class CloudXInterface {
 		userAgentProduct = "CloudX",
 		userAgentVersion = "0.0.0.0"
 	): void {
+		//!! HttpClient has No Timeout
 		this.HttpClient = new Http(null, {
 			ENDPOINT: CloudXInterface.NEOS_API,
 		});
-		//this.HttpClient.Timeout = Timeout.InfiniteTimeSpan;
-		//new HttpClientHandler().AllowAutoRedirect = false;
-		this.SafeHttpClient = new Http();
-		//this.SafeHttpClient.Timeout = TimeSpan.FromMinutes(1.0);
+		//! SafeHttpClient uses 60000ms Timeout
+		this.SafeHttpClient = new Http(null, {
+			ENDPOINT: CloudXInterface.NEOS_API,
+			DefaultTimeout: TimeSpan.fromMinutes(1),
+		});
 		this.UserAgentProduct = userAgentProduct;
 		this.UserAgentVersion = userAgentVersion;
 		this.UserAgent = new ProductInfoHeaderValue(
@@ -448,14 +480,16 @@ export class CloudXInterface {
 			throwOnError
 		) as unknown) as Promise<CloudResult<T>>;
 	}
+	//TODO File Upload
+	/* 
 	public POST_FILE<T>(
 		resource: string,
 		filePath: string,
 		fileMIME: string | null = null,
 		progressIndicator = null
 	): Promise<CloudResult<T>> {
-		//TODO File Upload
 	}
+	*/
 	public PUT<T>(
 		resource: string,
 		entity: unknown,
@@ -658,12 +692,12 @@ export class CloudXInterface {
 		CloudXInterface.USE_CDN = true;
 		return task ?? new Promise((res) => res(null));
 	}
-	public SignHash(hash: unknown): unknown {
+	public SignHash(hash: unknown):void {
 		//TODO Sign Hash
 	}
 	public async GetRecordCached<R>(
 		recordUri: Uri,
-		accessKey = null,
+		accessKey: string | null = null,
 		R: R
 	): Promise<CloudResult<R>> {
 		const dictionary: Out<Dictionary<string, CloudResult<R>>> = new Out();
@@ -685,7 +719,7 @@ export class CloudXInterface {
 			return cloudResult.Out as CloudResult<R>;
 		const cloudResult1: CloudResult<R> = await this.GetRecord<R>(
 			recordUri,
-			accessKey
+			accessKey as string
 		);
 		const cachedRecords = this.chachedRecords.ReturnValue(
 			(r?.constructor?.name as string) ?? typeof r
@@ -693,6 +727,699 @@ export class CloudXInterface {
 		cachedRecords.Remove(recordUri.URL);
 		cachedRecords.Add(recordUri.URL, cloudResult1);
 		return cloudResult1;
+	}
+
+	public async GetRecord<R>(
+		recordUri: Uri,
+		accessKey?: string
+	): Promise<CloudResult<R>>;
+	public async GetRecord<R>(
+		ownerId: string,
+		recordId: string,
+		accessKey?: string
+	): Promise<CloudResult<R>>;
+	public async GetRecord<R>(
+		A: string | Uri,
+		B: string | null = null,
+		C?: string | null
+	): Promise<CloudResult<R>> {
+		let ownerId: string | Out<string>;
+		let recordId: string | Out<string>;
+		let accessKey: string | null;
+		let recordUri: Uri;
+		if (A instanceof Uri) {
+			recordUri = A;
+			accessKey = B;
+			ownerId = new Out();
+			recordId = new Out();
+			if (RecordUtil.ExtractRecordID(recordUri, ownerId, recordId))
+				return this.GetRecord<R>(
+					ownerId.Out as string,
+					recordId.Out as string,
+					accessKey as string
+				);
+			const recordPath: Out<string> = new Out();
+			if (RecordUtil.ExtractRecordPath(recordUri, ownerId, recordPath))
+				return this.GetRecordAtPath<R>(
+					ownerId.Out as string,
+					recordPath.Out as string,
+					accessKey as string
+				);
+			throw new Error("Uri is not a valid URI");
+		} else {
+			ownerId = A;
+			recordId = B as string;
+			accessKey = C as string;
+			let resource = `api/${CloudXInterface.GetOwnerPath(
+				ownerId
+			)}/${ownerId}/records/${recordId}`;
+			if (accessKey != null) resource += `?accessKey=${encodeURI(accessKey)}`;
+			return this.GET<R>(resource);
+		}
+	}
+	public async GetRecordAtPath<R>(
+		ownerId: string,
+		path: string,
+		accessKey: string | null = null
+	): Promise<CloudResult<R>> {
+		let resource = `api/${CloudXInterface.GetOwnerPath(
+			ownerId
+		)}/${ownerId}/records/root/${path}`; //TODO Verify with Froox
+		if (accessKey != null) resource += `?accessKey=${encodeURI(accessKey)}`;
+		return this.GET<R>(resource);
+	}
+	public async GetRecords<R extends IRecord>(
+		ownerId: List<RecordId> | string,
+		tag?: string | null,
+		path?: string | null
+	): Promise<CloudResult<List<R>>> {
+		if (ownerId instanceof List) {
+			const cloudResponse = await this.POST<List<R>>(
+				"api/records/list",
+				ownerId
+			);
+			cloudResponse.Content = List.ToListAs(cloudResponse.Entity, Record);
+			return cloudResponse;
+		} else {
+			const ownerPath = CloudXInterface.GetOwnerPath(ownerId);
+			let str = "";
+			if (tag != null) str = `?tag=${encodeURI(tag)}`;
+			if (path != null) str = `?path=${encodeURI(path)}`;
+			const cloudResponse1 = await this.GET<List<R>>(
+				`api/${ownerPath}/${ownerId}/records${str}`
+			);
+			cloudResponse1.Content = List.ToListAs(cloudResponse1.Entity, Record);
+			return cloudResponse1;
+		}
+	}
+	public async FindRecords<R extends IRecord>(
+		search: SearchParameters
+	): Promise<CloudResult<SearchResults<R>>> {
+		return (
+			await this.POST<SearchResults<R>>("api/records/pagedSearch", search)
+		).Convert(SearchResults);
+	}
+	public async UpsertRecord<R extends IRecord>(
+		record: R
+	): Promise<CloudResult<CloudMessage>> {
+		let resource = "";
+		switch (IdUtil.GetOwnerType(record.OwnerId)) {
+		case OwnerType.User:
+			resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
+			break;
+		case OwnerType.Group:
+			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
+			break;
+		default:
+			throw new Error("Invalid Record Owner!");
+		}
+		return (await this.PUT<CloudMessage>(resource, record)).Convert(
+			CloudMessage
+		);
+	}
+	public async PreprocessRecord<R extends IRecord>(
+		record: R
+	): Promise<CloudResult<RecordPreprocessStatus>> {
+		let resource = "";
+		switch (IdUtil.GetOwnerType(record.OwnerId)) {
+		case OwnerType.User:
+			resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+			break;
+		case OwnerType.Group:
+			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+			break;
+		default:
+			throw new Error("Invalid Record Owner!");
+		}
+		return (await this.POST<RecordPreprocessStatus>(resource, record)).Convert(
+			RecordPreprocessStatus
+		);
+	}
+	public async GetPreprocessStatus(
+		status: RecordPreprocessStatus
+	): Promise<CloudResult<RecordPreprocessStatus>>;
+	public async GetPreprocessStatus(
+		ownerId: string,
+		recordId: string,
+		id: string
+	): Promise<CloudResult<RecordPreprocessStatus>>;
+	public async GetPreprocessStatus(
+		ownerId: string | RecordPreprocessStatus,
+		recordId?: string,
+		id?: string
+	): Promise<CloudResult<RecordPreprocessStatus>> {
+		if (ownerId instanceof RecordPreprocessStatus) {
+			return this.GetPreprocessStatus(
+				ownerId.OwnerId,
+				ownerId.RecordId,
+				ownerId.PreprocessId
+			);
+		} else {
+			let resource = "";
+			switch (IdUtil.GetOwnerType(ownerId)) {
+			case OwnerType.User:
+				resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
+				break;
+			case OwnerType.Group:
+				resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
+				break;
+			default:
+				throw new Error("Invalid Record Owner!");
+			}
+			return (await this.GET<RecordPreprocessStatus>(resource)).Convert(
+				RecordPreprocessStatus
+			);
+		}
+	}
+	public async DeleteRecord(record: IRecord): Promise<CloudResult<unknown>>;
+	public async DeleteRecord(
+		ownerId: string,
+		recordId: string
+	): Promise<CloudResult<unknown>>;
+	public async DeleteRecord(
+		ownerId: IRecord | string,
+		recordId?: string
+	): Promise<CloudResult<unknown>> {
+		if (typeof ownerId !== "string") {
+			return this.DeleteRecord(ownerId.OwnerId, ownerId.RecordId);
+		} else {
+			const cloudResult = await this.DELETE(
+				`api/users/${ownerId}/records/${recordId}`
+			);
+			this.MarkStorageDirty(ownerId);
+			return cloudResult;
+		}
+	}
+	public AddTag(
+		ownerId: string,
+		recordId: string,
+		tag: string
+	): Promise<CloudResult<unknown>> {
+		switch (IdUtil.GetOwnerType(ownerId)) {
+		case OwnerType.User:
+			return this.PUT(
+				"api/users/" + ownerId + "/records/" + recordId + "/tags",
+				tag
+			);
+		case OwnerType.Group:
+			return this.PUT(
+				"api/groups/" + ownerId + "/records/" + recordId + "/tags",
+				tag
+			);
+		default:
+			throw new Error("Invalid record owner");
+		}
+	}
+	public MarkStorageDirty(ownerId: string): void {
+		this._storageDirty.TryAdd(ownerId, true);
+	}
+	public async UpdateStorage(ownerId: string): Promise<void> {
+		if (this.CurrentUser != null) {
+			const ownerType = IdUtil.GetOwnerType(ownerId);
+			const _signedUserId = this.CurrentUser.Id;
+			const numArray = CloudXInterface.storageUpdateDelays;
+			for (let index = 0; index > numArray.length; index++) {
+				await TimeSpan.Delay(TimeSpan.fromSeconds(numArray[index]));
+				if (!(this.CurrentUser?.Id != _signedUserId)) {
+					if (ownerType == OwnerType.User) {
+						await this.UpdateCurrentUserInfo();
+					} else {
+						await this.UpdateGroupInfo(ownerId);
+					}
+				} else break;
+			}
+		}
+		this._updatingStorage.TryRemove(ownerId);
+	}
+	public async FetchGlobalAssetInfo(
+		hash: string
+	): Promise<CloudResult<AssetInfo>> {
+		return (
+			await this.GET<AssetInfo>(`api/assets/${hash.toLowerCase()}`)
+		).Convert(AssetInfo);
+	}
+	public async FetchUserAssetInfo(
+		hash: string
+	): Promise<CloudResult<AssetInfo>> {
+		return this.FetchAssetInfo(this.CurrentUser.Id, hash);
+	}
+	public async FetchAssetInfo(
+		ownerId: string,
+		hash: string
+	): Promise<CloudResult<AssetInfo>> {
+		switch (IdUtil.GetOwnerType(ownerId)) {
+		case OwnerType.User:
+			return (
+				await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
+			).Convert(AssetInfo);
+		case OwnerType.Group:
+			return (
+				await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
+			).Convert(AssetInfo);
+		default:
+			throw new Error("Invalid ownerid");
+		}
+	}
+	public async RegisterAssetInfo(
+		assetInfo: AssetInfo
+	): Promise<CloudResult<AssetInfo>> {
+		switch (IdUtil.GetOwnerType(assetInfo.OwnerId)) {
+		case OwnerType.User:
+			return (
+				await this.PUT<AssetInfo>(
+					`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+					assetInfo
+				)
+			).Convert(AssetInfo);
+		case OwnerType.Group:
+			return (
+				await this.PUT<AssetInfo>(
+					`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+					assetInfo
+				)
+			).Convert(AssetInfo);
+		default:
+			throw new Error("Invalid ownerid");
+		}
+	}
+	public GetAssetMime(hash: string): Promise<CloudResult<unknown>> {
+		return this.GET(`api/assets/${hash.toLowerCase()}/mime`);
+	}
+	private GetAssetBaseURL(
+		ownerId: string,
+		hash: string,
+		variant: string
+	): string {
+		hash = hash.toLowerCase();
+		let str = hash;
+		if (variant != null) str += `&${variant}`;
+		switch (IdUtil.GetOwnerType(ownerId)) {
+		case OwnerType.User:
+			return `api/users/${ownerId}/assets/${str}`;
+		case OwnerType.Group:
+			return `api/groups/${ownerId}/assets/${str}`;
+		default:
+			throw new Error("Invalid ownerId");
+		}
+	}
+	//TODO UploadAsset
+	public async WaitForAssetFinishProcessing(
+		assetUpload: AssetUploadData
+	): Promise<CloudResult<AssetUploadData>> {
+		const baseUrl =
+			this.GetAssetBaseURL(
+				assetUpload.OwnerId,
+				assetUpload.Signature,
+				assetUpload.Variant
+			) + "/chunks";
+		let cloudResult;
+		while (true) {
+			cloudResult = (await this.GET<AssetUploadData>(baseUrl)).Convert(
+				AssetUploadData
+			);
+			if (
+				!cloudResult.IsError &&
+				cloudResult.Entity.UploadState != UploadState.Uploaded &&
+				cloudResult.Entity.UploadState != UploadState.Failed
+			)
+				await TimeSpan.Delay(new TimeSpan(250));
+			else break;
+		}
+		return cloudResult;
+	}
+	//TODO UploadThumbnail
+	public async GetGroup(groupId: string): Promise<CloudResult<Group>> {
+		return (await this.GET<Group>(`api/groups/${groupId}`)).Convert(Group);
+	}
+	public async GetGroupCached(groupId: string): Promise<CloudResult<Group>> {
+		return this.GetGroup(groupId);
+	}
+	public async CreateGroup(group: Group): Promise<CloudResult<Group>> {
+		return (await this.POST<Group>("api/groups", group)).Convert(Group);
+	}
+	public async AddGroupMember(member: Member): Promise<CloudResult<unknown>> {
+		return await this.POST(`api/groups/${member.GroupId}/members`, member);
+	}
+	public async DeleteGroupMember(
+		member: Member
+	): Promise<CloudResult<unknown>> {
+		return await this.DELETE(
+			`api/groups/${member.GroupId}/members/${member.UserId}`
+		);
+	}
+	public async GetGroupMember(
+		groupId: string,
+		userId: string
+	): Promise<CloudResult<Member>> {
+		return (
+			await this.GET<Member>(`api/groups/${groupId}/members/${userId}`)
+		).Convert(Member);
+	}
+	public async GetGroupMembers(
+		groupId: string
+	): Promise<CloudResult<List<Member>>> {
+		const cloudResult = await this.GET<List<Member>>(
+			`api/groups/${groupId}/members`
+		);
+		cloudResult.Content = List.ToListAs(cloudResult.Entity, Member);
+		return cloudResult;
+	}
+	public async UpdateCurrentUserMemberships(): Promise<CloudResult<unknown>> {
+		const groupMemberships: CloudResult<
+			List<Membership>
+		> = await this.GetUserGroupMemberships();
+		if (groupMemberships.IsOK)
+			return this.SetMemberships(groupMemberships.Entity); //TODO SetMemberships
+		return groupMemberships;
+	}
+	public async GetUserGroupMemberships(
+		userId?: string
+	): Promise<CloudResult<List<Membership>>> {
+		if (userId == null)
+			return await this.GetUserGroupMemberships(this.CurrentUser.Id);
+		const cloudResult = await this.GET<List<Membership>>(
+			`api/users/${userId}/memberships`
+		);
+		cloudResult.Content = List.ToListAs(cloudResult.Entity, Membership);
+		return cloudResult;
+	}
+	public async UpdateGroupInfo(groupId: string): Promise<void> {
+		const groupResult = await this.GetGroup(groupId);
+		const cloudResult = await this.GetGroupMember(groupId, this.CurrentUser.Id);
+		if (groupResult.IsOK) {
+			this._groups.Remove(groupId);
+			this._groups.Add(groupId, groupResult.Entity);
+			const groupUpdated = this.GroupUpdated;
+			if (groupUpdated != null) groupUpdated(groupResult.Entity);
+		}
+		if (cloudResult.IsOK) {
+			this._groupMemberInfos.Remove(groupId);
+			this._groupMemberInfos.Add(groupId, cloudResult.Entity);
+			const groupMemberUpdated = this.GroupMemberUpdated;
+			if (groupMemberUpdated != null) groupMemberUpdated(cloudResult.Entity);
+		}
+	}
+	public async UpsertSubmission(
+		groupId: string,
+		ownerId: string,
+		recordId: string,
+		feature: false
+	): Promise<CloudResult<Submission>> {
+		return (
+			await this.PUT<Submission>(
+				`api/groups/${groupId}/submissions`,
+				new Submission({
+					featured: feature,
+					targetRecordId: { ownerId, recordId },
+					ownerId: groupId,
+				} as SubmissionJSON)
+			)
+		).Convert(Submission);
+	}
+	public async DeleteSubmission(
+		groupId: string,
+		submissionId: string
+	): Promise<CloudResult<unknown>> {
+		return await this.DELETE(
+			`api/groups/${groupId}/submissions/${submissionId}`
+		);
+	}
+	private static GetOwnerPath(ownerId: string): string {
+		switch (IdUtil.GetOwnerType(ownerId)) {
+		case OwnerType.User:
+			return "users";
+		case OwnerType.Group:
+			return "groups";
+		default:
+			throw new Error("Invalid owner type: " + ownerId);
+		}
+	}
+	public async UpsertVariableDefinition(
+		definition: CloudVariableDefinition
+	): Promise<CloudResult<CloudVariableDefinition>> {
+		return (
+			await this.PUT<CloudVariableDefinition>(
+				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${
+					definition.DefinitionOwnerId
+				}/vardefs/${definition.Subpath}`,
+				definition
+			)
+		).Convert(CloudVariableDefinition);
+	}
+	public async DeleteVariableDefinition(
+		ownerId: string,
+		subpath: string
+	): Promise<CloudResult<unknown>> {
+		return await this.DELETE(
+			`api/${CloudXInterface.GetOwnerPath(
+				ownerId
+			)}/${ownerId}/vardefs/${subpath}`
+		);
+	}
+	public async ReadGlobalVariable<T>(path: string): Promise<CloudResult<T>> {
+		return await this.ReadVariable<T>("GLOBAL", path);
+	}
+
+	public async ReadVariableBatch<T>(
+		batch: List<VariableReadRequest>
+	): Promise<
+		CloudResult<
+			List<VariableReadResult<CloudVariable, CloudVariableDefinition>>
+		>
+	> {
+		const cloudresult = await this.POST<
+			List<VariableReadResult<CloudVariable, CloudVariableDefinition>>
+		>("api/readvars", batch);
+		cloudresult.Content = List.ToListAs(cloudresult.Entity, VariableReadResult);
+		return cloudresult;
+	}
+
+	public async WriteVariableBatch(
+		batch: List<CloudVariable>
+	): Promise<CloudResult<List<CloudVariable>>> {
+		const cloudResult = await this.POST<List<CloudVariable>>(
+			"api/readvard",
+			batch
+		);
+		cloudResult.Content = List.ToListAs(cloudResult.Entity, CloudVariable);
+		return cloudResult;
+	}
+
+	public async ReadVariable<T>(
+		ownerId: string,
+		path: string
+	): Promise<CloudResult<T>> {
+		let resource = "";
+		if (ownerId == "GLOBAL") resource = "api/globalvars/" + path;
+		else
+			resource = `api/${CloudXInterface.GetOwnerPath(
+				ownerId
+			)}/${ownerId}/vars/${path}}`;
+		const cloudResult = (await this.GET<CloudVariable>(resource)).Convert(
+			CloudVariable
+		);
+		if (cloudResult.IsOK) {
+			switch (cloudResult.Entity?.Value) {
+			case null:
+				break;
+			default: {
+				const result: Out<T> = new Out();
+				CloudVariableHelper.ParseValue<T>(
+					cloudResult.Entity.Value,
+					null,
+					result
+				);
+				return new CloudResult<T>(
+					result.Out,
+					cloudResult.State,
+						cloudResult.Content as string,
+						null
+				);
+			}
+			}
+		}
+		return new CloudResult<T>(
+			null,
+			cloudResult.State,
+			cloudResult.Content as string,
+			null
+		);
+	}
+
+	public async WriteVariable() {} //TODO WriteVariable
+
+	public async DeleteVariable() {} //TODO DeleteVariable
+
+	public LogVisit(visit: Visit): Promise<CloudResult<unknown>> {
+		return this.POST("api/visits", visit);
+	}
+
+	public async CreateNeosSession(
+		session: NeosSession
+	): Promise<CloudResult<NeosSession>> {
+		return (await this.POST<NeosSession>("api/neosSessions", session)).Convert(
+			NeosSession
+		);
+	}
+
+	public async PatchNeosSession(
+		session: NeosSession
+	): Promise<CloudResult<NeosSession>> {
+		return (await this.PATCH<NeosSession>("api/neosSessions", session)).Convert(
+			NeosSession
+		);
+	}
+
+	public async GetStatus(userId: string): Promise<CloudResult<UserStatus>> {
+		return (await this.GET<UserStatus>(`api/users/${userId}/status`)).Convert(
+			UserStatus
+		);
+	}
+
+	public async UpdateStatus(status: UserStatus): Promise<CloudResult<unknown>>;
+	public async UpdateStatus(
+		userId: string,
+		status: UserStatus
+	): Promise<CloudResult<unknown>>;
+	public async UpdateStatus(
+		userId: string | UserStatus,
+		status?: UserStatus
+	): Promise<CloudResult<unknown>> {
+		if (userId instanceof UserStatus) {
+			return this.UpdateStatus(this.CurrentUser.Id, userId);
+		} else {
+			return this.PUT(`api/users/${userId}/status`, status);
+		}
+	}
+
+	public async UpdateProfile(
+		profile: UserProfile
+	): Promise<CloudResult<unknown>>;
+	public async UpdateProfile(
+		userId: string,
+		profile: UserProfile
+	): Promise<CloudResult<unknown>>;
+	public async UpdateProfile(
+		userId: string | UserProfile,
+		profile?: UserProfile
+	): Promise<CloudResult<unknown>> {
+		if (userId instanceof UserProfile) {
+			this.CurrentUser.Profile = userId;
+			return this.UpdateProfile(this.CurrentUser.Id, userId);
+		} else {
+			return this.PUT(`api/users/${userId}/profile`, profile);
+		}
+	}
+
+	public async GetFriends(): Promise<CloudResult<List<Friend>>>;
+	public async GetFriends(
+		userId: string,
+		lastStatusUpdate?: Date
+	): Promise<CloudResult<List<Friend>>>;
+	public async GetFriends(
+		lastStatusUpdate: Date
+	): Promise<CloudResult<List<Friend>>>;
+	public async GetFriends(
+		userId?: string | Date,
+		lastStatusUpdate: Date | null = null
+	): Promise<CloudResult<List<Friend>>> {
+		if (typeof userId != "string" || userId == null) {
+			return this.GetFriends(this.CurrentUser.Id, userId);
+		} else if (typeof userId == "string") {
+			let str1 = "";
+			if (lastStatusUpdate != null) {
+				str1 += `?lastStatusUpdate=${lastStatusUpdate.toISOString()}`;
+			}
+			const cloudResult = await this.GET<List<Friend>>(
+				`api/users/${userId}/friends${str1}`
+			);
+			cloudResult.Content = List.ToListAs(cloudResult.Entity, Friend);
+			return cloudResult;
+		} else {
+			throw new Error("Invalid Input");
+		}
+	}
+
+	public async UpsertFriend(friend: Friend): Promise<CloudResult<unknown>> {
+		if (friend.OwnerId == null || friend.OwnerId.trim() == "")
+			throw new ReferenceError("friend.OwnerId");
+		if (friend.FriendUserId == null || friend.FriendUserId.trim() == "")
+			throw new ReferenceError("friend.FriendUserId");
+		return this.PUT(
+			`api/users/${friend.OwnerId}/friends/${friend.FriendUserId}`,
+			friend
+		);
+	}
+
+	public async DeleteFriend(friend: Friend): Promise<CloudResult<unknown>> {
+		if (friend.OwnerId == null || friend.OwnerId.trim() == "")
+			throw new ReferenceError("friend.OwnerId");
+		if (friend.FriendUserId == null || friend.FriendUserId.trim() == "")
+			throw new ReferenceError("friend.FriendUserId");
+		return this.DELETE(
+			`api/users/${friend.OwnerId}/friends/${friend.FriendUserId}`
+		);
+	}
+
+	public async SendMessage(message: Message): Promise<CloudResult<Message>> {
+		return (
+			await this.POST<Message>(
+				`api/users/${message.RecipientId}/messages`,
+				message
+			)
+		).Convert(Message);
+	}
+
+	public GetUnreadMessages(
+		fromTime?: Date
+	): Promise<CloudResult<List<Message>>> {
+		return this.GetMessages(fromTime, -1, void 0, true);
+	}
+
+	public GetMessageHistory(
+		user: string,
+		maxItems = 100
+	): Promise<CloudResult<List<Message>>> {
+		return this.GetMessages(new Date(), maxItems, user, false);
+	}
+
+	public async GetMessages(
+		fromTime?: Date,
+		maxItems?: number,
+		user?: string,
+		unreadOnly?: boolean
+	): Promise<CloudResult<List<Message>>> {
+		const stringBuilder = new StringBuilder();
+		stringBuilder.Append(`?maxItems=${maxItems}`);
+		if (fromTime != null)
+			stringBuilder.Append("&fromTime=" + fromTime.toISOString());
+		if (user != null) stringBuilder.Append("&user=" + user);
+		if (unreadOnly) stringBuilder.Append("&unread=true");
+		const cloudResult = await this.GET<List<Message>>(
+			`api/users/${this.CurrentUser.Id}/messages${stringBuilder.toString()}`
+		);
+		cloudResult.Content = List.ToListAs(cloudResult.Entity, Message);
+		return cloudResult;
+	}
+
+	public MarkMessagesRead(
+		messages: List<Message>
+	): Promise<CloudResult<unknown>>;
+	public MarkMessagesRead(
+		messageIds: List<string>
+	): Promise<CloudResult<unknown>>;
+	public async MarkMessagesRead(
+		messages: List<string> | List<Message>
+	): Promise<CloudResult<unknown>> {
+		if (messages.length == 0)
+			return new CloudResult(null, 400, "Invalid IDs", null);
+		if (messages[0] instanceof Message) {
+			return this.MarkMessagesRead(
+				List.ToList((messages as Array<Message>).map((item) => item.Id))
+			);
+		} else {
+			return this.PATCH(`api/users/${this.CurrentUser.Id}/messages`, messages);
+		}
 	}
 }
 
