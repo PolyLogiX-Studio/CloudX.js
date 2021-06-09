@@ -1,4 +1,10 @@
-import { HttpMethod, Http, CloudResult } from "@bombitmanbomb/http-client";
+import {
+	HttpMethod,
+	Http,
+	CloudResult,
+	HttpRequestMessage,
+	CancellationTokenSource,
+} from "@bombitmanbomb/http-client";
 import {
 	TimeSpan,
 	Dictionary,
@@ -48,9 +54,19 @@ import { UserStatus } from "./UserStatus";
 import { UserProfile } from "./UserProfile";
 import { Friend } from "./Friend";
 import { Message } from "./Message";
-import { SessionUpdate } from './SessionUpdate';
+import { SessionUpdate } from "./SessionUpdate";
 import { SessionInfo } from "./SessionInfo";
-import { CreditTransaction } from './CreditTransaction';
+import { CreditTransaction } from "./CreditTransaction";
+import { VerificationKeyUse } from "./VerificationKeyUse";
+import { OneTimeVerificationKey } from "./OneTimeVerificationKey";
+import { CheckContactData } from "./CheckContactData";
+import { SugarCube } from "./SugarCube";
+import { OnlineUserStats } from "./OnlineUserStats";
+import { HubPatrons } from "./HubPatrons";
+import { ExitMessage } from "./ExitMessage";
+import { CurrencyRates } from "./CurrencyRates";
+import { MessageManager } from "./MessageManager";
+import { TransactionManager } from "./TransactionManager";
 //Huge Class - Core Component
 
 export enum CloudEndpoint {
@@ -220,7 +236,7 @@ export class CloudXInterface {
 	public get CurrentSession(): UserSession {
 		return this._currentSession;
 	}
-	private set CurrentSession(value: UserSession) {
+	public set CurrentSession(value: UserSession) {
 		if (value == this._currentSession) return;
 		if (this._currentSession?.SessionToken != value?.SessionToken)
 			this._lastSessionUpdate = new Date();
@@ -271,18 +287,18 @@ export class CloudXInterface {
 	public TryGetCurrentUserGroupMembership(groupId: string): Membership {
 		return this._groupMemberships.find((m) => m.GroupId == groupId);
 	}
-	public SessionChanged; //TODO Impliment Overrides
-	public UserUpdated;
-	public MembershipsUpdated;
-	public GroupUpdated;
-	public GroupMemberUpdated;
-	public OnLogin() {
+	public SessionChanged!: (UserSession: UserSession) => void;
+	public UserUpdated!: (User: User) => void;
+	public MembershipsUpdated!: (Memberships: User[] | List<User>) => void;
+	public GroupUpdated!: (Group: Group) => void;
+	public GroupMemberUpdated!: (Member: Member) => void;
+	public OnLogin(): void {
 		//OnLoginOverwritable
 	}
-	public OnLogout() {
+	public OnLogout(): void {
 		//OnLogout Bindable Overwrite
 	}
-	public OnSessionUpdated() {
+	public OnSessionUpdated(): void {
 		//OnSessionUpdated Bindable Overwrite
 	}
 	public Variables!: CloudVariableManager;
@@ -314,8 +330,8 @@ export class CloudXInterface {
 		this.Variables = new CloudVariableManager(this);
 		this.Friends = new FriendManager(this);
 		this.Messages = new MessageManager(this);
-		this.Transactions = new TransactionManager(this);
-		//this.GitHub = new GitHubClient(new Octokit.ProductHeaderValue(userAgentProduct));
+		//this.Transactions = new TransactionManager(this); //TODO Transaction Manager
+		//this.GitHub = new GitHubClient(new Octokit.ProductHeaderValue(userAgentProduct)); //TODO GithubClient
 	}
 	public Update(): void {
 		if (this.CurrentSession != null) {
@@ -523,7 +539,7 @@ export class CloudXInterface {
 		resource: string,
 		timeout: TimeSpan | null = null,
 		throwOnError = true
-	) {
+	): Promise<CloudResult<unknown>> {
 		return (this.HttpClient.DELETE(
 			resource,
 			timeout,
@@ -609,11 +625,12 @@ export class CloudXInterface {
 		return (
 			await this.POST<User>(
 				"/api/users",
-				new User({
+				new User(({
 					username,
 					email,
 					password,
-				} as UserJSON)
+					uniqueDeviceIDs: deviceId ? List.ToList([deviceId]) : null,
+				} as unknown) as UserJSON)
 			)
 		).Convert<User>(User);
 	}
@@ -695,9 +712,7 @@ export class CloudXInterface {
 		CloudXInterface.USE_CDN = true;
 		return task ?? new Promise((res) => res(null));
 	}
-	public SignHash(hash: unknown):void {
-		//TODO Sign Hash
-	}
+	//TODO SignHash
 	public async GetRecordCached<R>(
 		recordUri: Uri,
 		accessKey: string | null = null,
@@ -941,7 +956,7 @@ export class CloudXInterface {
 			const ownerType = IdUtil.GetOwnerType(ownerId);
 			const _signedUserId = this.CurrentUser.Id;
 			const numArray = CloudXInterface.storageUpdateDelays;
-			for (let index = 0; index > numArray.length; index++) {
+			for (let index = 0; index < numArray.length; index++) {
 				await TimeSpan.Delay(TimeSpan.fromSeconds(numArray[index]));
 				if (!(this.CurrentUser?.Id != _signedUserId)) {
 					if (ownerType == OwnerType.User) {
@@ -1036,7 +1051,8 @@ export class CloudXInterface {
 				assetUpload.Variant
 			) + "/chunks";
 		let cloudResult;
-		while (true) {
+		for (;;) {
+			// ?? Equivalent of While (True)
 			cloudResult = (await this.GET<AssetUploadData>(baseUrl)).Convert(
 				AssetUploadData
 			);
@@ -1091,8 +1107,7 @@ export class CloudXInterface {
 		const groupMemberships: CloudResult<
 			List<Membership>
 		> = await this.GetUserGroupMemberships();
-		if (groupMemberships.IsOK)
-			return this.SetMemberships(groupMemberships.Entity); //TODO SetMemberships
+		if (groupMemberships.IsOK) this.SetMemberships(groupMemberships.Entity);
 		return groupMemberships;
 	}
 	public async GetUserGroupMemberships(
@@ -1183,7 +1198,7 @@ export class CloudXInterface {
 		return await this.ReadVariable<T>("GLOBAL", path);
 	}
 
-	public async ReadVariableBatch<T>(
+	public async ReadVariableBatch(
 		batch: List<VariableReadRequest>
 	): Promise<
 		CloudResult<
@@ -1249,9 +1264,9 @@ export class CloudXInterface {
 		);
 	}
 
-	public async WriteVariable() {} //TODO WriteVariable
+	//TODO WriteVariable
 
-	public async DeleteVariable() {} //TODO DeleteVariable
+	//TODO DeleteVariable
 
 	public LogVisit(visit: Visit): Promise<CloudResult<unknown>> {
 		return this.POST("api/visits", visit);
@@ -1425,60 +1440,208 @@ export class CloudXInterface {
 		}
 	}
 
-	public UpdateSessions(update:SessionUpdate):Promise<CloudResult<unknown>> {
+	public UpdateSessions(update: SessionUpdate): Promise<CloudResult<unknown>> {
 		return this.PUT("api/sessions", update);
 	}
 
-	public async GetSession(sessionId:string):Promise<CloudResult<SessionInfo>> {
-		return (await this.GET<SessionInfo>(`api/sessions/${sessionId}`)).Convert(SessionInfo);
+	public async GetSession(
+		sessionId: string
+	): Promise<CloudResult<SessionInfo>> {
+		return (await this.GET<SessionInfo>(`api/sessions/${sessionId}`)).Convert(
+			SessionInfo
+		);
 	}
 
 	public async GetSessions(
-		updatedSince?:Date|null,
-		includeEnded:boolean = false,
-		compatibilityHash?:null|string,
-		name?:null|string,
-		universeId?:null|string,
-		hostName?:null|string,
-		hostId?:null|string,
-		minActiveUsers?:null|number,
-		includeEmptyHeadless:boolean = true
-	):Promise<CloudResult<List<SessionInfo>>> {
-		let stringBuilder = new StringBuilder
+		updatedSince?: Date | null,
+		includeEnded = false,
+		compatibilityHash?: null | string,
+		name?: null | string,
+		universeId?: null | string,
+		hostName?: null | string,
+		hostId?: null | string,
+		minActiveUsers?: null | number,
+		includeEmptyHeadless = true
+	): Promise<CloudResult<List<SessionInfo>>> {
+		const stringBuilder = new StringBuilder();
 		if (updatedSince != null) {
-			stringBuilder.Append("&updatedSince="+updatedSince.toISOString())
+			stringBuilder.Append("&updatedSince=" + updatedSince.toISOString());
 		}
-		if (includeEnded)
-			stringBuilder.Append("&includeEnded=true")
-		if (compatibilityHash!= null && compatibilityHash.trim() != "")
-			stringBuilder.Append(`&compatibilityHash=${encodeURIComponent(compatibilityHash)}`)
-		if (name != null && name.trim()!="")
-			stringBuilder.Append(`&name=${encodeURIComponent(name)}`)
+		if (includeEnded) stringBuilder.Append("&includeEnded=true");
+		if (compatibilityHash != null && compatibilityHash.trim() != "")
+			stringBuilder.Append(
+				`&compatibilityHash=${encodeURIComponent(compatibilityHash)}`
+			);
+		if (name != null && name.trim() != "")
+			stringBuilder.Append(`&name=${encodeURIComponent(name)}`);
 		if (universeId != null && universeId.trim() != "")
-			stringBuilder.Append(`&universeId=${encodeURIComponent(universeId)}`)
+			stringBuilder.Append(`&universeId=${encodeURIComponent(universeId)}`);
 		if (hostName != null && hostName.trim() != "")
-			stringBuilder.Append(`&hostName=${encodeURIComponent(hostName)}`)
-		if (hostId!=null && hostId.trim()!="")
-			stringBuilder.Append(`&hostId=${encodeURIComponent(hostId)}`)
-		if (minActiveUsers!= null)
-			stringBuilder.Append(`&minActiveUsers=${encodeURIComponent(minActiveUsers)}`)
-		stringBuilder.Append(`&includeEmptyHeadless=${includeEmptyHeadless?"true":"false"}`)
-		if (stringBuilder.Length>0)
-			stringBuilder.String[0] = "?"
-		let cloudResult = await this.GET<List<SessionInfo>>(`api/sessions${stringBuilder.toString()}`)
-		cloudResult.Content = List.ToListAs(cloudResult.Entity, SessionInfo)
-		return cloudResult
+			stringBuilder.Append(`&hostName=${encodeURIComponent(hostName)}`);
+		if (hostId != null && hostId.trim() != "")
+			stringBuilder.Append(`&hostId=${encodeURIComponent(hostId)}`);
+		if (minActiveUsers != null)
+			stringBuilder.Append(
+				`&minActiveUsers=${encodeURIComponent(minActiveUsers)}`
+			);
+		stringBuilder.Append(
+			`&includeEmptyHeadless=${includeEmptyHeadless ? "true" : "false"}`
+		);
+		if (stringBuilder.Length > 0) stringBuilder.String[0] = "?";
+		const cloudResult = await this.GET<List<SessionInfo>>(
+			`api/sessions${stringBuilder.toString()}`
+		);
+		cloudResult.Content = List.ToListAs(cloudResult.Entity, SessionInfo);
+		return cloudResult;
 	}
 
-	public SendTransaction(transaction:CreditTransaction):Promise<CloudResult<unknown>> {
-		return this.POST(`api/transactions/${transaction.Token}`, transaction)
+	public SendTransaction(
+		transaction: CreditTransaction
+	): Promise<CloudResult<unknown>> {
+		return this.POST(`api/transactions/${transaction.Token}`, transaction);
 	}
 
-	public RequestDepositAddress():Promise<CloudResult<unknown>> {
-		return this.GET(`api/users/${this.CurrentUser.Id}/depositAddress`)
+	public RequestDepositAddress(): Promise<CloudResult<unknown>> {
+		return this.GET(`api/users/${this.CurrentUser.Id}/depositAddress`);
+	}
+
+	public async CreateKey(
+		baseId: string,
+		use: VerificationKeyUse
+	): Promise<CloudResult<OneTimeVerificationKey>> {
+		let str = "keyUse=" + use;
+		if (baseId != null && baseId.trim() != "")
+			str += "&baseKeyId=" + encodeURIComponent(baseId);
+		return (
+			await this.POST<OneTimeVerificationKey>(
+				"api/users/" + this.CurrentUser.Id + "/onetimekeys?" + str,
+				null
+			)
+		).Convert(OneTimeVerificationKey);
+	}
+
+	public async CheckContact(
+		data: CheckContactData
+	): Promise<CloudResult<boolean>> {
+		const cloudResult = await this.POST(
+			"api/users/" + data.OwnerId + "/checkContact",
+			data
+		);
+		return cloudResult.State != 200
+			? new CloudResult<boolean>(
+				false,
+				cloudResult.State,
+					cloudResult.Content as string,
+					null
+			  )
+			: new CloudResult<boolean>(
+				true,
+				cloudResult.State,
+					cloudResult.Content as string,
+					null
+			  ); //TODO Verify
+	}
+
+	public async GetSugarCube(
+		batchId: string,
+		sequenceNumber: number
+	): Promise<CloudResult<SugarCube>> {
+		return (
+			await this.GET<SugarCube>(
+				`api/kofi/sugarcube/${batchId}/${sequenceNumber}`
+			)
+		).Convert(SugarCube);
+	}
+
+	//TODO GatherAsset
+	//TODO GetMetadataURLSegment
+	//TODO GetAssetMetadata
+	//TODO RequestAssetVariant
+	//TODO GetAvailableVariants
+	//TODO StoreAssetMetadata
+	//TODO GetBitmapMetadata
+	//TODO StoreBitmapMetadata
+	//TODO GetCubemapMetadata
+	//TODO StoreCubemapMetadata
+	//TODO StoreMeshMetadata
+	//TODO StoreShaderMetadata
+
+	//TODO GetAssetComputationTask
+	//TODO ExtendAssetComputationTask
+	//TODO FinishAssetComputation
+	//TODO FinishVariantComputation
+
+	public Ping(): Promise<CloudResult<unknown>> {
+		return this.GET("api/testing/ping");
+	}
+
+	public NotifyOnlineInstance(
+		machineId: string
+	): Promise<CloudResult<unknown>> {
+		return this.POST("api/stats/instanceOnline/" + machineId, null);
+	}
+
+	public async GetServerStatistics(): Promise<CloudResult<ServerStatistics>> {
+		try {
+			const request = new HttpRequestMessage(
+				HttpMethod.Get,
+				"https://cloudxstorage.blob.core.windows.net/install/ServerResponse"
+			);
+			const httpResponseMessage = await this.HttpClient.HttpClient.SendAsync(
+				request,
+				new CancellationTokenSource(null)
+			);
+			if (!httpResponseMessage.IsSuccessStatusCode)
+				return new CloudResult(null, httpResponseMessage.StatusCode, "", null);
+			const contentLength = httpResponseMessage.Headers.ContentLength ?? 0;
+			if (
+				contentLength > 0 &&
+				httpResponseMessage.Headers.ContentLength != null
+			)
+				return new CloudResult<ServerStatistics>(null, 0, "", null);
+			return new CloudResult<ServerStatistics>(
+				null,
+				200,
+				httpResponseMessage.Content as string,
+				null
+			).Convert(ServerStatistics);
+		} catch (error) {
+			return new CloudResult<ServerStatistics>(null, 0, "", null);
+		}
+	}
+
+	public async GetOnlineUserStats(): Promise<OnlineUserStats> {
+		const cloudResult = await this.GET<OnlineUserStats>(
+			"api/stats/onlineUserStats"
+		);
+		return cloudResult.Convert(OnlineUserStats).Entity;
+	}
+
+	public async GetHubPatrons(): Promise<HubPatrons> {
+		return (await this.GET<HubPatrons>("api/stats/hubPatrons")).Convert(
+			HubPatrons
+		)?.Entity;
+	}
+
+	public async GetRandomExitMessage(): Promise<ExitMessage> {
+		return (await this.GET<ExitMessage>("api/exitMessage")).Convert(ExitMessage)
+			?.Entity;
+	}
+
+	public async GetCurrencyRates(
+		appId: string,
+		baseCurrency = "USD"
+	): Promise<CurrencyRates> {
+		return (
+			await this.GET<CurrencyRates>(
+				"https://openexchangerates.org/api/latest.json?app_id=" +
+					appId +
+					"&base=" +
+					baseCurrency
+			)
+		).Convert(CurrencyRates).Entity;
 	}
 }
-
 interface Constructable<T> {
 	new (...args: any): T;
 	constructor: { name: string };
