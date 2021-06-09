@@ -143,8 +143,8 @@ export class CloudVariableHelper {
 	}
 	public static SplitPath(
 		path: string,
-		ownerId: Out<string> = [],
-		subpath: Out<string> = []
+		ownerId: Out<string> = new Out(),
+		subpath: Out<string> = new Out()
 	): boolean {
 		const separatorIndex: Out<number> = new Out();
 		if (
@@ -161,7 +161,7 @@ export class CloudVariableHelper {
 			subpath.Out = path.substr((separatorIndex.Out as number) + 1);
 			return true;
 		default:
-			ownerId.Out = void 0;
+			ownerId.Out = (null as unknown) as string;
 			return false;
 		}
 	}
