@@ -9,7 +9,7 @@ import { TransactionType } from "./TransactionType";
 /**@internal */
 export class UserMessages {
 	private _messageIds: List<string> = new List();
-	private _historyLoadTask: unknown; //TODO
+	private _historyLoadTask: unknown;
 	private _historyLoaded = false;
 
 	public Manager: MessageManager;
