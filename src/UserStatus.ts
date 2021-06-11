@@ -77,7 +77,7 @@ export class UserStatus {
 	}
 	constructor($b: UserStatusJSON = {} as UserStatusJSON) {
 		this.OnlineStatus = $b.onlineStatus;
-		this.LastStatusChange = $b.lastStatusChange;
+		this.LastStatusChange = new Date($b.lastStatusChange ?? 0);
 		this.CurrentSessionId = $b.currentSessionId;
 		this.CurrentSessionAccessLevel = $b.currentSessionAccessLevel;
 		this.CurrentSessionHidden = $b.currentSessionHidden;
