@@ -17,9 +17,9 @@ export class Message {
 		this.SenderId = $b.senderId;
 		this.MessageType = $b.messageType;
 		this.Content = $b.content;
-		this.SendTime = $b.sendTime;
-		this.LastUpdateTime = $b.lastUpdateTime;
-		this.ReadTime = $b.readTime as Date;
+		this.SendTime = new Date($b.sendTime ?? 0);
+		this.LastUpdateTime = new Date($b.lastUpdateTime ?? 0);
+		this.ReadTime = new Date(($b.readTime as Date) ?? 0);
 	}
 
 	public static GenerateId(): string {
