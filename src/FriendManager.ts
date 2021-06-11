@@ -7,7 +7,7 @@ import { SessionAccessLevel } from "./SessionAccessLevel";
 export class FriendManager {
 	public static UPDATE_PERIOD_SECONDS = 5;
 	private friends: Dictionary<string, Friend> = new Dictionary();
-	private lastStatusUpdate?: Date;
+	private lastStatusUpdate?: Date = new Date(0);
 	private _friendSessions: Dictionary<string, SessionInfo> = new Dictionary();
 	private lastRequest: Date = new Date();
 	private runningRequest!: (() => Promise<void>) | null;
@@ -167,8 +167,8 @@ export class FriendManager {
 			if (friendRemoved != null) friendRemoved(friend.Value);
 		}
 		this.friends.Clear();
-		this.lastStatusUpdate = new Date();
-		this.lastRequest = new Date();
+		this.lastStatusUpdate = new Date(0);
+		this.lastRequest = new Date(0);
 	}
 
 	/**@internal */
@@ -219,15 +219,17 @@ export class FriendManager {
 						: new Date();
 				const cloudResult = await this.Cloud.GetFriends(lastStatusUpdate);
 				if (!cloudResult.IsOK) return;
-				cloudResult.Content = List.ToListAs(cloudResult.Entity, Friend);
 				for (const friend of cloudResult.Entity) {
-					if (friend.UserStatus != null)
+					if (friend.UserStatus != null) {
+						console.log(this.lastStatusUpdate, friend.UserStatus);
 						this.lastStatusUpdate = new Date(
 							Math.max(
 								this.lastStatusUpdate?.getTime() as number,
-								friend.UserStatus.LastStatusChange?.getTime() ?? 0
+								friend.UserStatus.LastStatusChange?.getTime()
 							)
 						);
+					}
+
 					this.AddedOrUpdated(friend, true);
 				}
 				this.InitialFriendsLoaded = true;
