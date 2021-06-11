@@ -11,8 +11,8 @@ export class UserSession {
 	constructor($b: UserSessionJSON = {} as UserSessionJSON) {
 		this.UserId = $b.userId;
 		this.SessionToken = $b.token;
-		this.SessionCreated = $b.created;
-		this.SessionExpire = $b.expire;
+		this.SessionCreated = new Date($b.created ?? 0);
+		this.SessionExpire = new Date($b.expire ?? 0);
 		this.SecretMachineId = $b.secredMachineId;
 		this.RememberMe = $b.rememberMe;
 	}
