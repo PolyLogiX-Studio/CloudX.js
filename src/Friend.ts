@@ -10,7 +10,7 @@ export class Friend {
 	UserStatus: UserStatus;
 	LatestMessageTime: Date;
 	Profile: UserProfile;
-	constructor($b: FriendJSON) {
+	constructor($b: FriendJSON = {} as FriendJSON) {
 		this.FriendUserId = $b.id;
 		this.OwnerId = $b.ownerId;
 		this.FriendUsername = $b.friendUsername;
@@ -20,7 +20,7 @@ export class Friend {
 			$b.userStatus instanceof UserStatus
 				? $b.userStatus
 				: new UserStatus($b.userStatus);
-		this.LatestMessageTime = $b.latestMessageTime;
+		this.LatestMessageTime = new Date($b.latestMessageTime ?? 0);
 		this.Profile =
 			$b.profile instanceof UserProfile
 				? $b.profile
