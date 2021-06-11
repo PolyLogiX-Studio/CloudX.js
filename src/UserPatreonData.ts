@@ -37,7 +37,7 @@ export class UserPatreonData {
 		this.RewardType = $b.rewardType;
 		this.CustomTier = $b.customTier;
 		this.PriorityIssue = $b.priorityIssue;
-		this.LastActivationTime = $b.lastActivationTime;
+		this.LastActivationTime = new Date($b.lastActivationTime ?? 0);
 		this.LastPaidPledgeAmount = $b.lastPaidPledgeAmount;
 		this.Snapshots =
 			$b.snapshots instanceof List
