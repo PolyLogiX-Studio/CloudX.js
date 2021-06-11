@@ -11,7 +11,7 @@ export class PatreonSnapshot {
 		this.DeltaCents = $b.deltaCents;
 		this.PledgeCents = $b.pledgeCents;
 		this.Email = $b.email;
-		this.Timestamp = $b.timestamp;
+		this.Timestamp = new Date($b.timestamp ?? 0);
 	}
 	toJSON(): PatreonSnapshotJSON {
 		return {
