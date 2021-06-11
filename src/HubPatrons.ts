@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { PicturePatreon, PicturePatreonJSON} from "./PicturePatreon";
+import { PicturePatreon, PicturePatreonJSON } from "./PicturePatreon";
 export class HubPatrons {
 	public MAX_NAMES = 400;
 	public MAX_PICTURES = 50;
