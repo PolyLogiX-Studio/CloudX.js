@@ -19,7 +19,7 @@ export class AssetEntry<E> {
 	 * @memberof AssetEntry
 	 */
 	public get AssetHash(): string {
-		if (this.OwnerId == null || !this.OwnerId.startsWith("!-"))
+		if (this.OwnerId == null || !this.OwnerId.startsWith("A-"))
 			throw new Error("OwnerId is invalid, cannot extract asset hash from it");
 		return this.OwnerId.substring("A-".length);
 	}
