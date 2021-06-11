@@ -13,8 +13,8 @@ export class Visit {
 		this.NeosSessionID = $b.neosSessionID;
 		this.RecordVersion = $b.recordVersion;
 		this.Duration = $b.duration;
-		this.Start = $b.start;
-		this.End = $b.end;
+		this.Start = new Date($b.start ?? 0);
+		this.End = new Date($b.end ?? 0);
 		this.Referal = $b.referal;
 	}
 	toJSON(): VisitJSON {
