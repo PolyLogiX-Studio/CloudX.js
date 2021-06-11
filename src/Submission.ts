@@ -17,12 +17,12 @@ export class Submission {
 			$b.targetRecordId instanceof RecordId
 				? $b.targetRecordId
 				: new RecordId($b.targetRecordId);
-		this.SubmissionTime = $b.submissionTime;
+		this.SubmissionTime = new Date($b.submissionTime ?? 0);
 		this.SubmittedById = $b.submittedById;
 		this.SubmittedByName = $b.submittedByName;
 		this.Featured = $b.featured;
 		this.FeaturedByUserId = $b.featuredByUserId;
-		this.FeaturedTimestamp = $b.featuredTimestamp;
+		this.FeaturedTimestamp = new Date(($b.featuredTimestamp as Date) ?? 0);
 	}
 	toJSON(): SubmissionJSON {
 		return {
@@ -34,7 +34,7 @@ export class Submission {
 			submittedByName: this.SubmittedByName,
 			featured: this.Featured,
 			featuredByUserId: this.FeaturedByUserId,
-			featuredTimestamp: this.FeaturedTimestamp,
+			featuredTimestamp: this.FeaturedTimestamp as Date,
 		};
 	}
 }
