@@ -22,7 +22,7 @@ import { AuthenticationHeaderValue } from "./AuthenticationHeaderValue";
 import { ProductInfoHeaderValue } from "./ProductInfoHeaderValue";
 import { RSAParameters, RSAParametersData } from "./RSAParametersData";
 import { ServerStatus } from "./ServerStatus";
-import { CloudVariableManager } from "./CloudVariableManager";
+//import { CloudVariableManager } from "./CloudVariableManager"; //TODO Variables
 import { FriendManager } from "./FriendManager";
 import { ServerStatistics } from "./ServerStatistics";
 import { IdUtil } from "./IdUtil";
@@ -211,9 +211,12 @@ export class CloudXInterface {
 	public PublicKey!: RSAParameters;
 
 	public get ServerStatus(): ServerStatus {
-		if (new Date().getTime() - this.LastServerStateFetch.getTime() >= 60000)
+		if (
+			new Date().getTime() - (this.LastServerStateFetch?.getTime() ?? 0) >=
+			60000
+		)
 			return ServerStatus.NoInternet;
-		if (new Date().getTime() - this.LastServerUpdate.getTime() >= 60000)
+		if (new Date().getTime() - (this.LastServerUpdate?.getTime() ?? 0) >= 60000)
 			return ServerStatus.Down;
 		return this.ServerResponseTime > 500
 			? ServerStatus.Slow
@@ -301,7 +304,7 @@ export class CloudXInterface {
 	public OnSessionUpdated(): void {
 		//OnSessionUpdated Bindable Overwrite
 	}
-	public Variables!: CloudVariableManager;
+	//public Variables!: CloudVariableManager;
 	public Friends!: FriendManager;
 	public Messages!: MessageManager;
 	public Transactions!: TransactionManager;
@@ -315,6 +318,8 @@ export class CloudXInterface {
 		//!! HttpClient has No Timeout
 		this.HttpClient = new Http(null, {
 			ENDPOINT: CloudXInterface.NEOS_API,
+			DEBUG_REQUESTS: CloudXInterface.DEBUG_REQUESTS,
+			DefaultTimeout:null as unknown as number
 		});
 		//! SafeHttpClient uses 60000ms Timeout
 		this.SafeHttpClient = new Http(null, {
@@ -327,7 +332,7 @@ export class CloudXInterface {
 			userAgentProduct,
 			userAgentVersion
 		);
-		this.Variables = new CloudVariableManager(this);
+		//this.Variables = new CloudVariableManager(this); //TODO Variables
 		this.Friends = new FriendManager(this);
 		this.Messages = new MessageManager(this);
 		//this.Transactions = new TransactionManager(this); //TODO Transaction Manager
@@ -335,12 +340,18 @@ export class CloudXInterface {
 	}
 	public Update(): void {
 		if (this.CurrentSession != null) {
-			if (new Date().getTime() - this._lastSessionUpdate.getTime() >= 3600000) {
+			if (
+				new Date().getTime() - (this._lastSessionUpdate?.getTime() ?? 0) >=
+				3600000
+			) {
 				this.ExtendSession();
 				this._lastSessionUpdate = new Date();
 			}
 		}
-		if (new Date().getTime() - this._lastServerStatsUpdate.getTime() >= 10000) {
+		if (
+			new Date().getTime() - (this._lastServerStatsUpdate?.getTime() ?? 0) >=
+			10000
+		) {
 			(async () => {
 				const cloudResult: CloudResult<ServerStatistics> = await this.GetServerStatistics();
 				if (cloudResult.IsOK) {
@@ -350,7 +361,7 @@ export class CloudXInterface {
 				this.LastServerStateFetch = new Date();
 			})();
 			this._lastServerStatsUpdate = new Date();
-			this.Variables.Update();
+			//this.Variables.Update(); //TODO Variables
 			this.Friends.Update();
 			this.Messages.Update();
 			for (const val of this._storageDirty) {
@@ -596,8 +607,11 @@ export class CloudXInterface {
 		).Convert<UserSession>(UserSession);
 		if (result.IsOK) {
 			this.CurrentSession = result.Entity;
+			this._currentAuthenticationHeader;
 			this.HttpClient._currentAuthenticationToken = this._currentAuthenticationHeader.Authorization;
+			this.SafeHttpClient._currentAuthenticationToken = this._currentAuthenticationHeader.Authorization;
 			this.HttpClient._currentAuthenticationHeader = "Authorization";
+			this.SafeHttpClient._currentAuthenticationHeader = "Authorization";
 			this.CurrentUser = new User({
 				id: this.CurrentSession.UserId,
 				email: credentials.Email,
@@ -707,6 +721,8 @@ export class CloudXInterface {
 		this.CurrentSession = (null as unknown) as UserSession;
 		this.CurrentUser = (null as unknown) as User;
 		this.PublicKey = new RSAParametersData({} as RSAParameters);
+		this.HttpClient._currentAuthenticationToken = null
+		this.SafeHttpClient._currentAuthenticationToken = null
 		this.ClearMemberships();
 		this.Friends.Reset();
 		CloudXInterface.USE_CDN = true;
@@ -1398,7 +1414,7 @@ export class CloudXInterface {
 		user: string,
 		maxItems = 100
 	): Promise<CloudResult<List<Message>>> {
-		return this.GetMessages(new Date(), maxItems, user, false);
+		return this.GetMessages(new Date(0), maxItems, user, false);
 	}
 
 	public async GetMessages(
