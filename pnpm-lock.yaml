@@ -3,7 +3,9 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/core': ^7.12.10
   '@babel/plugin-transform-flow-strip-types': ^7.12.1
-  '@bombitmanbomb/http-client': 2.1.2
+  '@bombitmanbomb/basex': ^0.1.0-alpha.2
+  '@bombitmanbomb/codex': 0.0.1-alpha.2
+  '@bombitmanbomb/http-client': 2.2.0
   '@bombitmanbomb/utils': 2.9.2
   '@types/minimist': ^1.2.0
   '@types/node': ^15.0.2
@@ -24,7 +26,9 @@ specifiers:
   uuid: ^8.3.2
 
 dependencies:
-  '@bombitmanbomb/http-client': 2.1.2
+  '@bombitmanbomb/basex': 0.1.0-alpha.2
+  '@bombitmanbomb/codex': 0.0.1-alpha.2
+  '@bombitmanbomb/http-client': 2.2.0
   '@bombitmanbomb/utils': 2.9.2
   uuid: 8.3.2
 
@@ -302,21 +306,34 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@bombitmanbomb/http-client/2.1.2:
-    resolution: {integrity: sha512-LWU9hZiTkg4K3xv1376HN5dkooF6G7Btfkgr+tDnFmXxH9x4Y2TAidyxlGwfLUfj1htuXDLnTdg40g/KutKa6g==}
+  /@bombitmanbomb/basex/0.1.0-alpha.2:
+    resolution: {integrity: sha512-+UrHwALS/Uc2IM9qTMqrrSeYp+MLUdtEdfdVgdYav8B/v3dfa94dWHACx+PED91Kd+orAtTW3EplgagWqWzDdQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@octokit/rest': ^18.2.0
+    peerDependenciesMeta:
+      '@octokit/rest':
+        optional: true
+    dependencies:
+      '@bombitmanbomb/utils': 2.9.2
+    dev: false
+
+  /@bombitmanbomb/codex/0.0.1-alpha.2:
+    resolution: {integrity: sha512-rhY181WXU5SB5oGKFpa9+YJlbhwOG91ey8rxotJnHueZPHnEhpkmVcNkOVXfjiWREivauu3pnit2V9+Ayt/qCA==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@bombitmanbomb/utils': 2.8.7
+      '@bombitmanbomb/utils': 2.9.2
+      uuid: 8.3.2
+    dev: false
+
+  /@bombitmanbomb/http-client/2.2.0:
+    resolution: {integrity: sha512-ShVxTJvxCL046g6S49bCal0aY6YQSSJmf5Hv4g3vJpkSiYbWEwcwrv1zTRXUsUpLCaEAaRSCNeuP05PfYaSr8A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@bombitmanbomb/utils': 2.9.2
       abort-controller: 3.0.0
       form-data: 4.0.0
       node-fetch: 2.6.1
-    dev: false
-
-  /@bombitmanbomb/utils/2.8.7:
-    resolution: {integrity: sha512-FuQTsB9D0mAIikCokUzAc7Mt/p72rkH5yiGlsXtaIlK6QAhSYF4GwpojsGS4BOceuzwKy9fOOKVfAk8o33HyIw==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      abort-controller: 3.0.0
     dev: false
 
   /@bombitmanbomb/utils/2.9.2:
