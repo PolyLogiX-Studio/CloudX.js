@@ -2,7 +2,7 @@ export class ServerStatistics {
 	public LastUpdate: Date;
 	public ResponseTimeMilliseconds: number;
 	constructor($b: ServerStatisticsJSON = {} as ServerStatisticsJSON) {
-		this.LastUpdate = $b.lastUpdate;
+		this.LastUpdate = new Date($b.lastUpdate ?? 0);
 		this.ResponseTimeMilliseconds = $b.responseTimeMilliseconds;
 	}
 	toJSON(): ServerStatisticsJSON {
