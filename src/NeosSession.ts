@@ -25,8 +25,8 @@ export class NeosSession {
 		this.MachineId = $b.machineId;
 		this.CountryCode = $b.countryCode;
 		this.SystemLocale = $b.systemLocale;
-		this.SessionStart = $b.sessionStart;
-		this.SessionEnd = $b.sessionEnd;
+		this.SessionStart = new Date($b.sessionStart ?? 0);
+		this.SessionEnd = new Date($b.sessionEnd ?? 0);
 		this.VisitedWorlds = $b.visitedWorlds;
 		this.CreatedWorlds = $b.createdWorlds;
 		this.OperatingSystem = $b.operatingSystem;
