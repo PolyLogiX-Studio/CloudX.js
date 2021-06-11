@@ -7,7 +7,7 @@ export class AssetDiff {
 		this.Hash = $b.hash;
 		this.Bytes = $b.bytes;
 		this.State = $b.state;
-		this.IsUploaded = $b.isUploaded;
+		this.IsUploaded = $b.isUploaded as boolean;
 	}
 	get Diff(): typeof Diff {
 		return Diff; // Oh
@@ -17,7 +17,7 @@ export class AssetDiff {
 			hash: this.Hash,
 			bytes: this.Bytes,
 			state: this.State,
-			isUploaded: this.IsUploaded,
+			isUploaded: this.IsUploaded as boolean,
 		};
 	}
 }
