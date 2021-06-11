@@ -42,8 +42,8 @@ export class SearchParameters {
 			$b.excludedTags instanceof List
 				? $b.excludedTags
 				: List.ToList($b.excludedTags);
-		this.MinDate = $b.minDate;
-		this.MaxDate = $b.maxDate;
+		this.MinDate = new Date(($b.minDate as Date) ?? 0);
+		this.MaxDate = new Date(($b.maxDate as Date) ?? 0);
 		this.SortBy = $b.sortBy;
 		this.SortDirection = $b.sortDirection;
 	}
