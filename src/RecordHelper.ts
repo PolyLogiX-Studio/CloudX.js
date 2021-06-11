@@ -17,8 +17,8 @@ export class RecordHelper {
 	}
 
 	public static InhericPermissions(record: IRecord, source: IRecord): void {
-		record.IsPublic = source.IsPublic;
-		record.IsForPatrons = source.IsForPatrons;
+		record.IsPublic = source.IsPublic as boolean;
+		record.IsForPatrons = source.IsForPatrons as boolean;
 	}
 
 	public static CanOverwrite(record: IRecord, oldRecord: IRecord): boolean {
@@ -34,18 +34,18 @@ export class RecordHelper {
 	public static TakeIdentityFrom(record: IRecord, source: IRecord): void {
 		record.RecordId = source.RecordId;
 		record.OwnerId = source.OwnerId;
-		record.LocalVersion = source.LocalVersion;
-		record.GlobalVersion = source.GlobalVersion;
-		record.LastModifyingMachineId = source.LastModifyingMachineId;
-		record.LastModifyingUserId = source.LastModifyingUserId;
-		record.IsPublic = source.IsPublic;
-		record.IsForPatrons = source.IsForPatrons;
-		record.IsListed = source.IsListed;
-		record.FirstPublishTime = source.FirstPublishTime;
-		record.CreationTime = source.CreationTime;
-		record.OwnerName = source.OwnerName;
-		record.Visits = source.Visits;
-		record.Rating = source.Rating;
+		record.LocalVersion = source.LocalVersion as number;
+		record.GlobalVersion = source.GlobalVersion as number;
+		record.LastModifyingMachineId = source.LastModifyingMachineId as string;
+		record.LastModifyingUserId = source.LastModifyingUserId as string;
+		record.IsPublic = source.IsPublic as boolean;
+		record.IsForPatrons = source.IsForPatrons as boolean;
+		record.IsListed = source.IsListed as boolean;
+		record.FirstPublishTime = source.FirstPublishTime as Date;
+		record.CreationTime = source.CreationTime as Date;
+		record.OwnerName = source.OwnerName as string;
+		record.Visits = source.Visits as number;
+		record.Rating = source.Rating as number;
 	}
 	public static GetUrl(record: IRecord): Uri {
 		return RecordUtil.GenerateUri(record.OwnerId, record.RecordId);
@@ -81,7 +81,7 @@ export class RecordHelper {
 		return {
 			Name: name,
 			AssetURI: assetUrl,
-			ThumbnailURI: thumbnailUrl,
+			ThumbnailURI: thumbnailUrl as string,
 			OwnerId: ownerId,
 			RecordId: recordId ?? RecordUtil.GenerateRecordID(),
 			RecordType: "object",
@@ -97,7 +97,7 @@ export class RecordHelper {
 		return {
 			Name: name,
 			AssetURI: assetUrl,
-			ThumbnailURI: thumbnailUrl,
+			ThumbnailURI: thumbnailUrl as string,
 			OwnerId: ownerId,
 			RecordId: recordId ?? RecordUtil.GenerateRecordID(),
 			RecordType: "texture",
@@ -113,7 +113,7 @@ export class RecordHelper {
 		return {
 			Name: name,
 			AssetURI: assetUrl,
-			ThumbnailURI: thumbnailUrl,
+			ThumbnailURI: thumbnailUrl as string,
 			OwnerId: ownerId,
 			RecordId: recordId ?? RecordUtil.GenerateRecordID(),
 			RecordType: "audio",
