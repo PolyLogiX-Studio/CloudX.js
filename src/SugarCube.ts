@@ -13,9 +13,9 @@ export class SugarCube {
 	constructor($b: SugarCubeJSON) {
 		this.BatchId = $b.batchId;
 		this.SequenceNumber = $b.sequenceNumber;
-		this.GeneratedOn = $b.generatedOn;
+		this.GeneratedOn = new Date($b.generatedOn ?? 0);
 		this.Consumed = $b.consumed;
-		this.ConsumedOn = $b.consumedOn;
+		this.ConsumedOn = new Date($b.consumedOn ?? 0);
 		this.OriginalOwnerId = $b.originalOwnerId;
 		this.CurrentOwnerId = $b.currentOwnerId;
 		this.RedChannel = $b.redChannel;
