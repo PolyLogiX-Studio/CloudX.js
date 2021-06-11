@@ -54,9 +54,10 @@
 		"node": ">=14.0.0"
 	},
 	"dependencies": {
-		"@bombitmanbomb/http-client": "2.1.2",
+		"@bombitmanbomb/basex": "^0.1.0-alpha.2",
+		"@bombitmanbomb/codex": "0.0.1-alpha.2",
+		"@bombitmanbomb/http-client": "2.2.0",
 		"@bombitmanbomb/utils": "2.9.2",
-		"@bombitmanbomb/codex":"^1.0.0",
 		"uuid": "^8.3.2"
 	}
 }
