@@ -7,7 +7,7 @@ export class RSAParametersData {
 	DQ: unknown[];
 	InverseQ: unknown[];
 	D: unknown[];
-	constructor(rsa: RSAParameters) {
+	constructor(rsa: RSAParameters = {} as RSAParameters) {
 		this.Exponent = rsa.Exponent;
 		this.Modulus = rsa.Modulus;
 		this.P = rsa.P;
