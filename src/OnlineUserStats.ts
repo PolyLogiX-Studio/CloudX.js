@@ -13,7 +13,7 @@ export class OnlineUserStats {
 	public ActivePublicSessionCount: number;
 	public PublicWorldUserCount: number;
 	constructor($b: OnlineUserStatsJSON = {} as OnlineUserStatsJSON) {
-		this.CaptureTimestamp = $b.captureTimestamp;
+		this.CaptureTimestamp = new Date($b.captureTimestamp ?? 0);
 		this.RegisteredserCount = $b.registeredserCount;
 		this.InstanceCount = $b.instanceCount;
 		this.VRUserCount = $b.vrUserCount;
