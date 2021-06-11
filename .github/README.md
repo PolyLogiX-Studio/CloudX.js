@@ -8,6 +8,7 @@ Required Dependency for [Neos.JS](https://github.com/PolyLogiX-Studio/Neos.js)
 
 Requires:
 
-- CodeX
-- BaseX
-- Mikktspace
+- @bombitmanbomb/codex
+- @bombitmanbomb/basex
+- @bombitmanbomb/http-client
+- @bombitmanbomb/utils
