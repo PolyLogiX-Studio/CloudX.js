@@ -12,8 +12,8 @@ export class AssetInfo {
 		this.Bytes = $b.bytes;
 		this.Free = $b.free;
 		this.IsUploaded = $b.isUploaded;
-		this.UploaderUserId = $b.uploaderUserId;
-		this.CountsAgainstMemberQuota = $b.countsAgainstMemberQuota;
+		this.UploaderUserId = $b.uploaderUserId as string;
+		this.CountsAgainstMemberQuota = $b.countsAgainstMemberQuota as boolean;
 	}
 	toJSON(): AssetInfoJSON {
 		return {
@@ -22,8 +22,8 @@ export class AssetInfo {
 			bytes: this.Bytes,
 			free: this.Free,
 			isUploaded: this.IsUploaded,
-			uploaderUserId: this.UploaderUserId,
-			countsAgainstMemberQuota: this.CountsAgainstMemberQuota,
+			uploaderUserId: this.UploaderUserId as string,
+			countsAgainstMemberQuota: this.CountsAgainstMemberQuota as boolean,
 		};
 	}
 }
