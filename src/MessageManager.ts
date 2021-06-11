@@ -188,9 +188,12 @@ export class MessageManager {
 		if (this.Cloud.CurrentUser == null) return;
 		if (this._unreadCountDirty) {
 			this._unreadCountDirty = false;
-			this.TotalUnreadCount = this._messages.reduce((m) => {
-				m.Value.UnreadCount;
-			});
+			this.TotalUnreadCount =
+				this._messages.length != 0
+					? this._messages?.reduce((a, m) => {
+						a + m.Value.UnreadCount;
+					  }, 0)
+					: 0;
 			for (const message of this._messages) {
 				if (message.Value.UnreadCount == 0)
 					this.UnreadCountByUser.TryRemove(message.Key);
@@ -217,7 +220,6 @@ export class MessageManager {
 				this.lastUnreadMessage
 			);
 			if (cloudResult1.IsOK) {
-				cloudResult1.Content = List.ToListAs(cloudResult1.Entity, Message);
 				const hset: List<Message> = new List();
 				for (const message of cloudResult1.Entity) {
 					this.lastUnreadMessage =
@@ -274,7 +276,10 @@ export class MessageManager {
 					`Failed to fetch unread messages, LastUnreadMessage: ${this.lastUnreadMessage}, Result: ${cloudResult1}`
 				);
 		};
-		this.runningRequest().then(() => this.clearRequest());
+		(async () => {
+			await (this.runningRequest as () => void)();
+			this.clearRequest();
+		})();
 	}
 	private clearRequest(): void {
 		this.runningRequest = null;
