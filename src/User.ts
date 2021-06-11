@@ -32,16 +32,26 @@ export class User {
 	constructor($b: UserJSON = {} as UserJSON) {
 		this.Id = $b.id;
 		this.Username = $b.id;
-		this.RegistrationDate = $b.registrationDate;
+		this.RegistrationDate = new Date($b.registrationDate ?? 0);
 		this.QuotaBytes = $b.quotaBytes;
 		this.UsedBytes = $b.usedBytes;
 		this.IsVerified = $b.isVerified;
-		this.AccountBanExpiration = $b.accountBanExpiration as Date;
-		this.PublicBanExpiration = $b.publicBanExpiration as Date;
+		this.AccountBanExpiration = new Date(
+			(($b.accountBanExpiration as unknown) as string) ?? 0
+		);
+		this.PublicBanExpiration = new Date(
+			(($b.publicBanExpiration as unknown) as string) ?? 0
+		);
 		this.PublicBanType = $b.publicBanType as PublicBanType;
-		this.SpectatorBanExpiration = $b.spectatorBanExpiration as Date;
-		this.MuteBanExpiration = $b.muteBanExpiration as Date;
-		this.ListingBanExpiration = $b.listingBanExpiration as Date;
+		this.SpectatorBanExpiration = new Date(
+			(($b.spectatorBanExpiration as unknown) as string) ?? 0
+		);
+		this.MuteBanExpiration = new Date(
+			(($b.muteBanExpiration as unknown) as string) ?? 0
+		);
+		this.ListingBanExpiration = new Date(
+			(($b.listingBanExpiration as unknown) as string) ?? 0
+		);
 		this.Password = $b.password as string;
 		this.RecoverCode = $b.recoverCode as string;
 		this.UniqueDeviceIDs =
