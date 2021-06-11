@@ -135,7 +135,7 @@ export class SessionInfo {
 		this.SessionURLs = (null as unknown) as List<string>;
 	}
 	public CopyLAN_Data(source: SessionInfo): void {
-		this.LAN_URL = source.LAN_URL;
+		this.LAN_URL = source.LAN_URL as string;
 		this.LastLAN_Update = source.LastLAN_Update;
 		if (this.LAN_URL == null) return;
 		if (this.SessionURLs == null) this.SessionURLs = new List();
@@ -306,9 +306,9 @@ export class SessionInfo {
 		this.ActiveUsers = $b.activeUsers;
 		this.MaximumUsers = $b.maxUsers;
 		this.MobileFriendly = $b.mobileFriendly;
-		this.SessionBeginTime = $b.sessionBeginTime;
-		this.LastUpdate = $b.lastUpdate;
-		this.AwaySince = $b.awaySince;
+		this.SessionBeginTime = new Date($b.sessionBeginTime ?? 0);
+		this.LastUpdate = new Date($b.lastUpdate ?? 0);
+		this.AwaySince = new Date(($b.awaySince as Date) ?? 0);
 		this.AccessLevel = $b.accessLevel;
 	}
 	toJSON(): SessionInfoJSON {
@@ -335,7 +335,7 @@ export class SessionInfo {
 			mobileFriendly: this.MobileFriendly,
 			sessionBeginTime: this.SessionBeginTime,
 			lastUpdate: this.LastUpdate,
-			awaySince: this.AwaySince,
+			awaySince: this.AwaySince as Date,
 			accessLevel: this.AccessLevel,
 		};
 	}
