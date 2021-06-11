@@ -8,7 +8,7 @@ export class ChildRecordDiff {
 	public RecordInfo: RecordInfo;
 	constructor($b: ChildRecordDiffJSON = {} as ChildRecordDiffJSON) {
 		this.Operation = $b.operation;
-		this.Created = $b.created;
+		this.Created = new Date($b.created ?? 0);
 		this.ParentRecord =
 			$b.parentRecord instanceof RecordId
 				? $b.parentRecord
