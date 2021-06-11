@@ -400,8 +400,10 @@ export class CloudXInterface {
 		this.RunMembershipsUpdated();
 	}
 	private async RunMembershipsUpdated(): Promise<void> {
-		for (const groupMembership of this._groupMemberships)
-			await this.UpdateGroupInfo(groupMembership.GroupId);
+		if (this._groupMemberships.Count > 0){
+			for (const groupMembership of this._groupMemberships)
+				await this.UpdateGroupInfo(groupMembership.GroupId);
+		}
 		const membershipsUpdated = this.MembershipsUpdated;
 		if (membershipsUpdated == null) return;
 		membershipsUpdated(this._groupMemberships);
@@ -758,8 +760,7 @@ export class CloudXInterface {
 		const cachedRecords = this.chachedRecords.ReturnValue(
 			(r?.constructor?.name as string) ?? typeof r
 		);
-		cachedRecords.Remove(recordUri.URL);
-		cachedRecords.Add(recordUri.URL, cloudResult1);
+		cachedRecords.AddOrUpdate(recordUri.URL, cloudResult1, ()=>cloudResult1);
 		return cloudResult1;
 	}
 
