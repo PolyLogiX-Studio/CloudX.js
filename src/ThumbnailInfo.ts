@@ -18,18 +18,18 @@ export class ThumbnailInfo {
 	public UploaderOwnerId?: string;
 	constructor($b: ThumbnailInfoJSON = {} as ThumbnailInfoJSON) {
 		this.Id = $b.id;
-		this.Key = $b.key;
-		this.UploaderIP = $b.uploaderIP;
-		this.SessionId = $b.sessionId;
-		this.UploaderOwnerId = $b.uploaderOwnerId;
+		this.Key = $b.key as string;
+		this.UploaderIP = $b.uploaderIP as string;
+		this.SessionId = $b.sessionId as string;
+		this.UploaderOwnerId = $b.uploaderOwnerId as string;
 	}
 	toJSON(): ThumbnailInfoJSON {
 		return {
 			id: this.Id,
-			key: this.Key,
-			uploaderIP: this.UploaderIP,
-			sessionId: this.SessionId,
-			uploaderOwnerId: this.UploaderOwnerId,
+			key: this.Key as string,
+			uploaderIP: this.UploaderIP as string,
+			sessionId: this.SessionId as string,
+			uploaderOwnerId: this.UploaderOwnerId as string,
 		};
 	}
 }
