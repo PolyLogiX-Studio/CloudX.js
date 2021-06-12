@@ -1,3 +1,9 @@
+/**
+ *Build Type
+ *
+ * @export
+ * @enum {number}
+ */
 export enum BuildChangeType {
 	NewFeature = "NewFeature",
 	Tweak = "Tweak",

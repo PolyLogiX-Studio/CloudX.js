@@ -1,3 +1,6 @@
+/**
+ * @enum {string} AccountType
+ */
 export enum AccountType {
 	Normal = "Normal",
 	AgentSmith = "AgentSmith",

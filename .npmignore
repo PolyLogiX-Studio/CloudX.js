@@ -20,3 +20,4 @@ inch.json
 .prettierignore
 .jsdoc.json
 src/
+external/

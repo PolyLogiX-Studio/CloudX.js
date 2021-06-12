@@ -2,7 +2,12 @@ import { List } from "@bombitmanbomb/utils";
 import { BuildFile, BuildFileJSON } from "./BuildFile";
 import type { BuildPlatform } from "./BuildPlatform";
 import type { BuildRuntime } from "./BuildRuntime";
-
+/**
+ *Build Variant Info
+ *
+ * @export
+ * @class BuildVariant
+ */
 export class BuildVariant {
 	public VersionNumber: string;
 	public Platform: BuildPlatform;
@@ -27,6 +32,12 @@ export class BuildVariant {
 		};
 	}
 }
+/**
+ *Build Variant Info JSON
+ *
+ * @export
+ * @interface BuildVariantJSON
+ */
 export interface BuildVariantJSON {
 	versionNumber: string;
 	platform: BuildPlatform;

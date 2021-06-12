@@ -13,6 +13,13 @@ import {
 } from "@bombitmanbomb/utils";
 import { CloudVariableHelper } from "./CloudVariableHelper";
 import { CloudXInterface } from "./CloudXInterface";
+import { VariableReadResult } from "./VariableReadResult";
+/**
+ *Cloud Variable Proxy
+ * @todo
+ * @export
+ * @class CloudVariableProxy
+ */
 export class CloudVariableProxy {
 	public static WRITE_DELAY_SECONDS = 30.0;
 	public static REFRESH_INTERVAL_SECONDS = 300.0;
@@ -209,7 +216,10 @@ export class CloudVariableProxy {
 					this.State = CloudVariableState.ReadFromTheCloud;
 					if (num != 0) this.RunChangedEvent();
 				}
-				result = null;
+				result = (null as unknown) as VariableReadResult<
+					CloudVariable,
+					CloudVariableDefinition
+				>;
 			} catch (error) {
 				error;
 			} finally {

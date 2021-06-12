@@ -1,7 +1,10 @@
 import { Dictionary } from "@bombitmanbomb/utils";
 //import { CloudVariableIdentity } from "./CloudVariableIdentity";
+import { VariableReadResult } from "./VariableReadResult";
 import { CloudVariableProxy } from "./CloudVariableProxy";
 import { CloudXInterface } from "./CloudXInterface";
+import { CloudVariable } from "./CloudVariable";
+import { CloudVariableDefinition } from "./CloudVariableDefinition";
 //TODO Need BaseX Pool
 //TODO Need BatchQuery
 export class CloudVariableManager {
@@ -17,5 +20,21 @@ export class CloudVariableManager {
 	}
 	public Update(): void {
 		//TODO
+	}
+	public TryUnregisterProxy(proxy: CloudVariableProxy): boolean {
+		return false;
+	}
+	public WriteVariable(variable: CloudVariable): boolean {
+		return false;
+	}
+	public ReadVariable(
+		ownerId: string,
+		path: string
+	): VariableReadResult<CloudVariable, CloudVariableDefinition> {
+		return new VariableReadResult<CloudVariable, CloudVariableDefinition>();
+	}
+	public RegisterChanged(proxy: CloudVariableProxy): void {
+		//TODO
+		return
 	}
 }

@@ -1,4 +1,10 @@
 import { List } from "@bombitmanbomb/utils";
+/**
+ * Object for Check Data Request using a Verification Key
+ *
+ * @export
+ * @class CheckContactData
+ */
 export class CheckContactData {
 	OwnerId: string;
 	Verificationkey: string;
@@ -17,6 +23,12 @@ export class CheckContactData {
 		};
 	}
 }
+/**
+ *Check Contact Data JSON
+ *
+ * @export
+ * @interface CheckContactDataJSON
+ */
 export interface CheckContactDataJSON {
 	ownerId: string;
 	verificationKey: string;

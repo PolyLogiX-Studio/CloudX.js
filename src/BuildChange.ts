@@ -1,6 +1,12 @@
 import { List } from "@bombitmanbomb/utils";
 import { BuildChangeType } from "./BuildChangeType";
 import { BuildReporter, BuildReporterJSON } from "./BuildReporter";
+/**
+ *Build Changes
+ *
+ * @export
+ * @class BuildChange
+ */
 export class BuildChange {
 	public Description: string;
 	public Type: BuildChangeType;
@@ -30,6 +36,12 @@ export class BuildChange {
 		};
 	}
 }
+/**
+ *Build Changes JSON
+ *
+ * @export
+ * @interface BuildChangeJSON
+ */
 export interface BuildChangeJSON {
 	description: string;
 	type: BuildChangeType;

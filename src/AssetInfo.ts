@@ -1,3 +1,8 @@
+/**
+ *
+ * @export
+ * @class AssetInfo
+ */
 export class AssetInfo {
 	public OwnerId: string;
 	public AssetHash: string;
@@ -27,6 +32,11 @@ export class AssetInfo {
 		};
 	}
 }
+/**
+ * JSON Object for AssetInfo
+ * @export
+ * @interface AssetInfoJSON
+ */
 export interface AssetInfoJSON {
 	ownerId: string;
 	assetHash: string;

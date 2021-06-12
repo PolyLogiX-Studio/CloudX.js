@@ -1,5 +1,11 @@
 import { ComputationLock } from "./ComputationLock";
 import type { ComputationLockJSON } from "./ComputationLock";
+/**
+ *
+ * @export
+ * @class AssetEntry
+ * @template E Asset Type
+ */
 export class AssetEntry<E> {
 	public Id: string;
 	public OwnerId: string;
@@ -35,6 +41,12 @@ export class AssetEntry<E> {
 		};
 	}
 }
+/**
+ * Json Object for AssetEntry
+ * @export
+ * @interface AssetEntryJSON
+ * @template E
+ */
 export interface AssetEntryJSON<E> {
 	id: string;
 	ownerId: string;

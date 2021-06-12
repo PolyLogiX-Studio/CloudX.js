@@ -1,3 +1,9 @@
+/**
+ *Build Runtime
+ *
+ * @export
+ * @enum {number}
+ */
 export enum BuildRuntime {
 	Unity_Mono = "Unity_Mono",
 	Unity_Mono_Debug = "Unity_Mono_Debug",

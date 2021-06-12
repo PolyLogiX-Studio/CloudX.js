@@ -7,6 +7,5 @@ UpdateCheck.WinMerge
 tsconfig.tsbuildinfo
 lib/
 dist/
-docs/
 Local/
 pnpm-lock.yaml

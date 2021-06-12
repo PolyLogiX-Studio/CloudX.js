@@ -1,4 +1,10 @@
 import { List } from "@bombitmanbomb/utils";
+/**
+ *Cloud Variable Definition
+ *
+ * @export
+ * @class CloudVariableDefinition
+ */
 export class CloudVariableDefinition {
 	DefinitionOwnerId: string;
 	Subpath: string;
@@ -39,6 +45,12 @@ export class CloudVariableDefinition {
 		};
 	}
 }
+/**
+ *Cloud Variable Definition JSON
+ *
+ * @export
+ * @interface CloudVariableDefinitionJSON
+ */
 export interface CloudVariableDefinitionJSON {
 	definitionOwnerId: string;
 	subpath: string;

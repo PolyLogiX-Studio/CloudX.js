@@ -1,4 +1,10 @@
 import type { Out } from "@bombitmanbomb/utils";
+/**
+ *Cloud Variable Object
+ *
+ * @export
+ * @class CloudVariable
+ */
 export class CloudVariable {
 	public VariableOwnerId: string;
 	public Path: string;
@@ -8,12 +14,29 @@ export class CloudVariable {
 		this.Path = $b.path;
 		this.Value = $b.value;
 	}
+	/**
+	 *Get the Definition Path of this Cloud Variable
+	 *
+	 * @param {Out<string>} [ownerId=[]] out OwnerId
+	 * @param {Out<string>} [subpath=[]] out SubPath
+	 * @returns {void}
+	 * @memberof CloudVariable
+	 */
 	public GetDefinitionPath(
 		ownerId: Out<string> = [],
 		subpath: Out<string> = []
 	): void {
 		return CloudVariable.GetDefinitionPath(this.Path, ownerId, subpath);
 	}
+	/**
+	 *Get the Definition Path of a Cloud Variable
+	 *
+	 * @static
+	 * @param {string} path Variable Path
+	 * @param {Out<string>} [ownerId=[]] out OwnerId
+	 * @param {Out<string>} [subpath=[]] out SubPath
+	 * @memberof CloudVariable
+	 */
 	public static GetDefinitionPath(
 		path: string,
 		ownerId: Out<string> = [],
@@ -23,6 +46,13 @@ export class CloudVariable {
 		ownerId.Out = path.substr(0, length);
 		subpath.Out = path.substr(length + 1);
 	}
+	/**
+	 *Compare against another CloudVariable
+	 *
+	 * @param {CloudVariable} other
+	 * @returns {boolean} Equal
+	 * @memberof CloudVariable
+	 */
 	public Equals(other: CloudVariable): boolean {
 		return (
 			this.VariableOwnerId == other.VariableOwnerId &&
@@ -41,6 +71,12 @@ export class CloudVariable {
 		};
 	}
 }
+/**
+ *Cloud Variable JSON
+ *
+ * @export
+ * @interface CloudVariableJSON
+ */
 export interface CloudVariableJSON {
 	ownerId: string;
 	path: string;

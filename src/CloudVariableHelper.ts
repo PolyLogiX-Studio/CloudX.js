@@ -3,6 +3,12 @@ import { OwnerType } from "./OwnerType";
 import { List, Out } from "@bombitmanbomb/utils";
 import { IdUtil } from "./IdUtil";
 //TODO BaseX Interface
+/**
+ *Cloud Variable Helper Class
+ *
+ * @export
+ * @class CloudVariableHelper
+ */
 export class CloudVariableHelper {
 	public static MAX_SUBPATH_LENGTH = 256;
 	public static MAX_STRING_LENGTH = 8192;
@@ -40,6 +46,14 @@ export class CloudVariableHelper {
 		"definition_owner_only",
 		"definition_owner_only_unsafe",
 	]);
+	/**
+	 *Get the Variable Permission Type
+	 *
+	 * @static
+	 * @param {string} name
+	 * @returns {(VariablePermissionType | null)}
+	 * @memberof CloudVariableHelper
+	 */
 	public static GetPermissionType(name: string): VariablePermissionType | null {
 		return name == "read"
 			? VariablePermissionType.Read
@@ -49,6 +63,16 @@ export class CloudVariableHelper {
 					? VariablePermissionType.List
 					: null;
 	}
+	/**
+	 *Check that a list of permissions are Valid
+	 *
+	 * @static
+	 * @param {VariablePermissionType} permissionType
+	 * @param {OwnerType} owner
+	 * @param {string} permissions
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static IsValidPermissionList(
 		permissionType: VariablePermissionType,
 		owner: OwnerType,
@@ -103,18 +127,51 @@ export class CloudVariableHelper {
 		}
 		return true;
 	}
+	/**
+	 *Check that a permission is Valid
+	 *
+	 * @static
+	 * @param {string} permission
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static IsValidPermission(permission: string): boolean {
 		return CloudVariableHelper._validPermissions.has(permission);
 	}
+	/**
+	 *Check that a Path is Valid
+	 *
+	 * @static
+	 * @param {string} path
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static IsValidPath(path: string): boolean {
 		return CloudVariableHelper.SplitPath(path, []);
 	}
+	/**
+	 *Check that a SubPath is Valid
+	 *
+	 * @static
+	 * @param {string} subpath
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static IsValidSubpath(subpath: string): boolean {
 		return (
 			(subpath == null || subpath.length <= 256) &&
 			CloudVariableHelper.PreprocessPath(subpath, [])
 		);
 	}
+	/**
+	 *PreProcess a Path
+	 *
+	 * @static
+	 * @param {string} path
+	 * @param {Out<number>} [seperatorIndex=[]] out SeperatorIndex
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static PreprocessPath(
 		path: string,
 		seperatorIndex: Out<number> = []
@@ -141,6 +198,16 @@ export class CloudVariableHelper {
 		}
 		return true;
 	}
+	/**
+	 *Split a Path
+	 *
+	 * @static
+	 * @param {string} path
+	 * @param {Out<string>} [ownerId=new Out()] out OwnerId
+	 * @param {Out<string>} [subpath=new Out()] out SubPath
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static SplitPath(
 		path: string,
 		ownerId: Out<string> = new Out(),
@@ -165,24 +232,75 @@ export class CloudVariableHelper {
 			return false;
 		}
 	}
+	/**
+	 *Does the permission Require the caller be the Definition Owner
+	 *
+	 * @static
+	 * @param {string} permission
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static RequiresDefinitionOwner(permission: string): boolean {
 		return permission.startsWith("definition_owner");
 	}
+	/**
+	 *Does the permission require the caller be the Variable Owner
+	 *
+	 * @static
+	 * @param {string} permission
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static RequiresVariableOwner(permission: string): boolean {
 		return permission.startsWith("variable_owner");
 	}
+	/**
+	 *Does the permission require the caller be a contact of the owner
+	 *
+	 * @static
+	 * @param {string} permission
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static TargetContactsOnly(permission: string): boolean {
 		return permission.includes("only_contacts");
 	}
+	/**
+	 *Does the permission require the caller is Contacts with the Definition Owner
+	 *
+	 * @static
+	 * @param {string} permission
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static TargetDefinitionOwnerOnly(permission: string): boolean {
 		return (
 			permission.includes("definition_owner_only") &&
 			!CloudVariableHelper.TargetContactsOnly(permission)
 		);
 	}
+	/**
+	 *Is the permission Public
+	 *
+	 * @static
+	 * @param {string} permission
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static AllowsPublicAccess(permission: string): boolean {
 		return permission == "anyone" || permission.endsWith("unsafe");
 	}
+	/**
+	 * @todo
+	 *
+	 * @static
+	 * @template T
+	 * @param {string} encodedValue
+	 * @param {(string | null)} type
+	 * @param {Out<T>} value
+	 * @returns {boolean}
+	 * @memberof CloudVariableHelper
+	 */
 	public static ParseValue<T>(
 		encodedValue: string,
 		type: string | null,

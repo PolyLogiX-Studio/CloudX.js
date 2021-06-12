@@ -1,3 +1,9 @@
+/**
+ *Asset Variant Entity Type
+ *
+ * @export
+ * @enum {number}
+ */
 export enum AssetVariantEntityType {
 	BitmapMetadata = "BitmapMetadata",
 	BitmapVariant = "BitmapVariant",

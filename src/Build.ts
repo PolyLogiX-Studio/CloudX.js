@@ -1,5 +1,11 @@
 import { List } from "@bombitmanbomb/utils";
 import { BuildChange, BuildChangeJSON } from "./BuildChange";
+/**
+ * Build Info
+ *
+ * @export
+ * @class Build
+ */
 export class Build {
 	public VersionNumber: string;
 	public AlternateVersionNumber: string;
@@ -29,6 +35,12 @@ export class Build {
 		};
 	}
 }
+/**
+ *Build Info JSON
+ *
+ * @export
+ * @interface BuildJSON
+ */
 export interface BuildJSON {
 	versionNumber: string;
 	alternateVersionNumber: string;

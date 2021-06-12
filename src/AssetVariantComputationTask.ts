@@ -1,4 +1,10 @@
 import type { AssetVariantEntityType } from "./AssetVariantEntityType";
+/**
+ *Asset Variant Computation Info
+ *
+ * @export
+ * @class AssetVariantComputationTask
+ */
 export class AssetVariantComputationTask {
 	AssetSignature: string;
 	VariantId: string;
@@ -18,6 +24,12 @@ export class AssetVariantComputationTask {
 		};
 	}
 }
+/**
+ *Asset Variant Computation Info JSON
+ *
+ * @export
+ * @interface AssetVariantComputationTaskJSON
+ */
 export interface AssetVariantComputationTaskJSON {
 	assetSignature: string;
 	variantId: string;

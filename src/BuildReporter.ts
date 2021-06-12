@@ -1,3 +1,9 @@
+/**
+ *Build Reporter
+ *
+ * @export
+ * @class BuildReporter
+ */
 export class BuildReporter {
 	public Username: string;
 	public NeosUserID: string;
@@ -18,6 +24,12 @@ export class BuildReporter {
 		};
 	}
 }
+/**
+ *Build Reporter JSON
+ *
+ * @export
+ * @interface BuildReporterJSON
+ */
 export interface BuildReporterJSON {
 	username: string;
 	neosUserID: string;

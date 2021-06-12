@@ -1,3 +1,8 @@
+/**
+ * @export
+ * @class AssetDiff
+ * @description Object for storing the Diff info of an Asset
+ */
 export class AssetDiff {
 	public Hash: string;
 	public Bytes: number;
@@ -27,6 +32,10 @@ export interface AssetDiffJSON {
 	state: Diff;
 	isUploaded?: boolean;
 }
+/**
+ *
+ * @enum {string} Diff
+ */
 enum Diff {
 	Added = "Added",
 	Unchanged = "Unchanged",

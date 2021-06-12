@@ -1,3 +1,9 @@
+/**
+ *Build Platform
+ *
+ * @export
+ * @enum {number}
+ */
 export enum BuildPlatform {
 	Windows_X64 = "Windows_X64",
 	Linux_x64 = "Linux_X64",

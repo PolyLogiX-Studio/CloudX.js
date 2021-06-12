@@ -68,12 +68,22 @@ import { CurrencyRates } from "./CurrencyRates";
 import { MessageManager } from "./MessageManager";
 import { TransactionManager } from "./TransactionManager";
 //Huge Class - Core Component
-
+/**
+ * Cloud Endpoint
+ * @export
+ * @enum {string}
+ */
 export enum CloudEndpoint {
 	Production = "Production",
 	Staging = "Staging",
 	Local = "Local",
 }
+/**
+ * CloudXInterface - Core Class
+ *
+ * @export
+ * @class CloudXInterface
+ */
 export class CloudXInterface {
 	public static DEBUG_REQUESTS = false;
 	public static DEFAULT_RETRIES = 10;
@@ -319,7 +329,7 @@ export class CloudXInterface {
 		this.HttpClient = new Http(null, {
 			ENDPOINT: CloudXInterface.NEOS_API,
 			DEBUG_REQUESTS: CloudXInterface.DEBUG_REQUESTS,
-			DefaultTimeout:null as unknown as number
+			DefaultTimeout: (null as unknown) as number,
 		});
 		//! SafeHttpClient uses 60000ms Timeout
 		this.SafeHttpClient = new Http(null, {
@@ -400,7 +410,7 @@ export class CloudXInterface {
 		this.RunMembershipsUpdated();
 	}
 	private async RunMembershipsUpdated(): Promise<void> {
-		if (this._groupMemberships.Count > 0){
+		if (this._groupMemberships.Count > 0) {
 			for (const groupMembership of this._groupMemberships)
 				await this.UpdateGroupInfo(groupMembership.GroupId);
 		}
@@ -723,8 +733,8 @@ export class CloudXInterface {
 		this.CurrentSession = (null as unknown) as UserSession;
 		this.CurrentUser = (null as unknown) as User;
 		this.PublicKey = new RSAParametersData({} as RSAParameters);
-		this.HttpClient._currentAuthenticationToken = null
-		this.SafeHttpClient._currentAuthenticationToken = null
+		this.HttpClient._currentAuthenticationToken = null;
+		this.SafeHttpClient._currentAuthenticationToken = null;
 		this.ClearMemberships();
 		this.Friends.Reset();
 		CloudXInterface.USE_CDN = true;
@@ -760,7 +770,7 @@ export class CloudXInterface {
 		const cachedRecords = this.chachedRecords.ReturnValue(
 			(r?.constructor?.name as string) ?? typeof r
 		);
-		cachedRecords.AddOrUpdate(recordUri.URL, cloudResult1, ()=>cloudResult1);
+		cachedRecords.AddOrUpdate(recordUri.URL, cloudResult1, () => cloudResult1);
 		return cloudResult1;
 	}
 

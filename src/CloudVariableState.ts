@@ -1,3 +1,9 @@
+/**
+ *Cloud Variable State
+ *
+ * @export
+ * @enum {string}
+ */
 export enum CloudVariableState {
 	Uninitialized = "Uninitialized",
 	ReadFromTheCloud = "ReadFromTheCloud",

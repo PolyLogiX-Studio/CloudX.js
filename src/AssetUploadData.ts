@@ -1,4 +1,9 @@
 import type { UploadState } from "./UploadState";
+/**
+ * Asset Upload Info
+ * @export
+ * @class AssetUploadData
+ */
 export class AssetUploadData {
 	public Signature: string;
 	public Variant: string;
@@ -28,6 +33,11 @@ export class AssetUploadData {
 		};
 	}
 }
+/**
+ * JSON Data for Asset Upload Data
+ * @export
+ * @interface AssetUploadDataJSON
+ */
 export interface AssetUploadDataJSON {
 	signature: string;
 	variant: string;
