@@ -41,8 +41,6 @@
 		"@types/uuid": "^8.3.0",
 		"@typescript-eslint/eslint-plugin": "^4.22.1",
 		"@typescript-eslint/parser": "^4.22.1",
-		"docdash": "^1.2.0",
-		"documentation": "^13.1.0",
 		"dotenv": "^8.6.0",
 		"eslint": "^7.12.1",
 		"eslint-plugin-jsdoc": "^33.1.0",
@@ -50,8 +48,9 @@
 		"jsdoc-tsimport-plugin": "^1.0.5",
 		"prettier": "^2.1.2",
 		"ts-jest": "^27.0.3",
-		"typescript": "^4.2.4",
-		"typescript-eslint": "^0.0.1-alpha.0"
+		"typescript": "^4.3.2",
+		"typescript-eslint": "^0.0.1-alpha.0",
+		"typedoc": "^0.20.36",
 	},
 	"engines": {
 		"node": ">=14.0.0"

@@ -1,6 +1,0 @@
-{
-	"source": {
-		"include": ["Plugins/", "./Neos.js", "API/"],
-		"exclude": ["docs/", "Tests/"]
-	}
-}
