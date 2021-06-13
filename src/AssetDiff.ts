@@ -14,7 +14,7 @@ export class AssetDiff {
 		this.State = $b.state;
 		this.IsUploaded = $b.isUploaded as boolean;
 	}
-	get Diff(): typeof Diff {
+	static get Diff(): typeof Diff {
 		return Diff;
 	}
 	toJSON(): AssetDiffJSON {
