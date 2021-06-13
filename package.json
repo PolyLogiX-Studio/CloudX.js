@@ -10,7 +10,7 @@
 		"document": "npx typedoc ./src",
 		"ready": "npm run document && npm run lint",
 		"build": "Del lib /S /Q && tsc",
-		"prepublish": "tsc"
+		"prepublishOnly": "tsc"
 	},
 	"repository": {
 		"type": "git",
