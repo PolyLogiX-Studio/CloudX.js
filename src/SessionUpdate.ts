@@ -15,7 +15,8 @@ export class SessionUpdate {
 	}
 	toJSON(): SessionUpdateJSON {
 		return {
-			hostedSessions: (this.HostedSessions?.toJSON() as unknown) as SessionInfoJSON[],
+			hostedSessions:
+				this.HostedSessions?.toJSON() as unknown as SessionInfoJSON[],
 			removedSessions: this.RemovedSessions?.toJSON(),
 		};
 	}

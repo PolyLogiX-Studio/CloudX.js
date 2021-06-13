@@ -32,7 +32,7 @@ export class BuildChange {
 			type: this.Type,
 			workInProgress: this.WorkInProgress,
 			githubIssueNumbers: this.GithubIssueNumbers?.toJSON(),
-			reporters: (this.Reporters?.toJSON() as unknown) as BuildReporterJSON[],
+			reporters: this.Reporters?.toJSON() as unknown as BuildReporterJSON[],
 		};
 	}
 }

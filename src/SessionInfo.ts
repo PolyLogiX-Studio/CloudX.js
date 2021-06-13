@@ -32,7 +32,7 @@ export class SessionInfo {
 		if (sessionId == null || sessionId.trim() == "") return false;
 		for (let index = 0; index < sessionId.length; index++) {
 			const c = sessionId[index];
-			if (isNaN((c as unknown) as number)) {
+			if (isNaN(c as unknown as number)) {
 				if (c.toLowerCase() != c.toUpperCase()) {
 					if (c > "\u007F") return false;
 				} else if (c != "-" && c != ":" && c != "_") return false;
@@ -58,10 +58,10 @@ export class SessionInfo {
 		const strArray = str1.split(".");
 		if (
 			strArray.length != 4 ||
-			!isNaN((strArray[0] as unknown) as number) ||
-			!isNaN((strArray[1] as unknown) as number) ||
-			!isNaN((strArray[2] as unknown) as number) ||
-			!isNaN((strArray[3] as unknown) as number)
+			!isNaN(strArray[0] as unknown as number) ||
+			!isNaN(strArray[1] as unknown as number) ||
+			!isNaN(strArray[2] as unknown as number) ||
+			!isNaN(strArray[3] as unknown as number)
 		)
 			return false;
 		const dateTime = new Date(new Date().getTime() + 1000 * 60 * 60);
@@ -132,7 +132,7 @@ export class SessionInfo {
 		return this.SessionURLs == null || this.SessionURLs.Count == 0;
 	}
 	public SetEnded(): void {
-		this.SessionURLs = (null as unknown) as List<string>;
+		this.SessionURLs = null as unknown as List<string>;
 	}
 	public CopyLAN_Data(source: SessionInfo): void {
 		this.LAN_URL = source.LAN_URL as string;
@@ -327,7 +327,7 @@ export class SessionInfo {
 			neosVersion: this.NeosVersion,
 			headlessHost: this.HeadlessHost,
 			sessionURLs: this.SessionURLs?.toJSON(),
-			sessionUsers: (this.SessionUsers?.toJSON() as unknown) as SessionUserJSON[],
+			sessionUsers: this.SessionUsers?.toJSON() as unknown as SessionUserJSON[],
 			thumbnail: this.Thumbnail,
 			joinedUsers: this.JoinedUsers,
 			activeUsers: this.ActiveUsers,

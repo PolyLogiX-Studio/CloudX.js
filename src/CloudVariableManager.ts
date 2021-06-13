@@ -9,10 +9,8 @@ import { CloudVariableDefinition } from "./CloudVariableDefinition";
 //TODO Need BatchQuery
 export class CloudVariableManager {
 	public Cloud: CloudXInterface;
-	private _variableProxies: Dictionary<
-		string,
-		CloudVariableProxy
-	> = new Dictionary(); // CloudVariableIdentity as string
+	private _variableProxies: Dictionary<string, CloudVariableProxy> =
+		new Dictionary(); // CloudVariableIdentity as string
 	private _changedVariables: CloudVariableProxy[] = [];
 	//private _readBatch:VariableReadBatchQuery
 	constructor(cloud: CloudXInterface) {

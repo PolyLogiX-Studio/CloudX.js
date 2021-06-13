@@ -37,20 +37,20 @@ export class User {
 		this.UsedBytes = $b.usedBytes;
 		this.IsVerified = $b.isVerified;
 		this.AccountBanExpiration = new Date(
-			(($b.accountBanExpiration as unknown) as string) ?? 0
+			($b.accountBanExpiration as unknown as string) ?? 0
 		);
 		this.PublicBanExpiration = new Date(
-			(($b.publicBanExpiration as unknown) as string) ?? 0
+			($b.publicBanExpiration as unknown as string) ?? 0
 		);
 		this.PublicBanType = $b.publicBanType as PublicBanType;
 		this.SpectatorBanExpiration = new Date(
-			(($b.spectatorBanExpiration as unknown) as string) ?? 0
+			($b.spectatorBanExpiration as unknown as string) ?? 0
 		);
 		this.MuteBanExpiration = new Date(
-			(($b.muteBanExpiration as unknown) as string) ?? 0
+			($b.muteBanExpiration as unknown as string) ?? 0
 		);
 		this.ListingBanExpiration = new Date(
-			(($b.listingBanExpiration as unknown) as string) ?? 0
+			($b.listingBanExpiration as unknown as string) ?? 0
 		);
 		this.Password = $b.password as string;
 		this.RecoverCode = $b.recoverCode as string;

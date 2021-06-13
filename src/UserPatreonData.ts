@@ -103,7 +103,7 @@ export class UserPatreonData {
 			this.UpdateMetadata();
 			return true;
 		}
-		snapshot.Out = (false as unknown) as PatreonSnapshot;
+		snapshot.Out = false as unknown as PatreonSnapshot;
 		return flag;
 	}
 	public FillSnapshot(snapshot: PatreonSnapshot): void {
@@ -154,7 +154,7 @@ export class UserPatreonData {
 			priorityIssue: this.PriorityIssue,
 			lastActivationTime: this.LastActivationTime,
 			lastPaidPledgeAmount: this.LastPaidPledgeAmount,
-			snapshots: (this.Snapshots?.toJSON() as unknown) as PatreonSnapshotJSON[],
+			snapshots: this.Snapshots?.toJSON() as unknown as PatreonSnapshotJSON[],
 		};
 	}
 }

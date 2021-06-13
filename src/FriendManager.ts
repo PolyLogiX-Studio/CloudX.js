@@ -54,13 +54,13 @@ export class FriendManager {
 	public GetFriend(friendId: string): Friend {
 		const friend: Out<Friend> = new Out();
 		if (this.friends.TryGetValue(friendId, friend)) return friend.Out as Friend;
-		return (null as unknown) as Friend;
+		return null as unknown as Friend;
 	}
 
 	public FindFriend(predicate: (friend: Friend) => boolean): Friend {
 		for (const friend of this.friends)
 			if (predicate(friend.Value)) return friend.Value;
-		return (null as unknown) as Friend;
+		return null as unknown as Friend;
 	}
 
 	public IsFriend(userId: string): boolean {

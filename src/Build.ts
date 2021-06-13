@@ -29,7 +29,7 @@ export class Build {
 		return {
 			versionNumber: this.VersionNumber,
 			alternateVersionNumber: this.AlternateVersionNumber,
-			changes: (this.Changes?.toJSON() as unknown) as BuildChangeJSON[],
+			changes: this.Changes?.toJSON() as unknown as BuildChangeJSON[],
 			knownIssues: this.KnownIssues?.toJSON(),
 			notes: this.Notes?.toJSON(),
 		};

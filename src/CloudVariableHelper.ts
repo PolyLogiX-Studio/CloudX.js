@@ -180,7 +180,7 @@ export class CloudVariableHelper {
 		if (path == null || path.trim() == "") return false;
 		for (let index = 0; index < path.length; index++) {
 			const c = path[index];
-			if (isNaN((c as unknown) as number)) {
+			if (isNaN(c as unknown as number)) {
 				switch (c) {
 				case "-":
 				case "_":
@@ -228,7 +228,7 @@ export class CloudVariableHelper {
 			subpath.Out = path.substr((separatorIndex.Out as number) + 1);
 			return true;
 		default:
-			ownerId.Out = (null as unknown) as string;
+			ownerId.Out = null as unknown as string;
 			return false;
 		}
 	}
@@ -330,7 +330,7 @@ export class CloudVariableHelper {
 		encodedValue: string
 	) => [boolean, T] {
 		return (a) => {
-			return [false, ("" as unknown) as T];
+			return [false, "" as unknown as T];
 		}; //TODO
 	}
 	public static IsValidValue(type: string, value: string): boolean {

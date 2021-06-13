@@ -31,7 +31,7 @@ export class RecordPreprocessStatus {
 			state: this.State,
 			progress: this.Progress,
 			failReason: this.FailReason,
-			resultDiffs: (this.ResultDiffs?.toJSON() as unknown) as AssetDiffJSON[],
+			resultDiffs: this.ResultDiffs?.toJSON() as unknown as AssetDiffJSON[],
 		};
 	}
 }

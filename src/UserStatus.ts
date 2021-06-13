@@ -27,13 +27,13 @@ export class UserStatus {
 	public get CurrentSession(): SessionInfo {
 		const activeSessions = this.ActiveSessions;
 		return activeSessions == null || activeSessions.length == 0
-			? ((null as unknown) as SessionInfo)
+			? (null as unknown as SessionInfo)
 			: activeSessions.find((s) => s.SessionId == this.CurrentSessionId);
 	}
 	public ActiveSessions: List<SessionInfo>;
 	public Sanatize(): void {
 		if (this.ActiveSessions != null && this.ActiveSessions.Count == 0)
-			this.ActiveSessions = (null as unknown) as List<SessionInfo>;
+			this.ActiveSessions = null as unknown as List<SessionInfo>;
 		if (this.OnlineStatus != OnlineStatus.Invisible) return;
 		this.OnlineStatus = OnlineStatus.Offline;
 	}
@@ -108,7 +108,8 @@ export class UserStatus {
 			publicRSAKey: this.PublicRSAKey?.toJSON(),
 			outputDevice: this.OutputDevice,
 			isMobile: this.IsMobile,
-			activeSessions: (this.ActiveSessions?.toJSON() as unknown) as SessionInfoJSON[],
+			activeSessions:
+				this.ActiveSessions?.toJSON() as unknown as SessionInfoJSON[],
 		};
 	}
 }

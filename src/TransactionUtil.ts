@@ -10,14 +10,14 @@ export class TransactionUtil {
 	}
 	public static DecodeTargetAddress(message: string): string {
 		const num = message.indexOf(TransactionUtil.TARGET_ADDRESS_PREFIX);
-		if (num < 0) return (null as unknown) as string;
+		if (num < 0) return null as unknown as string;
 		const str = message
 			.substr(num + TransactionUtil.TARGET_ADDRESS_PREFIX.length)
 			.trim();
-		if (str.length < 42) return (null as unknown) as string;
+		if (str.length < 42) return null as unknown as string;
 		const address = str.substr(0, 42);
 		return !TransactionUtil.IsValidAddress(address)
-			? ((null as unknown) as string)
+			? (null as unknown as string)
 			: address;
 	}
 	public static IsValidAddress(address: string): boolean {
