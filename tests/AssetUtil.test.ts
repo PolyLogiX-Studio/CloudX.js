@@ -3,10 +3,7 @@ import { Uri, Out } from '@bombitmanbomb/utils';
 test("Compute Version Included", () => {
   expect(AssetUtil.COMPUTE_VERSION).toBeGreaterThan(0)
 })
-test("Generate Hash Signature is NOT Null", () => {
-  expect(AssetUtil.GenerateHashSignature(__dirname + "\\AssetUtil.test.ts")).not.toBeNull()
-})
-test("Generate Hash Signature accepts Buffer", () => {
+test("Generate Hash Signatureis NOT Null", () => {
   expect(AssetUtil.GenerateHashSignature(Buffer.alloc(3))).not.toBeNull()
 })
 test("Generate URL creates a NeosDB Uri", () => {
