@@ -47,7 +47,7 @@ export class UserTags {
 	): Uri {
 		if (!badge.startsWith("custom badge:")) {
 			pointFiltering.Out = false;
-			return (null as unknown) as Uri;
+			return null as unknown as Uri;
 		}
 		badge = badge.substr("custom badge:".length).trim();
 		pointFiltering.Out = badge.includes(".point");
@@ -55,7 +55,7 @@ export class UserTags {
 	}
 
 	public static GetCustom3DBadge(badge: string): Uri {
-		if (!badge.startsWith("custom 3D badge:")) return (null as unknown) as Uri;
+		if (!badge.startsWith("custom 3D badge:")) return null as unknown as Uri;
 		badge = badge.substr("custom 3D badge:".length).trim();
 		return new Uri("neosrec:///" + badge.trim());
 	}

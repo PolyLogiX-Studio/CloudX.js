@@ -18,7 +18,7 @@ export class SearchResults<R extends IRecord> {
 	}
 	toJSON(): SearchResultsJSON<R> {
 		return {
-			records: (this.Records?.toJSON() as unknown) as R[],
+			records: this.Records?.toJSON() as unknown as R[],
 			hasMoreResults: this.HasMoreResults,
 		};
 	}

@@ -62,13 +62,13 @@ export class Record implements IRecord {
 				? $b.submissions
 				: $b.submissions != null
 					? (List.ToListAs($b.submissions, Submission) as List<Submission>)
-					: ((void 0 as unknown) as List<Submission>);
+					: (void 0 as unknown as List<Submission>);
 		this.NeosDBManifest =
 			$b.neosDBmanifest instanceof List
 				? $b.neosDBmanifest
 				: $b.neosDBmanifest != null
 					? (List.ToListAs($b.neosDBmanifest, NeosDBAsset) as List<NeosDBAsset>)
-					: ((void 0 as unknown) as List<NeosDBAsset>);
+					: (void 0 as unknown as List<NeosDBAsset>);
 	}
 	public get URI(): Uri {
 		return RecordHelper.GetUrl(this);
@@ -88,8 +88,8 @@ export class Record implements IRecord {
 	public ResetVersioning(): void {
 		this.LocalVersion = 0;
 		this.GlobalVersion = 0;
-		this.LastModifyingMachineId = (null as unknown) as string;
-		this.LastModifyingUserId = (null as unknown) as string;
+		this.LastModifyingMachineId = null as unknown as string;
+		this.LastModifyingUserId = null as unknown as string;
 	}
 	toJSON(): RecordJSON {
 		return {
@@ -115,8 +115,9 @@ export class Record implements IRecord {
 			firstPublishTime: this.FirstPublishTime as Date,
 			creationTime: this.CreationTime as Date,
 			lastModificationTime: this.LastModificationTime,
-			submissions: (this.Submissions?.toJSON() as unknown) as SubmissionJSON[],
-			neosDBmanifest: (this.NeosDBManifest?.toJSON() as unknown) as NeosDBAssetJSON[],
+			submissions: this.Submissions?.toJSON() as unknown as SubmissionJSON[],
+			neosDBmanifest:
+				this.NeosDBManifest?.toJSON() as unknown as NeosDBAssetJSON[],
 		};
 	}
 }

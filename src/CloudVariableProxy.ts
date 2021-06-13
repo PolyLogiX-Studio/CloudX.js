@@ -216,7 +216,7 @@ export class CloudVariableProxy {
 					this.State = CloudVariableState.ReadFromTheCloud;
 					if (num != 0) this.RunChangedEvent();
 				}
-				result = (null as unknown) as VariableReadResult<
+				result = null as unknown as VariableReadResult<
 					CloudVariable,
 					CloudVariableDefinition
 				>;

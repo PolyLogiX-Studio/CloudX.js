@@ -23,7 +23,7 @@ export class IdUtil {
 			for (const c of name) {
 				if (
 					c.toLowerCase() != c.toUpperCase() ||
-					!isNaN((c as unknown) as number)
+					!isNaN(c as unknown as number)
 				)
 					stringBuilder.Append(c);
 				if (c == " " || c == "_") stringBuilder.Append("-");

@@ -260,7 +260,7 @@ export class CloudXInterface {
 					"neos",
 					value.UserId + ":" + value.SessionToken
 				  )
-				: ((null as unknown) as AuthenticationHeaderValue);
+				: (null as unknown as AuthenticationHeaderValue);
 		this.OnSessionUpdated();
 		try {
 			const sessionChanged = this.SessionChanged;
@@ -329,7 +329,7 @@ export class CloudXInterface {
 		this.HttpClient = new Http(null, {
 			ENDPOINT: CloudXInterface.NEOS_API,
 			DEBUG_REQUESTS: CloudXInterface.DEBUG_REQUESTS,
-			DefaultTimeout: (null as unknown) as number,
+			DefaultTimeout: null as unknown as number,
 		});
 		//! SafeHttpClient uses 60000ms Timeout
 		this.SafeHttpClient = new Http(null, {
@@ -363,7 +363,8 @@ export class CloudXInterface {
 			10000
 		) {
 			(async () => {
-				const cloudResult: CloudResult<ServerStatistics> = await this.GetServerStatistics();
+				const cloudResult: CloudResult<ServerStatistics> =
+					await this.GetServerStatistics();
 				if (cloudResult.IsOK) {
 					this.ServerResponseTime = cloudResult.Entity.ResponseTimeMilliseconds;
 					this.LastServerUpdate = cloudResult.Entity.LastUpdate;
@@ -458,19 +459,19 @@ export class CloudXInterface {
 	}
 	public static NeosDBFilename(neosdb: Uri): string {
 		return neosdb.Segments.length < 2
-			? ((null as unknown) as string)
+			? (null as unknown as string)
 			: neosdb.Segments[1] + neosdb.Query
 				? neosdb.Query
 				: "";
 	}
 	public static NeosDBSignature(neosdb: Uri): string {
 		return neosdb.Segments.length < 2
-			? ((null as unknown) as string)
+			? (null as unknown as string)
 			: neosdb.Segments[1].substring(0, neosdb.Segments[1].lastIndexOf("."));
 	}
 	public static NeosDBQuery(neosdb: Uri): string {
 		return neosdb.Query == null || neosdb.Query.trim() == ""
-			? ((null as unknown) as string)
+			? (null as unknown as string)
 			: neosdb.Query.substr(1);
 	}
 	public static NeosThumbnailIdToHttp(id: string): Uri {
@@ -481,11 +482,11 @@ export class CloudXInterface {
 		);
 	}
 	public static TryFromString(url: string): Uri {
-		if (url == null) return (null as unknown) as Uri;
+		if (url == null) return null as unknown as Uri;
 		try {
 			return new Uri(url);
 		} catch (error) {
-			return (null as unknown) as Uri;
+			return null as unknown as Uri;
 		}
 	}
 	public static IsValidNeosDBUri(uri: Uri): boolean {
@@ -503,11 +504,11 @@ export class CloudXInterface {
 		timeout: TimeSpan | null = null,
 		throwOnError = true
 	): Promise<CloudResult<T>> {
-		return (this.HttpClient.GET(
+		return this.HttpClient.GET(
 			resource,
 			timeout,
 			throwOnError
-		) as unknown) as Promise<CloudResult<T>>;
+		) as unknown as Promise<CloudResult<T>>;
 	}
 	public POST<T>(
 		resource: string,
@@ -515,12 +516,12 @@ export class CloudXInterface {
 		timeout: TimeSpan | null = null,
 		throwOnError = true
 	): Promise<CloudResult<T>> {
-		return (this.HttpClient.POST(
+		return this.HttpClient.POST(
 			resource,
 			entity,
 			timeout,
 			throwOnError
-		) as unknown) as Promise<CloudResult<T>>;
+		) as unknown as Promise<CloudResult<T>>;
 	}
 	//TODO File Upload
 	/* 
@@ -538,12 +539,12 @@ export class CloudXInterface {
 		timeout: TimeSpan | null = null,
 		throwOnError = true
 	): Promise<CloudResult<T>> {
-		return (this.HttpClient.PUT(
+		return this.HttpClient.PUT(
 			resource,
 			entity,
 			timeout,
 			throwOnError
-		) as unknown) as Promise<CloudResult<T>>;
+		) as unknown as Promise<CloudResult<T>>;
 	}
 	public PATCH<T>(
 		resource: string,
@@ -551,23 +552,23 @@ export class CloudXInterface {
 		timeout: TimeSpan | null = null,
 		throwOnError = true
 	): Promise<CloudResult<T>> {
-		return (this.HttpClient.PATCH(
+		return this.HttpClient.PATCH(
 			resource,
 			entity,
 			timeout,
 			throwOnError
-		) as unknown) as Promise<CloudResult<T>>;
+		) as unknown as Promise<CloudResult<T>>;
 	}
 	public DELETE<T>(
 		resource: string,
 		timeout: TimeSpan | null = null,
 		throwOnError = true
 	): Promise<CloudResult<unknown>> {
-		return (this.HttpClient.DELETE(
+		return this.HttpClient.DELETE(
 			resource,
 			timeout,
 			throwOnError
-		) as unknown) as Promise<CloudResult<T>>;
+		) as unknown as Promise<CloudResult<T>>;
 	}
 	public async Login(
 		credential: string,
@@ -620,8 +621,10 @@ export class CloudXInterface {
 		if (result.IsOK) {
 			this.CurrentSession = result.Entity;
 			this._currentAuthenticationHeader;
-			this.HttpClient._currentAuthenticationToken = this._currentAuthenticationHeader.Authorization;
-			this.SafeHttpClient._currentAuthenticationToken = this._currentAuthenticationHeader.Authorization;
+			this.HttpClient._currentAuthenticationToken =
+				this._currentAuthenticationHeader.Authorization;
+			this.SafeHttpClient._currentAuthenticationToken =
+				this._currentAuthenticationHeader.Authorization;
 			this.HttpClient._currentAuthenticationHeader = "Authorization";
 			this.SafeHttpClient._currentAuthenticationHeader = "Authorization";
 			this.CurrentUser = new User({
@@ -651,12 +654,12 @@ export class CloudXInterface {
 		return (
 			await this.POST<User>(
 				"/api/users",
-				new User(({
+				new User({
 					username,
 					email,
 					password,
 					uniqueDeviceIDs: deviceId ? List.ToList([deviceId]) : null,
-				} as unknown) as UserJSON)
+				} as unknown as UserJSON)
 			)
 		).Convert<User>(User);
 	}
@@ -730,8 +733,8 @@ export class CloudXInterface {
 				);
 			})();
 		}
-		this.CurrentSession = (null as unknown) as UserSession;
-		this.CurrentUser = (null as unknown) as User;
+		this.CurrentSession = null as unknown as UserSession;
+		this.CurrentUser = null as unknown as User;
 		this.PublicKey = new RSAParametersData({} as RSAParameters);
 		this.HttpClient._currentAuthenticationToken = null;
 		this.SafeHttpClient._currentAuthenticationToken = null;
@@ -747,7 +750,7 @@ export class CloudXInterface {
 		R: R
 	): Promise<CloudResult<R>> {
 		const dictionary: Out<Dictionary<string, CloudResult<R>>> = new Out();
-		const r = (R as unknown) as Constructable<R>;
+		const r = R as unknown as Constructable<R>;
 		if (
 			!this.chachedRecords.TryGetValue(
 				(r?.constructor?.name as string) ?? typeof R,
@@ -1131,9 +1134,8 @@ export class CloudXInterface {
 		return cloudResult;
 	}
 	public async UpdateCurrentUserMemberships(): Promise<CloudResult<unknown>> {
-		const groupMemberships: CloudResult<
-			List<Membership>
-		> = await this.GetUserGroupMemberships();
+		const groupMemberships: CloudResult<List<Membership>> =
+			await this.GetUserGroupMemberships();
 		if (groupMemberships.IsOK) this.SetMemberships(groupMemberships.Entity);
 		return groupMemberships;
 	}

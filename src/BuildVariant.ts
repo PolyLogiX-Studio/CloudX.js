@@ -28,7 +28,7 @@ export class BuildVariant {
 			platform: this.Platform,
 			runtime: this.Runtime,
 			packageSignature: this.PackageSignature,
-			files: (this.Files?.toJSON() as unknown) as BuildFileJSON[],
+			files: this.Files?.toJSON() as unknown as BuildFileJSON[],
 		};
 	}
 }

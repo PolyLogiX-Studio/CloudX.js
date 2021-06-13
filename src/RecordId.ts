@@ -17,8 +17,8 @@ export class RecordId {
 		} else if ($b != null) {
 			this.RecordId($b.ownerId, $b.recordId);
 		} else {
-			this.OwnerId = (null as unknown) as string;
-			this.Id = (null as unknown) as string;
+			this.OwnerId = null as unknown as string;
+			this.Id = null as unknown as string;
 		}
 	}
 	public get IsValid(): boolean {
@@ -61,13 +61,13 @@ export class RecordId {
 			return recordId.Out != null;
 		} else {
 			if (compositeId == null || compositeId.trim() == "")
-				return (null as unknown) as RecordId;
+				return null as unknown as RecordId;
 			const length = compositeId.indexOf(":");
-			if (length < 0) return (null as unknown) as RecordId;
+			if (length < 0) return null as unknown as RecordId;
 			const ownerId = compositeId.substr(0, length);
 			const str = compositeId.substr(length + 1);
 			return !RecordId.IsValidId(ownerId, str)
-				? ((null as unknown) as RecordId)
+				? (null as unknown as RecordId)
 				: new RecordId(ownerId, str);
 		}
 	}

@@ -58,14 +58,14 @@ export class SearchParameters {
 		if (this.ExtraSignatures != null) {
 			this.ExtraSignatures.sort();
 			if (this.ExtraSignatures.Count == 0)
-				this.ExtraSignatures = (null as unknown) as List<string>;
+				this.ExtraSignatures = null as unknown as List<string>;
 		}
 		this._isNormalized = true;
 	}
 	private NormalizeTags(tags: List<string>): List<string> {
 		if (tags != null) {
 			tags.sort();
-			if (tags.Count == 0) return (null as unknown) as List<string>;
+			if (tags.Count == 0) return null as unknown as List<string>;
 		}
 		return tags;
 	}

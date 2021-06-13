@@ -13,7 +13,8 @@ export class HubPatrons {
 	toJSON(): HubPatronsJSON {
 		return {
 			"patron-names": this.PatronNames?.toJSON(),
-			"patron-pictures": (this.PatronPictures?.toJSON() as unknown) as PicturePatreonJSON[],
+			"patron-pictures":
+				this.PatronPictures?.toJSON() as unknown as PicturePatreonJSON[],
 		};
 	}
 }
