@@ -35,6 +35,6 @@ export class CloudVariableManager {
 	}
 	public RegisterChanged(proxy: CloudVariableProxy): void {
 		//TODO
-		return
+		return;
 	}
 }
