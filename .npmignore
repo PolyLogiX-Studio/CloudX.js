@@ -21,3 +21,4 @@ inch.json
 .jsdoc.json
 src/
 external/
+tests/
