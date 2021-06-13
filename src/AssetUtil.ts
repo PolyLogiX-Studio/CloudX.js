@@ -81,7 +81,7 @@ export class AssetUtil {
 	 * @returns {string} Identifier
 	 * @memberof AssetUtil
 	 */
-	public static ComposeIdentifier(signature: string, variant: string): string {
+	public static ComposeIdentifier(signature: string, variant?: string): string {
 		return variant == null || variant.trim() == ""
 			? signature
 			: signature + "&" + variant;
