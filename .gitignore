@@ -9,3 +9,4 @@ lib/
 dist/
 Local/
 pnpm-lock.yaml
+coverage/
