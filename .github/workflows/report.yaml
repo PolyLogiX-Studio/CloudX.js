@@ -1,4 +1,4 @@
-name: Unit Testing
+name: Unit Testing & Reporting
 on: push
 jobs:
   build:
@@ -11,3 +11,5 @@ jobs:
       run: npm run test
     - name: Upload
       run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/clover.xml
+      env: 
+        CODACY_PROJECT_TOKEN: ${secrets.CODACY_PROJECT_TOKEN}
