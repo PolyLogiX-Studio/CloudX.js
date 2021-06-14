@@ -3,7 +3,7 @@
 [![wakatime](https://wakatime.com/badge/github/PolyLogiX-Studio/CloudX.js.svg)](https://wakatime.com/badge/github/PolyLogiX-Studio/CloudX.js) [![Build Status](https://travis-ci.com/PolyLogiX-Studio/CloudX.js.svg?branch=main)](https://travis-ci.com/PolyLogiX-Studio/CloudX.js)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5f6d3114ad054267a8805014874f38f9)](https://www.codacy.com/gh/PolyLogiX-Studio/CloudX.js/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PolyLogiX-Studio/CloudX.js&amp;utm_campaign=Badge_Grade)
 
-This library is the main interface for NeosVR's CloudX API.
+This library is the main interface for NeosVR's CloudX API. 
 
 Required Dependency for [Neos.JS](https://github.com/PolyLogiX-Studio/Neos.js)
 
