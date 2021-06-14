@@ -1,0 +1,2 @@
+# CloudX.js
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf33d703deae4dd5975f88ad1e556676)](https://app.codacy.com/gh/PolyLogiX-Studio/CloudX.js?utm_source=github.com&utm_medium=referral&utm_content=PolyLogiX-Studio/CloudX.js&utm_campaign=Badge_Grade_Settings)
