@@ -9,8 +9,8 @@ export class ComputationLock {
 	public Token: string;
 	public ExpireTimestamp: Date;
 	constructor($b: Partial<ComputationLockJSON> = {} as ComputationLockJSON) {
-		this.Token = $b.token ?? uuidv4() as string;
-		this.ExpireTimestamp = $b.timestamp ?? new Date;
+		this.Token = $b.token ?? (uuidv4() as string);
+		this.ExpireTimestamp = $b.timestamp ?? new Date();
 	}
 	public get IsLocked(): boolean {
 		return (
