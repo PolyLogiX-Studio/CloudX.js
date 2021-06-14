@@ -9,10 +9,6 @@ notifications:
 jobs:
   include:
     - stage: Compile and Test
-      script: npm run test
-      # Upload
-    - stage: Coverage Reporting 
-      script: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/clover.xml
+      script: npm run test && bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/clover.xml
 stages:
   - Compile and Test
-  - Coverage Reporting 
