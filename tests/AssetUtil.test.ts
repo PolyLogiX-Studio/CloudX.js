@@ -3,7 +3,7 @@ import { Uri, Out } from '@bombitmanbomb/utils';
 test("Compute Version Included", () => {
   expect(AssetUtil.COMPUTE_VERSION).toBeGreaterThan(0)
 })
-describe("Asset Hashing", ()=>{
+describe("Asset Hashing", () => {
   test("Generate Hash Signature is NOT Null", () => {
     expect(AssetUtil.GenerateHashSignature(Buffer.alloc(3))).not.toBeNull()
   })
@@ -18,7 +18,7 @@ test("Generate URL creates a NeosDB Uri", () => {
   const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", "jpg")
   expect(Url.URL).toBe("neosdb:///DkjHdkjHd33qdhIdhkeHDk83he.jpg")
 })
-describe("Extract Signature", ()=>{
+describe("Extract Signature", () => {
   test("Extract Signature from Uri", () => {
     const extension: Out<string> = new Out
     const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", ".jpg")
@@ -27,12 +27,16 @@ describe("Extract Signature", ()=>{
     expect(extension.Out).toBe(".jpg")
   })
   test("Extract Signature from Invalid Uri", () => {
-  const extension: Out<string> = new Out
-  const Url = new Uri("https://google.com") //! Invalid
-  expect(()=>{AssetUtil.ExtractSignature(Url, extension)}).toThrow()
+    const extension: Out<string> = new Out
+    const Url = new Uri("https://google.com") //! Invalid
+    expect(() => { AssetUtil.ExtractSignature(Url, extension) }).toThrow()
+  })
 })
+test("Extract Signature no Out",()=>{
+  const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", ".jpg")
+  let signature = AssetUtil.ExtractSignature(Url)
+  expect(signature).toBe("DkjHdkjHd33qdhIdhkeHDk83he")
 })
-
 test("Compose Identifier", () => {
   expect(AssetUtil.ComposeIdentifier("Testing")).toBe("Testing")
   expect(AssetUtil.ComposeIdentifier("Testing", "")).toBe("Testing")

@@ -1,16 +1,21 @@
 import { TimeSpan } from "@bombitmanbomb/utils";
 import { v4 as uuidv4 } from "uuid";
+/**
+ *
+ * @export
+ * @class ComputationLock
+ */
 export class ComputationLock {
 	public Token: string;
 	public ExpireTimestamp: Date;
-	constructor($b: ComputationLockJSON = {} as ComputationLockJSON) {
-		this.Token = $b.token;
-		this.ExpireTimestamp = $b.timestamp;
+	constructor($b: Partial<ComputationLockJSON> = {} as ComputationLockJSON) {
+		this.Token = $b.token ?? uuidv4() as string;
+		this.ExpireTimestamp = $b.timestamp ?? new Date;
 	}
 	public get IsLocked(): boolean {
 		return (
 			!(this.Token == null || this.Token.trim() == "") &&
-			new Date() > this.ExpireTimestamp
+			new Date() < this.ExpireTimestamp
 		);
 	}
 	public TryLock(duration: TimeSpan): boolean {
@@ -35,6 +40,6 @@ export class ComputationLock {
 	}
 }
 export interface ComputationLockJSON {
-	token: string;
+	token?: string;
 	timestamp: Date;
 }
