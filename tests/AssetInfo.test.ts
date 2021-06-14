@@ -11,3 +11,6 @@ const json: AssetInfoJSON = {
 test("Serialize", () => {
   expect(new AssetInfo(json).toJSON()).toEqual(json)
 })
+test("BuildEmpty", ()=>{
+  expect(new AssetInfo).not.toBeNull()
+})

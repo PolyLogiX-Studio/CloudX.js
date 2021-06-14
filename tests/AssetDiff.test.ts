@@ -8,3 +8,7 @@ const json: AssetDiffJSON = {
 test("Serialization", () => {
   expect(new AssetDiff(json).toJSON()).toEqual(json)
 })
+
+test("Build From Null",()=>{
+  expect(()=>new AssetDiff()).not.toThrow()
+})
