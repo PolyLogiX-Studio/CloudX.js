@@ -64,9 +64,8 @@ export class AssetUtil {
 	 * @returns {string} Url without signature
 	 * @memberof AssetUtil
 	 */
-	public static ExtractSignature(uri: Uri, extension?: Out<string>): string {
-		if (extension == null) return AssetUtil.ExtractSignature(uri, new Out());
-		if (uri.Scheme != "neosdb") throw Error("Not a NeosDB URI");
+	public static ExtractSignature(uri: Uri, extension: Out<string> = []): string {
+		if (uri?.Scheme != "neosdb") throw new Error("Not a NeosDB URI");
 		const segment: string = uri.Segments[1];
 		const match = segment.match(/\.[a-zA-Z0-9]+$/);
 		if (match) extension.Out = match[0];

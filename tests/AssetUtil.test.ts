@@ -3,20 +3,36 @@ import { Uri, Out } from '@bombitmanbomb/utils';
 test("Compute Version Included", () => {
   expect(AssetUtil.COMPUTE_VERSION).toBeGreaterThan(0)
 })
-test("Generate Hash Signatureis NOT Null", () => {
-  expect(AssetUtil.GenerateHashSignature(Buffer.alloc(3))).not.toBeNull()
+describe("Asset Hashing", ()=>{
+  test("Generate Hash Signature is NOT Null", () => {
+    expect(AssetUtil.GenerateHashSignature(Buffer.alloc(3))).not.toBeNull()
+  })
+  test("Generate Hash Signature from File", () => {
+    expect(AssetUtil.GenerateHashSignature(__filename)).not.toBeNull()
+  })
+  test("Generate Hash Signature with null and Error", () => {
+    expect(AssetUtil.GenerateHashSignature).toThrow()
+  })
 })
 test("Generate URL creates a NeosDB Uri", () => {
-  const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", ".jpg")
+  const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", "jpg")
   expect(Url.URL).toBe("neosdb:///DkjHdkjHd33qdhIdhkeHDk83he.jpg")
 })
-test("Extract Signature from Uri", () => {
+describe("Extract Signature", ()=>{
+  test("Extract Signature from Uri", () => {
+    const extension: Out<string> = new Out
+    const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", ".jpg")
+    let signature = AssetUtil.ExtractSignature(Url, extension)
+    expect(signature).toBe("DkjHdkjHd33qdhIdhkeHDk83he")
+    expect(extension.Out).toBe(".jpg")
+  })
+  test("Extract Signature from Invalid Uri", () => {
   const extension: Out<string> = new Out
-  const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", ".jpg")
-  let signature = AssetUtil.ExtractSignature(Url, extension)
-  expect(signature).toBe("DkjHdkjHd33qdhIdhkeHDk83he")
-  expect(extension.Out).toBe(".jpg")
+  const Url = new Uri("https://google.com") //! Invalid
+  expect(()=>{AssetUtil.ExtractSignature(Url, extension)}).toThrow()
 })
+})
+
 test("Compose Identifier", () => {
   expect(AssetUtil.ComposeIdentifier("Testing")).toBe("Testing")
   expect(AssetUtil.ComposeIdentifier("Testing", "")).toBe("Testing")
