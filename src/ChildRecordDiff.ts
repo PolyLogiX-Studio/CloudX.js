@@ -2,6 +2,16 @@ import { RecordId, RecordIdJSON } from "./RecordId";
 import type { RecordInfoJSON } from "./RecordInfo";
 import { RecordInfo } from "./RecordInfo";
 /**
+ *Record Operation
+ *
+ * @enum {number}
+ */
+ enum RecordInfoOperation {
+	Upsert = "Upsert",
+	Remove = "Remove",
+}
+
+/**
  *Child Record Diff Object
  *
  * @export
@@ -32,7 +42,7 @@ export class ChildRecordDiff {
 			recordInfo: this.RecordInfo?.toJSON() as RecordInfoJSON,
 		};
 	}
-	public RecordInfoOperation: typeof RecordInfoOperation = RecordInfoOperation;
+	public static RecordInfoOperation: typeof RecordInfoOperation = RecordInfoOperation;
 }
 /**
  *Child Record Diff JSON
@@ -45,13 +55,4 @@ export interface ChildRecordDiffJSON {
 	created: Date;
 	parentRecord: RecordIdJSON;
 	recordInfo: RecordInfoJSON;
-}
-/**
- *Record Operation
- *
- * @enum {number}
- */
-enum RecordInfoOperation {
-	Upsert = "Upsert",
-	Remove = "Remove",
 }
