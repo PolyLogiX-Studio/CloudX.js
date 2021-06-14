@@ -11,6 +11,7 @@ jobs:
     - stage: Compile and Test
       script: npm run test
       # Upload
+    - stage: Coverage Reporting 
       script: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/clover.xml
 stages:
   - Compile and Test
