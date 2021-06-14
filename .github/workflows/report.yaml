@@ -1,0 +1,13 @@
+name: Unit Testing
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install modules
+      run: npm i
+    - name: Run tests
+      run: npm run test
+    - name: Upload
+      run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/clover.xml
