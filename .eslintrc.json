@@ -17,7 +17,7 @@
 	},
 	"rules": {
 		"indent": ["error", "tab"],
-		"linebreak-style": ["error", "windows"],
+		"linebreak-style": "off",
 		"quotes": ["error", "double"],
 		"semi": ["error", "always"],
 		"no-mixed-spaces-and-tabs": "off",
