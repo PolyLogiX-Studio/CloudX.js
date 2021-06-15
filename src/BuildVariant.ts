@@ -33,7 +33,7 @@ export class BuildVariant {
 	}
 }
 /**
- *Build Variant Info JSON 
+ *Build Variant Info JSON
  *
  * @export
  * @interface BuildVariantJSON
