@@ -6,7 +6,7 @@ import { RecordInfo } from "./RecordInfo";
  *
  * @enum {number}
  */
- enum RecordInfoOperation {
+enum RecordInfoOperation {
 	Upsert = "Upsert",
 	Remove = "Remove",
 }
@@ -42,7 +42,8 @@ export class ChildRecordDiff {
 			recordInfo: this.RecordInfo?.toJSON() as RecordInfoJSON,
 		};
 	}
-	public static RecordInfoOperation: typeof RecordInfoOperation = RecordInfoOperation;
+	public static RecordInfoOperation: typeof RecordInfoOperation =
+		RecordInfoOperation;
 }
 /**
  *Child Record Diff JSON

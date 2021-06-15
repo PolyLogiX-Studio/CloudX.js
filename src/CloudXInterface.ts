@@ -345,7 +345,7 @@ export class CloudXInterface {
 		//this.Variables = new CloudVariableManager(this); //TODO Variables
 		this.Friends = new FriendManager(this);
 		this.Messages = new MessageManager(this);
-		//this.Transactions = new TransactionManager(this); //TODO Transaction Manager
+		this.Transactions = new TransactionManager(this);
 		//this.GitHub = new GitHubClient(new Octokit.ProductHeaderValue(userAgentProduct)); //TODO GithubClient
 	}
 	public Update(): void {
@@ -1223,8 +1223,11 @@ export class CloudXInterface {
 			)}/${ownerId}/vardefs/${subpath}`
 		);
 	}
-	public async ReadGlobalVariable<T>(path: string): Promise<CloudResult<T>> {
-		return await this.ReadVariable<T>("GLOBAL", path);
+	public async ReadGlobalVariable<T>(
+		path: string,
+		type: string | null = null
+	): Promise<CloudResult<T>> {
+		return await this.ReadVariable<T>("GLOBAL", path, type);
 	}
 
 	public async ReadVariableBatch(
@@ -1254,7 +1257,8 @@ export class CloudXInterface {
 
 	public async ReadVariable<T>(
 		ownerId: string,
-		path: string
+		path: string,
+		type: string | null = null
 	): Promise<CloudResult<T>> {
 		let resource = "";
 		if (ownerId == "GLOBAL") resource = "api/globalvars/" + path;
@@ -1273,7 +1277,7 @@ export class CloudXInterface {
 				const result: Out<T> = new Out();
 				CloudVariableHelper.ParseValue<T>(
 					cloudResult.Entity.Value,
-					null,
+					type,
 					result
 				);
 				return new CloudResult<T>(

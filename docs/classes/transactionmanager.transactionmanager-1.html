@@ -86,6 +86,23 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#cdftconversionratio" class="tsd-kind-icon">CDFTConversion<wbr>Ratio</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#cloud" class="tsd-kind-icon">Cloud</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#ncrconversionratio" class="tsd-kind-icon">NCRConversion<wbr>Ratio</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#isvalidtoken" class="tsd-kind-icon">Is<wbr>Valid<wbr>Token</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="transactionmanager.transactionmanager-1.html#loadconversiondata" class="tsd-kind-icon">Load<wbr>Conversion<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#tousd" class="tsd-kind-icon">ToUSD</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="transactionmanager.transactionmanager-1.html#tryconvert" class="tsd-kind-icon">Try<wbr>Convert</a></li>
+							</ul>
+						</section>
 					</div>
 				</section>
 			</section>
@@ -95,13 +112,153 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Transaction<wbr>Manager<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="transactionmanager.transactionmanager-1.html" class="tsd-signature-type" data-tsd-kind="Class">TransactionManager</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Transaction<wbr>Manager<span class="tsd-signature-symbol">(</span>cloud<span class="tsd-signature-symbol">: </span><a href="cloudxinterface.cloudxinterface-1.html" class="tsd-signature-type" data-tsd-kind="Class">CloudXInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="transactionmanager.transactionmanager-1.html" class="tsd-signature-type" data-tsd-kind="Class">TransactionManager</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L7">TransactionManager.ts:7</a></li>
+								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>cloud: <a href="cloudxinterface.cloudxinterface-1.html" class="tsd-signature-type" data-tsd-kind="Class">CloudXInterface</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="transactionmanager.transactionmanager-1.html" class="tsd-signature-type" data-tsd-kind="Class">TransactionManager</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="cdftconversionratio" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> CDFTConversion<wbr>Ratio</h3>
+					<div class="tsd-signature tsd-kind-icon">CDFTConversion<wbr>Ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L7">TransactionManager.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="cloud" class="tsd-anchor"></a>
+					<h3>Cloud</h3>
+					<div class="tsd-signature tsd-kind-icon">Cloud<span class="tsd-signature-symbol">:</span> <a href="cloudxinterface.cloudxinterface-1.html" class="tsd-signature-type" data-tsd-kind="Class">CloudXInterface</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L5">TransactionManager.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="ncrconversionratio" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> NCRConversion<wbr>Ratio</h3>
+					<div class="tsd-signature tsd-kind-icon">NCRConversion<wbr>Ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L6">TransactionManager.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isvalidtoken" class="tsd-anchor"></a>
+					<h3>Is<wbr>Valid<wbr>Token</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">Is<wbr>Valid<wbr>Token<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L74">TransactionManager.ts:74</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>token: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="loadconversiondata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> Load<wbr>Conversion<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">Load<wbr>Conversion<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L11">TransactionManager.ts:11</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tousd" class="tsd-anchor"></a>
+					<h3>ToUSD</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">ToUSD<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L77">TransactionManager.ts:77</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>token: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tryconvert" class="tsd-anchor"></a>
+					<h3>Try<wbr>Convert</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">Try<wbr>Convert<span class="tsd-signature-symbol">(</span>sourceToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, sourceAmount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, targetToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/19605e7/src/TransactionManager.ts#L39">TransactionManager.ts:39</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sourceToken: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>sourceAmount: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>targetToken: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -128,6 +285,27 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="transactionmanager.transactionmanager-1.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="transactionmanager.transactionmanager-1.html#cdftconversionratio" class="tsd-kind-icon">CDFTConversion<wbr>Ratio</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="transactionmanager.transactionmanager-1.html#cloud" class="tsd-kind-icon">Cloud</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="transactionmanager.transactionmanager-1.html#ncrconversionratio" class="tsd-kind-icon">NCRConversion<wbr>Ratio</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="transactionmanager.transactionmanager-1.html#isvalidtoken" class="tsd-kind-icon">Is<wbr>Valid<wbr>Token</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="transactionmanager.transactionmanager-1.html#loadconversiondata" class="tsd-kind-icon">Load<wbr>Conversion<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="transactionmanager.transactionmanager-1.html#tousd" class="tsd-kind-icon">ToUSD</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="transactionmanager.transactionmanager-1.html#tryconvert" class="tsd-kind-icon">Try<wbr>Convert</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -145,6 +323,8 @@
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
@@ -155,6 +335,9 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 		</div>
 	</div>
