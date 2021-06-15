@@ -3,7 +3,7 @@ import { List } from "@bombitmanbomb/utils";
 export class SessionUpdate {
 	public HostedSessions: List<SessionInfo>;
 	public RemovedSessions: List<string>;
-	constructor($b: SessionUpdateJSON) {
+	constructor($b: SessionUpdateJSON = {} as SessionUpdateJSON) {
 		this.HostedSessions =
 			$b.hostedSessions instanceof List
 				? $b.hostedSessions
