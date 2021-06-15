@@ -4,4 +4,4 @@
  * @export
  * @class BatchQuery
  */
-export class BatchQuery {} //TODO Batch Query
+export class BatchQuery<Query, Result> {} //TODO Batch Query
