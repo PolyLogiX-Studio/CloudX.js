@@ -129,7 +129,7 @@ export class CloudXInterface {
 	private static get JSON_MEDIA_TYPE() {
 		return { "Content-Type": "application/json; charset=UTF-8" };
 	}
-	public chachedRecords: Dictionary<
+	public cachedRecords: Dictionary<
 		string,
 		Dictionary<string, CloudResult<unknown>>
 	> = new Dictionary();
@@ -752,13 +752,13 @@ export class CloudXInterface {
 		const dictionary: Out<Dictionary<string, CloudResult<R>>> = new Out();
 		const r = R as unknown as Constructable<R>;
 		if (
-			!this.chachedRecords.TryGetValue(
+			!this.cachedRecords.TryGetValue(
 				(r?.constructor?.name as string) ?? typeof R,
 				dictionary
 			)
 		) {
 			dictionary.Out = new Dictionary();
-			this.chachedRecords.Add(
+			this.cachedRecords.Add(
 				(r?.constructor?.name as string) ?? typeof r,
 				dictionary.Out
 			);
@@ -770,7 +770,7 @@ export class CloudXInterface {
 			recordUri,
 			accessKey as string
 		);
-		const cachedRecords = this.chachedRecords.ReturnValue(
+		const cachedRecords = this.cachedRecords.ReturnValue(
 			(r?.constructor?.name as string) ?? typeof r
 		);
 		cachedRecords.AddOrUpdate(recordUri.URL, cloudResult1, () => cloudResult1);
