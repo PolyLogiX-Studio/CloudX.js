@@ -9,7 +9,7 @@ export class SessionInfo {
 	public static MAX_TAG_LENGTH = 128;
 	public static MAX_TAGS = 256;
 	public static MAX_PARENT_SESSION_IDS = 16;
-  public static MAX_NESTED_SESSION_IDS = 256
+	public static MAX_NESTED_SESSION_IDS = 256;
 	public static MAX_ID_LENGTH = 128;
 	public static MAX_URL_LENGTH = 256;
 	public SessionInfo(sessionId?: string): void {
@@ -95,13 +95,13 @@ export class SessionInfo {
 	public CompatibilityHash: string;
 	public UniverseId: string;
 	public NeosVersion: string;
-	public ParentSessionIds: List<string>
-	public NestedSessionIds: List<string>
+	public ParentSessionIds: List<string>;
+	public NestedSessionIds: List<string>;
 	public HeadlessHost: boolean;
 	public SessionURLs: List<string>;
 	public SessionUsers: List<SessionUser>;
-	public TotalJoinedUsers: number
-	public TotalActiveUsers: number
+	public TotalJoinedUsers: number;
+	public TotalActiveUsers: number;
 	public get GetSessionURLs(): List<Uri> {
 		const temp = List.ToList([
 			...this.SessionURLs.filter((str: string) => {
@@ -299,14 +299,14 @@ export class SessionInfo {
 		this.UniverseId = $b.universeId;
 		this.NeosVersion = $b.neosVersion;
 		this.HeadlessHost = $b.headlessHost;
-		this.TotalActiveUsers = $b.totalActiveUsers
-		this.TotalJoinedUsers = $b.totalJoinedUsers
+		this.TotalActiveUsers = $b.totalActiveUsers;
+		this.TotalJoinedUsers = $b.totalJoinedUsers;
 		this.ParentSessionIds =
 			$b.parentSessionIds instanceof List
 				? $b.parentSessionIds
 				: List.ToList($b.parentSessionIds);
-				this.NestedSessionIds =
-		$b.nestedSessionIds instanceof List
+		this.NestedSessionIds =
+			$b.nestedSessionIds instanceof List
 				? $b.nestedSessionIds
 				: List.ToList($b.nestedSessionIds);
 		this.SessionURLs =
@@ -349,8 +349,8 @@ export class SessionInfo {
 			thumbnail: this.Thumbnail,
 			joinedUsers: this.JoinedUsers,
 			activeUsers: this.ActiveUsers,
-			totalJoinedUsers:this.TotalJoinedUsers,
-			totalActiveUsers:this.TotalActiveUsers,
+			totalJoinedUsers: this.TotalJoinedUsers,
+			totalActiveUsers: this.TotalActiveUsers,
 			maxUsers: this.MaximumUsers,
 			mobileFriendly: this.MobileFriendly,
 			sessionBeginTime: this.SessionBeginTime,
@@ -374,15 +374,15 @@ export interface SessionInfoJSON {
 	universeId: string;
 	neosVersion: string;
 	headlessHost: boolean;
-	parentSessionIds: string[],
-	nestedSessionIds: string[]
+	parentSessionIds: string[];
+	nestedSessionIds: string[];
 	sessionURLs: string[];
 	sessionUsers: SessionUserJSON[];
 	thumbnail: string;
 	joinedUsers: number;
 	activeUsers: number;
-	totalJoinedUsers:number
-	totalActiveUsers:number
+	totalJoinedUsers: number;
+	totalActiveUsers: number;
 	maxUsers: number;
 	mobileFriendly: boolean;
 	sessionBeginTime: Date;
