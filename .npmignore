@@ -21,4 +21,6 @@ inch.json
 .jsdoc.json
 src/
 external/
+coverage/
+jest.config.js
 tests/
