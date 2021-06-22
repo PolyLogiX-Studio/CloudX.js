@@ -1,6 +1,6 @@
 {
 	"name": "@bombitmanbomb/cloudx",
-	"version": "1.0.0-beta.1",
+	"version": "1.0.0-beta.2",
 	"description": "Neos CloudX Internal",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
