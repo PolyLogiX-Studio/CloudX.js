@@ -1,11 +1,24 @@
-import { Dictionary, List, TimeSpan, Out } from "@bombitmanbomb/utils";
+import {
+	Dictionary,
+	List,
+	TimeSpan,
+	Out,
+	TaskCompletionSource,
+	CancellationTokenSource,
+} from "@bombitmanbomb/utils";
 import { CloudXInterface } from "./CloudXInterface";
 import { Message, MessageJSON } from "./Message";
 import { MessageType } from "./MessageType";
-import { TransactionMessage } from "./TransactionMessage";
+import {
+	TransactionMessage,
+	TransactionMessageJSON,
+} from "./TransactionMessage";
 import { SessionInfo } from "./SessionInfo";
 import { CloudResult } from "@bombitmanbomb/http-client";
 import { TransactionType } from "./TransactionType";
+import { ReadMessageBatch } from "./ReadMessageBatch";
+import { MarkReadBatch } from "./MarkReadBatch";
+import type { INeosHubMessagingClient } from "./INeosHubMessagingClient";
 /**@internal */
 export class UserMessages {
 	private _messageIds: List<string> = new List();
@@ -31,22 +44,28 @@ export class UserMessages {
 
 	public MarkAllRead(): void {
 		if (this.UnreadCount == 0) return;
-		const ids: List<Message> = new List();
+		const stringList = new List();
 		for (const message of this.Messages) {
 			if (!message.IsSent && !(message.ReadTime != null)) {
 				message.ReadTime = new Date();
-				ids.Add(message.Id);
+				stringList.Add(message.Id);
 			}
 		}
 		this.UnreadCount = 0;
+		const batch = new MarkReadBatch({
+			senderId: this.UserId,
+			ids: stringList,
+			readTime: new Date(),
+		});
 		(async () => {
-			await this.Cloud.MarkMessagesRead(ids);
-		})(); //? Async
+			await this.Cloud.HubClient.MarkMessagesRead(batch);
+		})();
 		this.Manager.MarkUnreadCountDirty();
 	}
 
 	public CreateTextMessage(text: string): Message {
 		return new Message({
+			id: Message.GenerateId(),
 			messageType: MessageType.Text,
 			content: text,
 		} as MessageJSON);
@@ -61,10 +80,8 @@ export class UserMessages {
 		return message;
 	}
 
-	public async SendInviteMessage(
-		sessionInfo: SessionInfo
-	): Promise<CloudResult<Message>> {
-		return await this.SendMessage(this.CreateInviteMessage(sessionInfo));
+	public SendInviteMessage(sessionInfo: SessionInfo): Promise<boolean> {
+		return this.SendMessage(this.CreateInviteMessage(sessionInfo));
 	}
 
 	public AddSentTransactionMessage(
@@ -91,7 +108,7 @@ export class UserMessages {
 		return message;
 	}
 
-	public async SendMessage(message: Message): Promise<CloudResult<Message>> {
+	public async SendMessage(message: Message): Promise<boolean> {
 		if (message.Id == null) message.Id = Message.GenerateId();
 		message.RecipientId = this.UserId;
 		message.OwnerId = message.SenderId = this.Cloud.CurrentUser.Id;
@@ -99,11 +116,29 @@ export class UserMessages {
 		this.Messages.Add(message);
 		const friend = this.Cloud.Friends.GetFriend(message.RecipientId);
 		if (friend != null) friend.LatestMessageTime = new Date();
-		return await this.Cloud.SendMessage(message);
+		const completionSource = new TaskCompletionSource<boolean>();
+		const cancellationTokenSource = new CancellationTokenSource();
+		this.Manager._messagesWaitingForConfirmation.Add(
+			message.Id,
+			completionSource
+		);
+		await this.Cloud.HubClient.SendMessage(message);
+		(async () => {
+			await TimeSpan.Delay(
+				TimeSpan.fromSeconds(30),
+				cancellationTokenSource.Token
+			);
+			if (cancellationTokenSource.Token.IsCancellationRequested()) return;
+			completionSource.TrySetResult(false);
+		})();
+		const flag = await completionSource.Task;
+		if (flag) cancellationTokenSource.Cancel();
+		this.Manager._messagesWaitingForConfirmation.Remove(message.Id);
+		return flag;
 	}
 
-	public async SendTextMessage(text: string): Promise<CloudResult<Message>> {
-		return await this.SendMessage(this.CreateTextMessage(text));
+	public SendTextMessage(text: string): Promise<boolean> {
+		return this.SendMessage(this.CreateTextMessage(text));
 	}
 
 	public async EnsureHistory(): Promise<unknown> {
@@ -157,11 +192,32 @@ export class UserMessages {
 	public GetMessages(messages: List<Message>): void {
 		messages.AddRange(this.Messages);
 	}
+
+	public MarkReadByRecipient(
+		ids: List<string>,
+		readTime: Date,
+		readMessages: List<Message>
+	): void {
+		for (const message of this.Messages) {
+			if (
+				!(message.ReadTime != null) &&
+				message.IsSent &&
+				ids.Contains(message.Id)
+			) {
+				message.ReadTime = new Date(readTime);
+				readMessages.Add(message);
+			}
+		}
+	}
 }
-export class MessageManager {
+export class MessageManager implements INeosHubMessagingClient {
 	public static UserMessages: typeof UserMessages = UserMessages;
 	public static UPDATE_PERIOD_SECONDS = 1;
 	private _messages: Dictionary<string, UserMessages> = new Dictionary();
+	public _messagesWaitingForConfirmation = new Dictionary<
+		string,
+		TaskCompletionSource<boolean>
+	>(); //TODO
 	private lastRequest: Date = new Date(0);
 	private lastUnreadMessage: Date = new Date(0);
 	private runningRequest!: (() => Promise<void>) | null;
@@ -181,6 +237,63 @@ export class MessageManager {
 
 	constructor(cloud: CloudXInterface) {
 		this.Cloud = cloud;
+	}
+
+	public ReceiveMessage(message: Message): Promise<void> {
+		if (!this.GetUserMessages(message.SenderId).AddMessage(message))
+			return Promise.resolve(); //TODO
+		this.ProcessReceivedMessage(message);
+		this.MarkUnreadCountDirty();
+		return Promise.resolve();
+	}
+
+	private ProcessReceivedMessage(message: Message): void {
+		if (
+			this.InitialMessagesFetched &&
+			message.MessageType == MessageType.CreditTransfer
+		) {
+			const content = new TransactionMessage(
+				message.ExtractContent<TransactionMessageJSON>()
+			);
+			const flag = content.RecipientId == this.Cloud.CurrentUser.Id;
+			const currentUser = this.Cloud.CurrentUser;
+			if (
+				currentUser.Credits != null &&
+				currentUser.Credits.ContainsKey(content.Token)
+			)
+				currentUser.Credits.AddOrUpdate(content.Token, 0, (key, oldValue) => {
+					return oldValue + (flag ? content.Amount : -content.Amount);
+				});
+			this.Cloud.ScheduleUpdateCurrentUserInfo();
+		}
+		const onMessageReceived = this.OnMessageReceived;
+		if (onMessageReceived != null) onMessageReceived(message);
+		const friend = this.Cloud.Friends.GetFriend(message.SenderId);
+		if (friend == null) return;
+		friend.LatestMessageTime = new Date(
+			Math.max(Date.now(), message.SendTime.getTime())
+		);
+	}
+
+	public MessageSent(message: Message): Promise<void> {
+		const completion = new Out<TaskCompletionSource<boolean>>();
+		this._messagesWaitingForConfirmation.TryGetValue(message.Id, completion);
+		completion.Out?.TrySetResult(true);
+		return Promise.resolve();
+	}
+
+	public MessagesRead(batch: ReadMessageBatch): Promise<void> {
+		const list = new List<Message>();
+		this.GetUserMessages(batch.RecipientId).MarkReadByRecipient(
+			batch.Ids,
+			batch.ReadTime,
+			list
+		);
+		for (const message of list) {
+			const onMessageRead = this.OnMessageRead;
+			if (onMessageRead != null) onMessageRead(message);
+		}
+		return Promise.resolve();
 	}
 
 	/**@internal */
@@ -208,6 +321,11 @@ export class MessageManager {
 			if (messageCountChanged != null)
 				messageCountChanged(this.TotalUnreadCount);
 		}
+		if (this.InitialMessagesFetched) return;
+		this.PollMessages();
+	}
+
+	private PollMessages(): void {
 		if (
 			new Date().getTime() - (this.lastRequest?.getTime() ?? 0) / 1000 <
 				MessageManager.UPDATE_PERIOD_SECONDS ||
@@ -234,47 +352,22 @@ export class MessageManager {
 					if (!this.GetUserMessages(message.SenderId).AddMessage(message))
 						hset.Add(message);
 				}
-				let flag1 = false;
 				for (const message of cloudResult1.Entity) {
 					if (!hset.Contains(message)) {
 						if (
 							this.InitialMessagesFetched &&
 							message.MessageType == MessageType.CreditTransfer
-						) {
-							const content: TransactionMessage = new TransactionMessage(
-								message.ExtractContent()
-							);
-							const flag2 = content.RecipientId == this.Cloud.CurrentUser.Id;
-							const currentUser = this.Cloud.CurrentUser;
-							if (
-								currentUser.Credits != null &&
-								currentUser.Credits.ContainsKey(content.Token)
-							)
-								currentUser.Credits.AddOrUpdate(
-									content.Token,
-									0,
-									(key, val) => val + (flag2 ? content.Amount : -content.Amount)
-								);
-							flag1 = true;
-						}
-						const onMessageReceived = this.OnMessageReceived;
-						if (onMessageReceived != null) onMessageReceived(message);
-						const friend = this.Cloud.Friends.GetFriend(message.SenderId);
-						if (friend != null)
-							friend.LatestMessageTime = new Date(
-								Math.max(new Date().getTime(), message.SendTime.getTime())
-							);
-					}
+						)
+							this.ProcessReceivedMessage(message);
+
+						this.MarkUnreadCountDirty();
+						this.InitialMessagesFetched = true;
+					} else
+						console.error(
+							`Failed to fetch unread messages, LastUnreadMessage: ${this.lastUnreadMessage}, Result: ${cloudResult1}`
+						);
 				}
-				this.MarkUnreadCountDirty();
-				this.InitialMessagesFetched = true;
-				if (!flag1) return;
-				await TimeSpan.Delay(new TimeSpan(10));
-				await this.Cloud.UpdateCurrentUserInfo();
-			} else
-				console.error(
-					`Failed to fetch unread messages, LastUnreadMessage: ${this.lastUnreadMessage}, Result: ${cloudResult1}`
-				);
+			}
 		};
 		(async () => {
 			await (this.runningRequest as () => void)();
@@ -311,5 +404,6 @@ export class MessageManager {
 	}
 
 	public OnMessageReceived!: (Message: Message) => void;
+	public OnMessageRead!: (Message: Message) => void;
 	public UnreadMessageCountChanged!: (Count: number) => void;
 }

@@ -67,6 +67,10 @@ import { ExitMessage } from "./ExitMessage";
 import { CurrencyRates } from "./CurrencyRates";
 import { MessageManager } from "./MessageManager";
 import { TransactionManager } from "./TransactionManager";
+import { INeosHubDebugClient } from './INeosHubDebugClient';
+import { NeosHub } from './NeosHub';
+import {HttpTransportType, HubConnectionBuilder, HubConnectionState} from "@microsoft/signalr";
+import type { HubConnection } from "@microsoft/signalr"
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -84,7 +88,7 @@ export enum CloudEndpoint {
  * @export
  * @class CloudXInterface
  */
-export class CloudXInterface {
+export class CloudXInterface implements INeosHubDebugClient {
 	public static DEBUG_REQUESTS = false;
 	public static DEFAULT_RETRIES = 10;
 	public static readonly SESSION_EXTEND_INTERVAL = 3600;
@@ -113,8 +117,10 @@ export class CloudXInterface {
 	private static readonly LOCAL_NEOS_BLOB =
 		"http://127.0.0.1:10000/devstoreaccount1/";
 	protected lockobj = new Object();
+	private _hubConnectionToken!:CancellationTokenSource
 	private _recordBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
 	private _metadataBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
+	private _updateCurrentUserInfo!:boolean
 	private _currentSession!: UserSession;
 	private _currentUser!: User;
 	private _groupMemberships: List<Membership> = new List();
@@ -199,6 +205,7 @@ export class CloudXInterface {
 	}
 	public HttpClient!: Http;
 	public SafeHttpClient!: Http;
+	public HubClient!:NeosHub
 	/* //TODO RecordBatch
 	public RecordBatch<R>(type:string):RecordBatchQuery<R>{
 		let obj = new Out
@@ -218,6 +225,11 @@ export class CloudXInterface {
 		return metadataBatchQuery
 	}
 	*/
+
+	public ScheduleUpdateCurrentUserInfo():void {
+		this._updateCurrentUserInfo = true
+	}
+
 	public PublicKey!: RSAParameters;
 
 	public get ServerStatus(): ServerStatus {
@@ -348,7 +360,67 @@ export class CloudXInterface {
 		this.Transactions = new TransactionManager(this);
 		//this.GitHub = new GitHubClient(new Octokit.ProductHeaderValue(userAgentProduct)); //TODO GithubClient
 	}
+
+	private async ConnectToHub():Promise<void>{
+		let cloudXInterface = this
+		console.log("Initializing SignalR")
+		cloudXInterface._hubConnectionToken?.Cancel()
+		cloudXInterface._hubConnectionToken = new CancellationTokenSource(null)
+		let cancellationToken = cloudXInterface._hubConnectionToken.Token
+		await cloudXInterface.DisconnectFromHub()
+		let connection = (new HubConnectionBuilder()).withUrl(CloudXInterface.NEOS_API + "/hub", HttpTransportType.WebSockets).withAutomaticReconnect().build()
+		connection.onreconnecting(async (message)=>{
+			console.log("SignalR Reconnecting: "+message)
+		})
+		connection.onreconnected(async (message)=>{
+			console.log("SignalR Reconnected: "+message)
+		})
+		connection.onclose(async (error)=>{
+			console.log(`SignalR Connection Closed: ${error}`)
+		})
+		let connected = false
+		do {
+			try {
+				console.log("Connecting to SignalR...")
+				await connection.start()
+				connected = true
+			} catch (error) {
+				console.error("Exception connecting to SignalR:\n"+error)
+			}
+		} while (!connected && !cancellationToken.IsCancellationRequested());
+		if (cancellationToken.IsCancellationRequested() && connection.state != HubConnectionState.Disconnected){
+			await connection.stop()
+			cancellationToken = new CancellationTokenSource(null)
+			connection = null as unknown as HubConnection // Dispose
+		}
+		else
+		{
+			//TODO Register Messages & interface
+			cloudXInterface.HubClient = new NeosHub(connection)
+			//!Dispose of reference
+			connection = null as unknown as HubConnection
+		}
+	}
+
+	private async DisconnectFromHub():Promise<void> {
+		if (this.HubClient == null) return
+		let _oldHub = this.HubClient
+		this.HubClient = null as unknown as NeosHub
+		await _oldHub.Hub.stop()
+		_oldHub = null as unknown as NeosHub //!Force Dispose
+	}
+
 	public Update(): void {
+		if (this._updateCurrentUserInfo){
+			switch (this.CurrentUser?.Id){
+				case null:
+					break
+				default:
+					this._updateCurrentUserInfo = false
+					this.UpdateCurrentUserInfo()
+					break
+			}
+		}
 		if (this.CurrentSession != null) {
 			if (
 				new Date().getTime() - (this._lastSessionUpdate?.getTime() ?? 0) >=
@@ -524,7 +596,7 @@ export class CloudXInterface {
 		) as unknown as Promise<CloudResult<T>>;
 	}
 	//TODO File Upload
-	/* 
+	/*
 	public POST_FILE<T>(
 		resource: string,
 		filePath: string,
@@ -632,6 +704,7 @@ export class CloudXInterface {
 				email: credentials.Email,
 				username: credentials.Username,
 			} as UserJSON);
+			await this.ConnectToHub()
 			this.UpdateCurrentUserInfo();
 			this.UpdateCurrentUserMemberships();
 			this.Friends.Update();
@@ -677,28 +750,8 @@ export class CloudXInterface {
 			this.CurrentUser.Id
 		);
 		const entity: User = cloudResult.Entity;
-		if (
-			cloudResult.IsOK &&
-			this.CurrentUser != null &&
-			this.CurrentUser.Id == entity.Id
-		) {
+		if (cloudResult.IsOK && this.CurrentUser != null && this.CurrentUser.Id == entity.Id)
 			this.CurrentUser = entity;
-			const patreonData = this.CurrentUser.PatreonData;
-			let num;
-			if (
-				(patreonData != null ? (patreonData.IsPatreonSupporter ? 1 : 0) : 0) ==
-				0
-			) {
-				const tags: List<string> = this.CurrentUser.Tags;
-				num =
-					tags != null && tags.Count != 0
-						? tags.Contains(UserTags.NeosTeam)
-							? 1
-							: 0
-						: 0;
-			} else num = 1;
-			CloudXInterface.USE_CDN = num != 0;
-		}
 		return cloudResult;
 	}
 
@@ -721,6 +774,9 @@ export class CloudXInterface {
 	public Logout(manualLogOut: boolean): Promise<unknown> {
 		let task = null;
 		this.OnLogout();
+		(async ()=>{
+			this.DisconnectFromHub()
+		})();
 		if (
 			(this.CurrentSession != null && !this.CurrentSession.RememberMe) ||
 			manualLogOut
@@ -1382,7 +1438,7 @@ export class CloudXInterface {
 				str1 += `?lastStatusUpdate=${lastStatusUpdate.toISOString()}`;
 			}
 			const cloudResult = await this.GET<List<Friend>>(
-				`api/users/${userId}/friends${str1}`
+				`api/users/${userId}/friends${str1}`, !lastStatusUpdate!=null ? TimeSpan.fromSeconds(90.0) : null
 			);
 			cloudResult.Content = List.ToListAs(cloudResult.Entity, Friend);
 			return cloudResult;
@@ -1424,7 +1480,7 @@ export class CloudXInterface {
 	public GetUnreadMessages(
 		fromTime?: Date
 	): Promise<CloudResult<List<Message>>> {
-		return this.GetMessages(fromTime, -1, void 0, true);
+		return this.GetMessages(fromTime, -1, void 0, true, TimeSpan.fromSeconds(90));
 	}
 
 	public GetMessageHistory(
@@ -1438,7 +1494,8 @@ export class CloudXInterface {
 		fromTime?: Date,
 		maxItems?: number,
 		user?: string,
-		unreadOnly?: boolean
+		unreadOnly?: boolean,
+		timeout:TimeSpan|null = null
 	): Promise<CloudResult<List<Message>>> {
 		const stringBuilder = new StringBuilder();
 		stringBuilder.Append(`?maxItems=${maxItems}`);
@@ -1447,30 +1504,10 @@ export class CloudXInterface {
 		if (user != null) stringBuilder.Append("&user=" + user);
 		if (unreadOnly) stringBuilder.Append("&unread=true");
 		const cloudResult = await this.GET<List<Message>>(
-			`api/users/${this.CurrentUser.Id}/messages${stringBuilder.toString()}`
+			`api/users/${this.CurrentUser.Id}/messages${stringBuilder.toString()}`, timeout
 		);
 		cloudResult.Content = List.ToListAs(cloudResult.Entity, Message);
 		return cloudResult;
-	}
-
-	public MarkMessagesRead(
-		messages: List<Message>
-	): Promise<CloudResult<unknown>>;
-	public MarkMessagesRead(
-		messageIds: List<string>
-	): Promise<CloudResult<unknown>>;
-	public async MarkMessagesRead(
-		messages: List<string> | List<Message>
-	): Promise<CloudResult<unknown>> {
-		if (messages.length == 0)
-			return new CloudResult(null, 400, "Invalid IDs", null);
-		if (messages[0] instanceof Message) {
-			return this.MarkMessagesRead(
-				List.ToList((messages as Array<Message>).map((item) => item.Id))
-			);
-		} else {
-			return this.PATCH(`api/users/${this.CurrentUser.Id}/messages`, messages);
-		}
 	}
 
 	public UpdateSessions(update: SessionUpdate): Promise<CloudResult<unknown>> {
@@ -1659,6 +1696,16 @@ export class CloudXInterface {
 	public async GetRandomExitMessage(): Promise<ExitMessage> {
 		return (await this.GET<ExitMessage>("api/exitMessage")).Convert(ExitMessage)
 			?.Entity;
+	}
+
+	public Pong(index:number):Promise<void> {
+		console.log(`PONG ${index}!`)
+		return Promise.resolve()
+	}
+
+	public Debug(message:string):Promise<void> {
+		console.log(`Cloud Debug: ${message}`)
+		return Promise.resolve()
 	}
 
 	public async GetCurrencyRates(

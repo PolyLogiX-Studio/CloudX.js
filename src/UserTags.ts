@@ -25,6 +25,8 @@ export class UserTags {
 
 	public static HearingImpaired = "hearing impaired";
 
+	public static VisuallyImpaired = "visually impaired";
+
 	public static ColorBlind = "color blind";
 
 	public static Mute = "mute";
