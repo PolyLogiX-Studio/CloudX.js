@@ -56,9 +56,9 @@ export class TransactionManager {
 				? 0
 				: num1 / (ncrConversionRatio ?? 0);
 		}
-		if (!(targetToken == "USD")) return 0;
-		if (!(sourceToken == "NCR")) {
-			if (!(sourceToken == "CDFT")) return sourceToken == "KFC" ? 0 : 0;
+		if (!(targetToken === "USD")) return 0;
+		if (!(sourceToken === "NCR")) {
+			if (!(sourceToken === "CDFT")) return sourceToken == "KFC" ? 0 : 0;
 			const num = sourceAmount;
 			const cdftConversionRatio = this.CDFTConversionRatio;
 			return !(cdftConversionRatio != null)
@@ -71,13 +71,18 @@ export class TransactionManager {
 			? 0
 			: num2 * (ncrConversionRatio1 ?? 0);
 	}
-	public IsValidToken(token: string): boolean {
-		return token == "NCR" || token == "CDFT" || token == "KFC";
+	public static IsValidToken(token: string): boolean {
+		return token === "NCR" || token === "CDFT" || token == "KFC";
 	}
+
+	public static SupportsTransactions(token: string): boolean {
+		return token === "NCR" || token === "KFC";
+	}
+
 	public ToUSD(token: string, amount: number): number {
-		if (!(token == "NCR")) {
-			if (!(token == "CDFT")) {
-				if (token == "KFC") return 0;
+		if (!(token === "NCR")) {
+			if (!(token === "CDFT")) {
+				if (token === "KFC") return 0;
 				throw new Error("Invalid token: " + token);
 			}
 			const cdftConversionRatio = this.CDFTConversionRatio;

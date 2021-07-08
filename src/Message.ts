@@ -10,6 +10,7 @@ export class Message {
 	public SendTime: Date;
 	public LastUpdateTime: Date;
 	public ReadTime?: Date;
+	public static MAX_ID_LENGTH = 64;
 	constructor($b: MessageJSON = {} as MessageJSON) {
 		this.Id = $b.id;
 		this.OwnerId = $b.ownerId;
@@ -22,9 +23,27 @@ export class Message {
 		this.ReadTime = new Date(($b.readTime as Date) ?? 0);
 	}
 
+	public get IsValid(): boolean {
+		return (
+			Message.IsValidId(this.Id) &&
+			!(this.SenderId == null || this.SenderId.trim() == "") &&
+			!(this.RecipientId == null || this.RecipientId.trim() == "") &&
+			!(this.Content == null || this.Content.trim() == "")
+		);
+	}
+
 	public static GenerateId(): string {
 		return "MSG-" + uuidv4();
 	}
+
+	public static IsValidId(id: string): boolean {
+		return (
+			!(id == null || id.trim() == "") &&
+			id.startsWith("MSG-") &&
+			id.length < 64
+		);
+	}
+
 	public ExtractContent<T>(): T {
 		return JSON.parse(this.Content);
 	}
