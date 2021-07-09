@@ -93,4 +93,6 @@ export class UserTags {
 	public static MMC_Other2nd = "mmc other 2nd";
 
 	public static MMC_Other3rd = "mmc other 3rd";
+
+	public static VBLFC = "vblfc"
 }

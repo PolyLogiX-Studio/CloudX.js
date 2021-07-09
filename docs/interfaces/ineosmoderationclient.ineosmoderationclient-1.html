@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>INeosHubServer | @bombitmanbomb/cloudx</title>
+	<title>INeosModerationClient | @bombitmanbomb/cloudx</title>
 	<meta name="description" content="Documentation for @bombitmanbomb/cloudx">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,13 +55,13 @@
 					<a href="../modules.html">@bombitmanbomb/cloudx</a>
 				</li>
 				<li>
-					<a href="../modules/ineoshubserver.html">INeosHubServer</a>
+					<a href="../modules/ineosmoderationclient.html">INeosModerationClient</a>
 				</li>
 				<li>
-					<a href="ineoshubserver.ineoshubserver-1.html">INeosHubServer</a>
+					<a href="ineosmoderationclient.ineosmoderationclient-1.html">INeosModerationClient</a>
 				</li>
 			</ul>
-			<h1>Interface INeosHubServer</h1>
+			<h1>Interface INeosModerationClient</h1>
 		</div>
 	</div>
 </header>
@@ -72,14 +72,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">INeosHubServer</span>
+						<span class="target">INeosModerationClient</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implemented by</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../classes/neoshub.neoshub-1.html" class="tsd-signature-type" data-tsd-kind="Class">NeosHub</a></li>
+					<li><a href="../classes/cloudxinterface.cloudxinterface-1.html" class="tsd-signature-type" data-tsd-kind="Class">CloudXInterface</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -89,9 +89,9 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="ineoshubserver.ineoshubserver-1.html#markmessagesread" class="tsd-kind-icon">Mark<wbr>Messages<wbr>Read</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="ineoshubserver.ineoshubserver-1.html#ping" class="tsd-kind-icon">Ping</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="ineoshubserver.ineoshubserver-1.html#sendmessage" class="tsd-kind-icon">Send<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="ineosmoderationclient.ineosmoderationclient-1.html#usermutebanned" class="tsd-kind-icon">User<wbr>Mute<wbr>Banned</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="ineosmoderationclient.ineosmoderationclient-1.html#userpublicbanned" class="tsd-kind-icon">User<wbr>Public<wbr>Banned</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="ineosmoderationclient.ineosmoderationclient-1.html#userspectatorbanned" class="tsd-kind-icon">User<wbr>Spectator<wbr>Banned</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,22 +100,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="markmessagesread" class="tsd-anchor"></a>
-					<h3>Mark<wbr>Messages<wbr>Read</h3>
+					<a name="usermutebanned" class="tsd-anchor"></a>
+					<h3>User<wbr>Mute<wbr>Banned</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">Mark<wbr>Messages<wbr>Read<span class="tsd-signature-symbol">(</span>batch<span class="tsd-signature-symbol">: </span><a href="../classes/markreadbatch.markreadbatch-1.html" class="tsd-signature-type" data-tsd-kind="Class">MarkReadBatch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">User<wbr>Mute<wbr>Banned<span class="tsd-signature-symbol">(</span>userId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/a2cbdf8/src/INeosHubServer.ts#L6">INeosHubServer.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/a2cbdf8/src/INeosModerationClient.ts#L3">INeosModerationClient.ts:3</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>batch: <a href="../classes/markreadbatch.markreadbatch-1.html" class="tsd-signature-type" data-tsd-kind="Class">MarkReadBatch</a></h5>
+									<h5>userId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -123,22 +123,22 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="ping" class="tsd-anchor"></a>
-					<h3>Ping</h3>
+					<a name="userpublicbanned" class="tsd-anchor"></a>
+					<h3>User<wbr>Public<wbr>Banned</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">Ping<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">User<wbr>Public<wbr>Banned<span class="tsd-signature-symbol">(</span>userId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/a2cbdf8/src/INeosHubServer.ts#L4">INeosHubServer.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/a2cbdf8/src/INeosModerationClient.ts#L2">INeosModerationClient.ts:2</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>index: <span class="tsd-signature-type">number</span></h5>
+									<h5>userId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -146,22 +146,22 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="sendmessage" class="tsd-anchor"></a>
-					<h3>Send<wbr>Message</h3>
+					<a name="userspectatorbanned" class="tsd-anchor"></a>
+					<h3>User<wbr>Spectator<wbr>Banned</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">Send<wbr>Message<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="../classes/message.message-1.html" class="tsd-signature-type" data-tsd-kind="Class">Message</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">User<wbr>Spectator<wbr>Banned<span class="tsd-signature-symbol">(</span>userId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/a2cbdf8/src/INeosHubServer.ts#L5">INeosHubServer.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/a2cbdf8/src/INeosModerationClient.ts#L4">INeosModerationClient.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>message: <a href="../classes/message.message-1.html" class="tsd-signature-type" data-tsd-kind="Class">Message</a></h5>
+									<h5>userId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -177,7 +177,7 @@
 						<a href="../modules.html">Exports</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/ineoshubserver.html">INeos<wbr>Hub<wbr>Server</a>
+						<a href="../modules/ineosmoderationclient.html">INeos<wbr>Moderation<wbr>Client</a>
 					</li>
 				</ul>
 			</nav>
@@ -186,16 +186,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="ineoshubserver.ineoshubserver-1.html" class="tsd-kind-icon">INeos<wbr>Hub<wbr>Server</a>
+						<a href="ineosmoderationclient.ineosmoderationclient-1.html" class="tsd-kind-icon">INeos<wbr>Moderation<wbr>Client</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="ineoshubserver.ineoshubserver-1.html#markmessagesread" class="tsd-kind-icon">Mark<wbr>Messages<wbr>Read</a>
+								<a href="ineosmoderationclient.ineosmoderationclient-1.html#usermutebanned" class="tsd-kind-icon">User<wbr>Mute<wbr>Banned</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="ineoshubserver.ineoshubserver-1.html#ping" class="tsd-kind-icon">Ping</a>
+								<a href="ineosmoderationclient.ineosmoderationclient-1.html#userpublicbanned" class="tsd-kind-icon">User<wbr>Public<wbr>Banned</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="ineoshubserver.ineoshubserver-1.html#sendmessage" class="tsd-kind-icon">Send<wbr>Message</a>
+								<a href="ineosmoderationclient.ineosmoderationclient-1.html#userspectatorbanned" class="tsd-kind-icon">User<wbr>Spectator<wbr>Banned</a>
 							</li>
 						</ul>
 					</li>

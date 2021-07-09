@@ -53,7 +53,7 @@ export class UserMessages {
 		}
 		this.UnreadCount = 0;
 		const batch = new MarkReadBatch({
-			senderId: this.UserId,
+			senderId: this.Manager.SendReadNotification ? this.UserId: null as unknown as string,
 			ids: stringList,
 			readTime: new Date(),
 		});
@@ -228,6 +228,8 @@ export class MessageManager implements INeosHubMessagingClient {
 	public static MAX_UNREAD_HISTORY = 200;
 
 	public Cloud: CloudXInterface;
+
+	public SendReadNotification:boolean = true
 
 	public InitialMessagesFetched!: boolean;
 
