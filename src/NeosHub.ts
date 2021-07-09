@@ -1,4 +1,4 @@
-import { HubConnection } from "@microsoft/signalr";
+import { HubConnection } from "@bombitmanbomb/signalr";
 import { INeosHubServer } from "./INeosHubServer";
 import { MarkReadBatch } from "./MarkReadBatch";
 import { Message } from "./Message";
@@ -14,10 +14,22 @@ export class NeosHub implements INeosHubServer {
 	}
 
 	public SendMessage(message: Message): Promise<void> {
-		return this.Hub.send("SendMessage", message);
+		try {
+			return this.Hub.send("SendMessage", message);
+
+		} catch (error) {
+			console.error("Exception running SendMessage", error)
+			throw error
+		}
 	}
 
 	public MarkMessagesRead(markReadBatch: MarkReadBatch): Promise<void> {
-		return this.Hub.send("MarkMessagesRead", markReadBatch);
+		try {
+			return this.Hub.send("MarkMessagesRead", markReadBatch);
+
+		} catch (error) {
+			console.error("Exception running MarkMessagesRead", error)
+			throw error
+		}
 	}
 }
