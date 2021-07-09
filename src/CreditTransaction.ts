@@ -2,6 +2,7 @@ import type { TransactionType } from "./TransactionType";
 export class CreditTransaction {
 	public Token: string;
 	public FromUserId: string;
+	public ToUserId: string;
 	public Amount: number;
 	public Comment: string;
 	public TransactionType: TransactionType;
@@ -9,6 +10,7 @@ export class CreditTransaction {
 	constructor($b: CreditTransactionJSON = {} as CreditTransactionJSON) {
 		this.Token = $b.token;
 		this.FromUserId = $b.fromUserId;
+		this.ToUserId = $b.toUserId;
 		this.Amount = $b.amount;
 		this.Comment = $b.comment;
 		this.TransactionType = $b.transactionType;
@@ -18,6 +20,7 @@ export class CreditTransaction {
 		return {
 			token: this.Token,
 			fromUserId: this.FromUserId,
+			toUserId: this.ToUserId,
 			amount: this.Amount,
 			comment: this.Comment,
 			transactionType: this.TransactionType,
@@ -28,6 +31,7 @@ export class CreditTransaction {
 export interface CreditTransactionJSON {
 	token: string;
 	fromUserId: string;
+	toUserId: string;
 	amount: number;
 	comment: string;
 	transactionType: TransactionType;
