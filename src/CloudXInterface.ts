@@ -67,12 +67,19 @@ import { ExitMessage } from "./ExitMessage";
 import { CurrencyRates } from "./CurrencyRates";
 import { MessageManager } from "./MessageManager";
 import { TransactionManager } from "./TransactionManager";
-import { INeosHubDebugClient } from './INeosHubDebugClient';
-import { NeosHub } from './NeosHub';
-import { HttpTransportType, HubConnectionBuilder, HubConnectionState, HttpResponse, HttpRequest, LogLevel } from "@bombitmanbomb/signalr";
-import type { HubConnection } from "@bombitmanbomb/signalr"
-import { INeosModerationClient } from './INeosModerationClient';
-import { ReadMessageBatch } from './ReadMessageBatch';
+import { INeosHubDebugClient } from "./INeosHubDebugClient";
+import { NeosHub } from "./NeosHub";
+import {
+	HttpTransportType,
+	HubConnectionBuilder,
+	HubConnectionState,
+	HttpResponse,
+	HttpRequest,
+	LogLevel,
+} from "@bombitmanbomb/signalr";
+import type { HubConnection } from "@bombitmanbomb/signalr";
+import { INeosModerationClient } from "./INeosModerationClient";
+import { ReadMessageBatch } from "./ReadMessageBatch";
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -90,7 +97,9 @@ export enum CloudEndpoint {
  * @export
  * @class CloudXInterface
  */
-export class CloudXInterface implements INeosHubDebugClient, INeosModerationClient {
+export class CloudXInterface
+implements INeosHubDebugClient, INeosModerationClient
+{
 	public static DEBUG_REQUESTS = false;
 	public static DEFAULT_RETRIES = 10;
 	public static readonly SESSION_EXTEND_INTERVAL = 3600;
@@ -119,10 +128,10 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	private static readonly LOCAL_NEOS_BLOB =
 		"http://127.0.0.1:10000/devstoreaccount1/";
 	protected lockobj = new Object();
-	private _hubConnectionToken!: CancellationTokenSource
+	private _hubConnectionToken!: CancellationTokenSource;
 	private _recordBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
 	private _metadataBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
-	private _updateCurrentUserInfo!: boolean
+	private _updateCurrentUserInfo!: boolean;
 	private _currentSession!: UserSession;
 	private _currentUser!: User;
 	private _groupMemberships: List<Membership> = new List();
@@ -141,7 +150,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		string,
 		Dictionary<string, CloudResult<unknown>>
 	> = new Dictionary();
-	public UID!: string
+	public UID!: string;
 	public UserAgentProduct!: string;
 	public UserAgentVersion!: string;
 	public UserAgent!: ProductInfoHeaderValue;
@@ -159,25 +168,25 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	public static CLOUD_ENDPOINT = CloudXInterface.CloudEndpoint.Production;
 	public static get NEOS_API(): string {
 		switch (CloudXInterface.CLOUD_ENDPOINT) {
-			case CloudXInterface.CloudEndpoint.Production:
-				return "https://api.neos.com";
-			case CloudXInterface.CloudEndpoint.Staging:
-				return "https://cloudx-staging.azurewebsites.net";
-			case CloudXInterface.CloudEndpoint.Local:
-				return "http://localhost:60612";
-			default:
-				throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
+		case CloudXInterface.CloudEndpoint.Production:
+			return "https://api.neos.com";
+		case CloudXInterface.CloudEndpoint.Staging:
+			return "https://cloudx-staging.azurewebsites.net";
+		case CloudXInterface.CloudEndpoint.Local:
+			return "http://localhost:60612";
+		default:
+			throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
 		}
 	}
 	public static get NEOS_BLOB(): string {
 		switch (CloudXInterface.CLOUD_ENDPOINT) {
-			case CloudXInterface.CloudEndpoint.Production:
-			case CloudXInterface.CloudEndpoint.Staging:
-				return CloudXInterface.NEOS_CLOUD_BLOB;
-			case CloudXInterface.CloudEndpoint.Local:
-				return CloudXInterface.NEOS_CLOUD_BLOB;
-			default:
-				throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
+		case CloudXInterface.CloudEndpoint.Production:
+		case CloudXInterface.CloudEndpoint.Staging:
+			return CloudXInterface.NEOS_CLOUD_BLOB;
+		case CloudXInterface.CloudEndpoint.Local:
+			return CloudXInterface.NEOS_CLOUD_BLOB;
+		default:
+			throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
 		}
 	}
 	public static get NEOS_ASSETS(): string {
@@ -208,7 +217,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	}
 	public HttpClient!: Http;
 	public SafeHttpClient!: Http;
-	public HubClient!: NeosHub
+	public HubClient!: NeosHub;
 	/* //TODO RecordBatch
 	public RecordBatch<R>(type:string):RecordBatchQuery<R>{
 		let obj = new Out
@@ -230,7 +239,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	*/
 
 	public ScheduleUpdateCurrentUserInfo(): void {
-		this._updateCurrentUserInfo = true
+		this._updateCurrentUserInfo = true;
 	}
 
 	public PublicKey!: RSAParameters;
@@ -274,7 +283,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 				? new AuthenticationHeaderValue(
 					"neos",
 					value.UserId + ":" + value.SessionToken
-				)
+				  )
 				: (null as unknown as AuthenticationHeaderValue);
 		this.OnSessionUpdated();
 		try {
@@ -333,7 +342,11 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	public Friends!: FriendManager;
 	public Messages!: MessageManager;
 	public Transactions!: TransactionManager;
-	constructor(uid: string | null, userAgentProduct = "CloudX", userAgentVersion = "0.0.0.0") {
+	constructor(
+		uid: string | null,
+		userAgentProduct = "CloudX",
+		userAgentVersion = "0.0.0.0"
+	) {
 		this.CloudXInterface(uid, userAgentProduct, userAgentVersion);
 	}
 	public CloudXInterface(
@@ -341,20 +354,19 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		userAgentProduct = "CloudX",
 		userAgentVersion = "0.0.0.0"
 	): void {
-		if (!(uid == null || uid.trim() == ""))
-			this.UID = uid
+		if (!(uid == null || uid.trim() == "")) this.UID = uid;
 		//!! HttpClient has No Timeout
 		this.HttpClient = new Http(null, {
 			ENDPOINT: CloudXInterface.NEOS_API,
 			DEBUG_REQUESTS: CloudXInterface.DEBUG_REQUESTS,
 			DefaultTimeout: null as unknown as number,
-			DefaultHeaders: this.UID ? { "UID": this.UID } : {}
+			DefaultHeaders: this.UID ? { UID: this.UID } : {},
 		});
 		//! SafeHttpClient uses 60000ms Timeout
 		this.SafeHttpClient = new Http(null, {
 			ENDPOINT: CloudXInterface.NEOS_API,
 			DefaultTimeout: TimeSpan.fromMinutes(1),
-			DefaultHeaders: this.UID ? { "UID": this.UID } : {}
+			DefaultHeaders: this.UID ? { UID: this.UID } : {},
 		});
 		this.UserAgentProduct = userAgentProduct;
 		this.UserAgentVersion = userAgentVersion;
@@ -370,82 +382,94 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	}
 
 	private async ConnectToHub(): Promise<void> {
-		let cloudXInterface = this
-		console.log("Initializing SignalR")
-		cloudXInterface._hubConnectionToken?.Cancel()
-		cloudXInterface._hubConnectionToken = new CancellationTokenSource(null)
-		let cancellationToken = cloudXInterface._hubConnectionToken.Token
-		let Authorization = `neos ${this.CurrentSession.UserId}:${this.CurrentSession.SessionToken}`
-		await cloudXInterface.DisconnectFromHub()
-		let connection = (new HubConnectionBuilder()).configureLogging(LogLevel.Warning).withUrl(CloudXInterface.NEOS_API + "/hub"/** Unknown Options */, {logMessageContent:true,withCredentials:true,transport:HttpTransportType.WebSockets,headers:{
-			//Authorization
-		}, accessTokenFactory:()=>{
-			return Authorization
-		}}).withAutomaticReconnect().build()
+		const cloudXInterface = this;
+		console.log("Initializing SignalR");
+		cloudXInterface._hubConnectionToken?.Cancel();
+		cloudXInterface._hubConnectionToken = new CancellationTokenSource(null);
+		let cancellationToken = cloudXInterface._hubConnectionToken.Token;
+		const Authorization = `neos ${this.CurrentSession.UserId}:${this.CurrentSession.SessionToken}`;
+		await cloudXInterface.DisconnectFromHub();
+		let connection = new HubConnectionBuilder()
+			.configureLogging(LogLevel.Warning)
+			.withUrl(CloudXInterface.NEOS_API + "/hub" /** Unknown Options */, {
+				logMessageContent: true,
+				withCredentials: true,
+				transport: HttpTransportType.WebSockets,
+				headers: {
+					//Authorization
+				},
+				accessTokenFactory: () => {
+					return Authorization;
+				},
+			})
+			.withAutomaticReconnect()
+			.build();
 		connection.onreconnecting(async (message) => {
-			console.log("SignalR Reconnecting: " + message)
-		})
+			console.log("SignalR Reconnecting: " + message);
+		});
 		connection.onreconnected(async (message) => {
-			console.log("SignalR Reconnected: " + message)
-		})
+			console.log("SignalR Reconnected: " + message);
+		});
 		connection.onclose(async (error) => {
-			console.log(`SignalR Connection Closed: ${error}`)
-		})
-		let connected = false
+			console.log(`SignalR Connection Closed: ${error}`);
+		});
+		let connected = false;
 		do {
 			try {
-				console.log("Connecting to SignalR...")
-				await connection.start()
-				connected = true
+				console.log("Connecting to SignalR...");
+				await connection.start();
+				connected = true;
 			} catch (error) {
-				console.trace("Exception connecting to SignalR:\n" + error)
+				console.trace("Exception connecting to SignalR:\n" + error);
 			}
 		} while (!connected && !cancellationToken.IsCancellationRequested());
-		if (cancellationToken.IsCancellationRequested() && connection.state != HubConnectionState.Disconnected) {
-			await connection.stop()
-			cancellationToken = new CancellationTokenSource(null)
-			connection = null as unknown as HubConnection // Dispose
-		}
-		else {
+		if (
+			cancellationToken.IsCancellationRequested() &&
+			connection.state != HubConnectionState.Disconnected
+		) {
+			await connection.stop();
+			cancellationToken = new CancellationTokenSource(null);
+			connection = null as unknown as HubConnection; // Dispose
+		} else {
 			//TODO Register Messages & interface
-			let MessageSent = this.Messages.MessageSent.bind(this.Messages)
-			let MessagesRead = this.Messages.MessagesRead.bind(this.Messages)
-			let ReceiveMessage = this.Messages.ReceiveMessage.bind(this.Messages)
-			connection.on("ReceiveMessage", (m)=>{
-				let message = new Message(m)
-				return ReceiveMessage(message)
-			})
-			connection.on("MessageSent", (m)=>{
-				let message = new Message(m)
-				return MessageSent(message)
-			})
-			connection.on("MessagesRead", (rmb)=>{
-				let batch = new ReadMessageBatch(rmb)
-				return MessagesRead(batch)
-			})
-			cloudXInterface.HubClient = new NeosHub(connection)
+			const MessageSent = this.Messages.MessageSent.bind(this.Messages);
+			const MessagesRead = this.Messages.MessagesRead.bind(this.Messages);
+			const ReceiveMessage = this.Messages.ReceiveMessage.bind(this.Messages);
+			connection.on("ReceiveMessage", (m) => {
+				const message = new Message(m);
+				return ReceiveMessage(message);
+			});
+			connection.on("MessageSent", (m) => {
+				const message = new Message(m);
+				return MessageSent(message);
+			});
+			connection.on("MessagesRead", (rmb) => {
+				const batch = new ReadMessageBatch(rmb);
+				return MessagesRead(batch);
+			});
+			cloudXInterface.HubClient = new NeosHub(connection);
 			//!Dispose of reference
-			connection = null as unknown as HubConnection
+			connection = null as unknown as HubConnection;
 		}
 	}
 
 	private async DisconnectFromHub(): Promise<void> {
-		if (this.HubClient == null) return
-		let _oldHub = this.HubClient
-		this.HubClient = null as unknown as NeosHub
-		await _oldHub.Hub.stop()
-		_oldHub = null as unknown as NeosHub //!Force Dispose
+		if (this.HubClient == null) return;
+		let _oldHub = this.HubClient;
+		this.HubClient = null as unknown as NeosHub;
+		await _oldHub.Hub.stop();
+		_oldHub = null as unknown as NeosHub; //!Force Dispose
 	}
 
 	public Update(): void {
 		if (this._updateCurrentUserInfo) {
 			switch (this.CurrentUser?.Id) {
-				case null:
-					break
-				default:
-					this._updateCurrentUserInfo = false
-					this.UpdateCurrentUserInfo()
-					break
+			case null:
+				break;
+			default:
+				this._updateCurrentUserInfo = false;
+				this.UpdateCurrentUserInfo();
+				break;
 			}
 		}
 		if (this.CurrentSession != null) {
@@ -485,14 +509,14 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	}
 	public HasPotentialAccess(ownerId: string): boolean {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.Machine:
-				return true;
-			case OwnerType.User:
-				return ownerId == this.CurrentUser.Id;
-			case OwnerType.Group:
-				return this.CurrentUserMemberships.some((m) => m.GroupId == ownerId);
-			default:
-				return false;
+		case OwnerType.Machine:
+			return true;
+		case OwnerType.User:
+			return ownerId == this.CurrentUser.Id;
+		case OwnerType.Group:
+			return this.CurrentUserMemberships.some((m) => m.GroupId == ownerId);
+		default:
+			return false;
 		}
 	}
 	private SetMemberships(memberships: List<Membership>): void {
@@ -527,18 +551,18 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 			return new Uri("https://neoscloud.blob.core.windows.net/assets/" + str3);
 		let str4;
 		switch (endpoint) {
-			case NeosDB_Endpoint.Blob:
-				str4 = CloudXInterface.NEOS_ASSETS_BLOB;
-				break;
-			case NeosDB_Endpoint.CDN:
-				str4 = CloudXInterface.NEOS_ASSETS_CDN;
-				break;
-			case NeosDB_Endpoint.VideoCDN:
-				str4 = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
-				break;
-			default:
-				str4 = CloudXInterface.NEOS_ASSETS;
-				break;
+		case NeosDB_Endpoint.Blob:
+			str4 = CloudXInterface.NEOS_ASSETS_BLOB;
+			break;
+		case NeosDB_Endpoint.CDN:
+			str4 = CloudXInterface.NEOS_ASSETS_CDN;
+			break;
+		case NeosDB_Endpoint.VideoCDN:
+			str4 = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
+			break;
+		default:
+			str4 = CloudXInterface.NEOS_ASSETS;
+			break;
 		}
 		return new Uri(str4 + str3);
 	}
@@ -730,7 +754,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 				email: credentials.Email,
 				username: credentials.Username,
 			} as UserJSON);
-			await this.ConnectToHub()
+			await this.ConnectToHub();
 			this.UpdateCurrentUserInfo();
 			this.UpdateCurrentUserMemberships();
 			this.Friends.Update();
@@ -776,20 +800,29 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 			this.CurrentUser.Id
 		);
 		const entity: User = cloudResult.Entity;
-		if (cloudResult.IsOK && this.CurrentUser != null && this.CurrentUser.Id == entity.Id)
+		if (
+			cloudResult.IsOK &&
+			this.CurrentUser != null &&
+			this.CurrentUser.Id == entity.Id
+		)
 			this.CurrentUser = entity;
 		return cloudResult;
 	}
 
 	public async IsPublicBanned(id: string): Promise<CloudResult<boolean>> {
-		let cloudResult = await this.GET(`api/publicbans/${id}`)
-		let result
+		const cloudResult = await this.GET(`api/publicbans/${id}`);
+		let result;
 		try {
-			result = JSON.parse(cloudResult.Content as string)
+			result = JSON.parse(cloudResult.Content as string);
 		} catch (error) {
-			result = false
+			result = false;
 		}
-		return new CloudResult<boolean>(result, cloudResult.State, result, cloudResult.Headers)
+		return new CloudResult<boolean>(
+			result,
+			cloudResult.State,
+			result,
+			cloudResult.Headers
+		);
 	}
 
 	public async GetUser(userId: string): Promise<CloudResult<User>> {
@@ -812,7 +845,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		let task = null;
 		this.OnLogout();
 		(async () => {
-			this.DisconnectFromHub()
+			this.DisconnectFromHub();
 		})();
 		if (
 			(this.CurrentSession != null && !this.CurrentSession.RememberMe) ||
@@ -965,14 +998,14 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	): Promise<CloudResult<CloudMessage>> {
 		let resource = "";
 		switch (IdUtil.GetOwnerType(record.OwnerId)) {
-			case OwnerType.User:
-				resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
-				break;
-			case OwnerType.Group:
-				resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
-				break;
-			default:
-				throw new Error("Invalid Record Owner!");
+		case OwnerType.User:
+			resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
+			break;
+		case OwnerType.Group:
+			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
+			break;
+		default:
+			throw new Error("Invalid Record Owner!");
 		}
 		return (await this.PUT<CloudMessage>(resource, record)).Convert(
 			CloudMessage
@@ -983,14 +1016,14 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	): Promise<CloudResult<RecordPreprocessStatus>> {
 		let resource = "";
 		switch (IdUtil.GetOwnerType(record.OwnerId)) {
-			case OwnerType.User:
-				resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
-				break;
-			case OwnerType.Group:
-				resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
-				break;
-			default:
-				throw new Error("Invalid Record Owner!");
+		case OwnerType.User:
+			resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+			break;
+		case OwnerType.Group:
+			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+			break;
+		default:
+			throw new Error("Invalid Record Owner!");
 		}
 		return (await this.POST<RecordPreprocessStatus>(resource, record)).Convert(
 			RecordPreprocessStatus
@@ -1018,14 +1051,14 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		} else {
 			let resource = "";
 			switch (IdUtil.GetOwnerType(ownerId)) {
-				case OwnerType.User:
-					resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
-					break;
-				case OwnerType.Group:
-					resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
-					break;
-				default:
-					throw new Error("Invalid Record Owner!");
+			case OwnerType.User:
+				resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
+				break;
+			case OwnerType.Group:
+				resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
+				break;
+			default:
+				throw new Error("Invalid Record Owner!");
 			}
 			return (await this.GET<RecordPreprocessStatus>(resource)).Convert(
 				RecordPreprocessStatus
@@ -1057,18 +1090,18 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		tag: string
 	): Promise<CloudResult<unknown>> {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return this.PUT(
-					"api/users/" + ownerId + "/records/" + recordId + "/tags",
-					tag
-				);
-			case OwnerType.Group:
-				return this.PUT(
-					"api/groups/" + ownerId + "/records/" + recordId + "/tags",
-					tag
-				);
-			default:
-				throw new Error("Invalid record owner");
+		case OwnerType.User:
+			return this.PUT(
+				"api/users/" + ownerId + "/records/" + recordId + "/tags",
+				tag
+			);
+		case OwnerType.Group:
+			return this.PUT(
+				"api/groups/" + ownerId + "/records/" + recordId + "/tags",
+				tag
+			);
+		default:
+			throw new Error("Invalid record owner");
 		}
 	}
 	public MarkStorageDirty(ownerId: string): void {
@@ -1109,38 +1142,38 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		hash: string
 	): Promise<CloudResult<AssetInfo>> {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return (
-					await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
-				).Convert(AssetInfo);
-			case OwnerType.Group:
-				return (
-					await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
-				).Convert(AssetInfo);
-			default:
-				throw new Error("Invalid ownerid");
+		case OwnerType.User:
+			return (
+				await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
+			).Convert(AssetInfo);
+		case OwnerType.Group:
+			return (
+				await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
+			).Convert(AssetInfo);
+		default:
+			throw new Error("Invalid ownerid");
 		}
 	}
 	public async RegisterAssetInfo(
 		assetInfo: AssetInfo
 	): Promise<CloudResult<AssetInfo>> {
 		switch (IdUtil.GetOwnerType(assetInfo.OwnerId)) {
-			case OwnerType.User:
-				return (
-					await this.PUT<AssetInfo>(
-						`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
-						assetInfo
-					)
-				).Convert(AssetInfo);
-			case OwnerType.Group:
-				return (
-					await this.PUT<AssetInfo>(
-						`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
-						assetInfo
-					)
-				).Convert(AssetInfo);
-			default:
-				throw new Error("Invalid ownerid");
+		case OwnerType.User:
+			return (
+				await this.PUT<AssetInfo>(
+					`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+					assetInfo
+				)
+			).Convert(AssetInfo);
+		case OwnerType.Group:
+			return (
+				await this.PUT<AssetInfo>(
+					`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+					assetInfo
+				)
+			).Convert(AssetInfo);
+		default:
+			throw new Error("Invalid ownerid");
 		}
 	}
 	public GetAssetMime(hash: string): Promise<CloudResult<unknown>> {
@@ -1155,12 +1188,12 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		let str = hash;
 		if (variant != null) str += `&${variant}`;
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return `api/users/${ownerId}/assets/${str}`;
-			case OwnerType.Group:
-				return `api/groups/${ownerId}/assets/${str}`;
-			default:
-				throw new Error("Invalid ownerId");
+		case OwnerType.User:
+			return `api/users/${ownerId}/assets/${str}`;
+		case OwnerType.Group:
+			return `api/groups/${ownerId}/assets/${str}`;
+		default:
+			throw new Error("Invalid ownerId");
 		}
 	}
 	//TODO UploadAsset
@@ -1174,7 +1207,7 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 				assetUpload.Variant
 			) + "/chunks";
 		let cloudResult;
-		for (; ;) {
+		for (;;) {
 			// ?? Equivalent of While (True)
 			cloudResult = (await this.GET<AssetUploadData>(baseUrl)).Convert(
 				AssetUploadData
@@ -1286,12 +1319,12 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	}
 	private static GetOwnerPath(ownerId: string): string {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return "users";
-			case OwnerType.Group:
-				return "groups";
-			default:
-				throw new Error("Invalid owner type: " + ownerId);
+		case OwnerType.User:
+			return "users";
+		case OwnerType.Group:
+			return "groups";
+		default:
+			throw new Error("Invalid owner type: " + ownerId);
 		}
 	}
 	public async UpsertVariableDefinition(
@@ -1299,7 +1332,8 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	): Promise<CloudResult<CloudVariableDefinition>> {
 		return (
 			await this.PUT<CloudVariableDefinition>(
-				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${definition.DefinitionOwnerId
+				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${
+					definition.DefinitionOwnerId
 				}/vardefs/${definition.Subpath}`,
 				definition
 			)
@@ -1363,22 +1397,22 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		);
 		if (cloudResult.IsOK) {
 			switch (cloudResult.Entity?.Value) {
-				case null:
-					break;
-				default: {
-					const result: Out<T> = new Out();
-					CloudVariableHelper.ParseValue<T>(
-						cloudResult.Entity.Value,
-						type,
-						result
-					);
-					return new CloudResult<T>(
-						result.Out,
-						cloudResult.State,
+			case null:
+				break;
+			default: {
+				const result: Out<T> = new Out();
+				CloudVariableHelper.ParseValue<T>(
+					cloudResult.Entity.Value,
+					type,
+					result
+				);
+				return new CloudResult<T>(
+					result.Out,
+					cloudResult.State,
 						cloudResult.Content as string,
 						null
-					);
-				}
+				);
+			}
 			}
 		}
 		return new CloudResult<T>(
@@ -1474,7 +1508,8 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 				str1 += `?lastStatusUpdate=${lastStatusUpdate.toISOString()}`;
 			}
 			const cloudResult = await this.GET<List<Friend>>(
-				`api/users/${userId}/friends${str1}`, !lastStatusUpdate != null ? TimeSpan.fromSeconds(90.0) : null
+				`api/users/${userId}/friends${str1}`,
+				!lastStatusUpdate != null ? TimeSpan.fromSeconds(90.0) : null
 			);
 			cloudResult.Content = List.ToListAs(cloudResult.Entity, Friend);
 			return cloudResult;
@@ -1516,14 +1551,20 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	public GetUnreadMessages(
 		fromTime?: Date
 	): Promise<CloudResult<List<Message>>> {
-		return this.GetMessages(fromTime, -1, void 0, true, TimeSpan.fromSeconds(90));
+		return this.GetMessages(
+			fromTime,
+			-1,
+			void 0,
+			true,
+			TimeSpan.fromSeconds(90)
+		);
 	}
 
 	public GetMessageHistory(
 		user: string,
 		maxItems = 100
 	): Promise<CloudResult<List<Message>>> {
-		return this.GetMessages(new Date(0), maxItems, user,false, null);
+		return this.GetMessages(new Date(0), maxItems, user, false, null);
 	}
 
 	public async GetMessages(
@@ -1540,7 +1581,8 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		if (user != null) stringBuilder.Append("&user=" + user);
 		if (unreadOnly) stringBuilder.Append("&unread=true");
 		const cloudResult = await this.GET<List<Message>>(
-			`api/users/${this.CurrentUser.Id}/messages${stringBuilder.toString()}`, timeout
+			`api/users/${this.CurrentUser.Id}/messages${stringBuilder.toString()}`,
+			timeout
 		);
 		cloudResult.Content = List.ToListAs(cloudResult.Entity, Message);
 		return cloudResult;
@@ -1637,15 +1679,15 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 			? new CloudResult<boolean>(
 				false,
 				cloudResult.State,
-				cloudResult.Content as string,
-				null
-			)
+					cloudResult.Content as string,
+					null
+			  )
 			: new CloudResult<boolean>(
 				true,
 				cloudResult.State,
-				cloudResult.Content as string,
-				null
-			); //TODO Verify
+					cloudResult.Content as string,
+					null
+			  ); //TODO Verify
 	}
 
 	public async GetSugarCube(
@@ -1735,35 +1777,35 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 	}
 
 	public Pong(index: number): Promise<void> {
-		console.log(`PONG ${index}!`)
-		return Promise.resolve()
+		console.log(`PONG ${index}!`);
+		return Promise.resolve();
 	}
 
 	public Debug(message: string): Promise<void> {
-		console.log(`Cloud Debug: ${message}`)
-		return Promise.resolve()
+		console.log(`Cloud Debug: ${message}`);
+		return Promise.resolve();
 	}
 
-	public OnUserPublicBanned!: (id: string) => void
-	public OnUserMuted!: (id: string) => void
-	public OnUserSpectatorBanned!: (id: string) => void
+	public OnUserPublicBanned!: (id: string) => void;
+	public OnUserMuted!: (id: string) => void;
+	public OnUserSpectatorBanned!: (id: string) => void;
 
 	public UserPublicBanned(userId: string): Promise<void> {
-		let userPublicBanned = this.OnUserPublicBanned
-		if (userPublicBanned != null) userPublicBanned(userId)
-		return Promise.resolve()
+		const userPublicBanned = this.OnUserPublicBanned;
+		if (userPublicBanned != null) userPublicBanned(userId);
+		return Promise.resolve();
 	}
 
 	public UserMuteBanned(userId: string): Promise<void> {
-		let OnUserMuted = this.OnUserMuted
-		if (OnUserMuted != null) OnUserMuted(userId)
-		return Promise.resolve()
+		const OnUserMuted = this.OnUserMuted;
+		if (OnUserMuted != null) OnUserMuted(userId);
+		return Promise.resolve();
 	}
 
 	public UserSpectatorBanned(userId: string): Promise<void> {
-		let OnUserSpectatorBanned = this.OnUserSpectatorBanned
-		if (OnUserSpectatorBanned != null) OnUserSpectatorBanned(userId)
-		return Promise.resolve()
+		const OnUserSpectatorBanned = this.OnUserSpectatorBanned;
+		if (OnUserSpectatorBanned != null) OnUserSpectatorBanned(userId);
+		return Promise.resolve();
 	}
 
 	public async GetCurrencyRates(
@@ -1773,14 +1815,14 @@ export class CloudXInterface implements INeosHubDebugClient, INeosModerationClie
 		return (
 			await this.GET<CurrencyRates>(
 				"https://openexchangerates.org/api/latest.json?app_id=" +
-				appId +
-				"&base=" +
-				baseCurrency
+					appId +
+					"&base=" +
+					baseCurrency
 			)
 		).Convert(CurrencyRates).Entity;
 	}
 }
 interface Constructable<T> {
-	new(...args: any): T;
+	new (...args: any): T;
 	constructor: { name: string };
 }

@@ -16,20 +16,18 @@ export class NeosHub implements INeosHubServer {
 	public SendMessage(message: Message): Promise<void> {
 		try {
 			return this.Hub.send("SendMessage", message);
-
 		} catch (error) {
-			console.error("Exception running SendMessage", error)
-			throw error
+			console.error("Exception running SendMessage", error);
+			throw error;
 		}
 	}
 
 	public MarkMessagesRead(markReadBatch: MarkReadBatch): Promise<void> {
 		try {
 			return this.Hub.send("MarkMessagesRead", markReadBatch);
-
 		} catch (error) {
-			console.error("Exception running MarkMessagesRead", error)
-			throw error
+			console.error("Exception running MarkMessagesRead", error);
+			throw error;
 		}
 	}
 }
