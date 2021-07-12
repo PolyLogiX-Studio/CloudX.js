@@ -80,6 +80,7 @@ import {
 import type { HubConnection } from "@bombitmanbomb/signalr";
 import { INeosModerationClient } from "./INeosModerationClient";
 import { ReadMessageBatch } from "./ReadMessageBatch";
+import { InfiniteRetryPolicy } from "./InfiniteRetryPolicy";
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -402,7 +403,7 @@ implements INeosHubDebugClient, INeosModerationClient
 					return Authorization;
 				},
 			})
-			.withAutomaticReconnect()
+			.withAutomaticReconnect(new InfiniteRetryPolicy([0, 2, 5, 10, 15, 30]))
 			.build();
 		connection.onreconnecting(async (message) => {
 			console.log("SignalR Reconnecting: " + message);
@@ -1718,6 +1719,10 @@ implements INeosHubDebugClient, INeosModerationClient
 	//TODO ExtendAssetComputationTask
 	//TODO FinishAssetComputation
 	//TODO FinishVariantComputation
+
+	public HealthCheck(): Promise<CloudResult<unknown>> {
+		return this.GET("api/testing/healthcheck");
+	}
 
 	public Ping(): Promise<CloudResult<unknown>> {
 		return this.GET("api/testing/ping");
