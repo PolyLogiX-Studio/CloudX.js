@@ -1,5 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
 export class MarkReadBatch {
+	public MAX_BATCH_SIZE = 512;
 	SenderId: string;
 	Ids: List<string>;
 	ReadTime: Date;

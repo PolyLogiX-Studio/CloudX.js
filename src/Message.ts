@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import type { MessageType } from "./MessageType";
+import { SendStatus } from "./SendStatus";
 export class Message {
 	public Id: string;
 	public OwnerId: string;
@@ -9,6 +10,7 @@ export class Message {
 	public Content: string;
 	public SendTime: Date;
 	public LastUpdateTime: Date;
+	public SendStatus?: SendStatus;
 	public ReadTime?: Date;
 	public static MAX_ID_LENGTH = 64;
 	constructor($b: MessageJSON = {} as MessageJSON) {
@@ -18,9 +20,9 @@ export class Message {
 		this.SenderId = $b.senderId;
 		this.MessageType = $b.messageType;
 		this.Content = $b.content;
-		this.SendTime = new Date($b.sendTime ?? 0);
+		this.SendTime = $b.sendTime != null ? new Date($b.sendTime) : null as unknown as Date;
 		this.LastUpdateTime = new Date($b.lastUpdateTime ?? 0);
-		this.ReadTime = new Date(($b.readTime as Date) ?? 0);
+		this.ReadTime = $b.readTime != null ? new Date(($b.readTime as Date) ?? 0) : null as unknown as Date;
 	}
 
 	public get IsValid(): boolean {

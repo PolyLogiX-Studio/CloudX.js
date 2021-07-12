@@ -19,9 +19,10 @@ import { TransactionType } from "./TransactionType";
 import { ReadMessageBatch } from "./ReadMessageBatch";
 import { MarkReadBatch } from "./MarkReadBatch";
 import type { INeosHubMessagingClient } from "./INeosHubMessagingClient";
+import { SendStatus } from "./SendStatus";
 /**@internal */
 export class UserMessages {
-	private _messageIds: List<string> = new List();
+	private _messageIds: Set<string> = new Set;
 	private _historyLoadTask: unknown;
 	private _historyLoaded = false;
 
@@ -44,24 +45,37 @@ export class UserMessages {
 
 	public MarkAllRead(): void {
 		if (this.UnreadCount == 0) return;
-		const stringList = new List();
+		let index = 0;
+		const ids: List<List<string>> = new List();
+		ids.Add(new List());
 		for (const message of this.Messages) {
-			if (!message.IsSent && !(message.ReadTime != null)) {
+			if (!message.IsSent && !(message.ReadTime != null && message.ReadTime.getTime != new Date(0).getTime())) {
 				message.ReadTime = new Date();
-				stringList.Add(message.Id);
+				if (ids[index].Count == 512) {
+					ids.Add(new List());
+					index++;
+				}
+				ids[index].Add(message.Id);
 			}
 		}
 		this.UnreadCount = 0;
-		const batch = new MarkReadBatch({
-			senderId: this.Manager.SendReadNotification
-				? this.UserId
-				: (null as unknown as string),
-			ids: stringList,
-			readTime: new Date(),
-		});
-		(async () => {
-			await this.Cloud.HubClient.MarkMessagesRead(batch);
-		})();
+		if (ids != null && ids.Count > 0) {
+			(async () => {
+				const time = new Date();
+				for (const stringlist of ids) {
+					await this.Cloud.HubClient.MarkMessagesRead(
+						new MarkReadBatch({
+							senderId: this.Manager.SendReadNotification
+								? this.UserId
+								: (null as unknown as string),
+							ids: stringlist,
+							readTime: time,
+						})
+					);
+				}
+			})();
+		}
+
 		this.Manager.MarkUnreadCountDirty();
 	}
 
@@ -124,6 +138,7 @@ export class UserMessages {
 			message.Id,
 			completionSource
 		);
+		message.SendStatus = SendStatus.Sending;
 		await this.Cloud.HubClient.SendMessage(message);
 		(async () => {
 			await TimeSpan.Delay(
@@ -136,6 +151,7 @@ export class UserMessages {
 		const flag = await completionSource.Task;
 		if (flag) cancellationTokenSource.Cancel();
 		this.Manager._messagesWaitingForConfirmation.Remove(message.Id);
+		message.SendStatus = !flag ? SendStatus.Failed : SendStatus.Sent;
 		return flag;
 	}
 
@@ -153,8 +169,7 @@ export class UserMessages {
 				MessageManager.MAX_READ_HISTORY
 			);
 		}
-		const cloudResult: CloudResult<List<Message>> = (await this
-			._historyLoadTask) as CloudResult<List<Message>>;
+		const cloudResult: CloudResult<List<Message>> = (await this._historyLoadTask) as CloudResult<List<Message>>;
 		if (!isFirstRequest) return;
 		if (!cloudResult.IsOK) {
 			console.error(
@@ -162,31 +177,41 @@ export class UserMessages {
 			);
 			this._historyLoadTask = null;
 		} else {
-			this.Messages = cloudResult.Entity;
-			this.Messages.reverse();
-			this.UnreadCount = this.Messages.filter(
-				(m) => !(m.ReadTime != null)
-			).length;
-			this._historyLoaded = true;
+			cloudResult.Entity.forEach((m) => {
+				if (!m.IsSent) return;
+				m.SendStatus = SendStatus.Sent;
+			});
+			if (this.Messages != null && this.Messages.Count > 0) {
+				const stringSet = new Set();
+				for (const message of this.Messages) stringSet.add(message);
+				for (const message of cloudResult.Entity) {
+					if (!stringSet.has(message.Id)) this.Messages.Add(message);
+				}
+				this.Messages.sort((a, b) => {
+					return a.LastUpdateTime - b.LastUpdateTime;
+				});
+			} else {
+				this.Messages = cloudResult.Entity;
+				this.Messages.reverse();
+			}
 		}
 	}
 
 	/**@internal */
 	public AddMessage(message: Message): boolean {
-		if (this._messageIds.Contains(message.Id)) return false;
+		if (this._messageIds.has(message.Id)) return false;
 		this.Messages.Add(message);
-		this._messageIds.Add(message.Id);
+		this._messageIds.add(message.Id);
 		if (message.IsReceived && !message.ReadTime != null) this.UnreadCount++;
 		while (
 			this.Messages.Filled > MessageManager.MAX_UNREAD_HISTORY ||
 			(this.Messages.Filled > MessageManager.MAX_READ_HISTORY &&
 				(this.Messages[0].IsSent || this.Messages[0].ReadTime != null))
 		) {
-			this._messageIds.Remove(this.Messages[0].Id);
+			this._messageIds.delete(this.Messages[0].Id);
 			this.Messages.RemoveAt(0);
 		}
 		this.Messages.TrimExcess();
-		this._messageIds.TrimExcess();
 		return true;
 	}
 
