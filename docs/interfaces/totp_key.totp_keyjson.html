@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RecordInfoJSON | @bombitmanbomb/cloudx</title>
+	<title>TOTP_KeyJSON | @bombitmanbomb/cloudx</title>
 	<meta name="description" content="Documentation for @bombitmanbomb/cloudx">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,13 +55,13 @@
 					<a href="../modules.html">@bombitmanbomb/cloudx</a>
 				</li>
 				<li>
-					<a href="../modules/recordinfo.html">RecordInfo</a>
+					<a href="../modules/totp_key.html">TOTP_Key</a>
 				</li>
 				<li>
-					<a href="recordinfo.recordinfojson.html">RecordInfoJSON</a>
+					<a href="totp_key.totp_keyjson.html">TOTP_KeyJSON</a>
 				</li>
 			</ul>
-			<h1>Interface RecordInfoJSON</h1>
+			<h1>Interface TOTP_KeyJSON</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RecordInfoJSON</span>
+						<span class="target">TOTP_KeyJSON</span>
 					</li>
 				</ul>
 			</section>
@@ -83,12 +83,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recordinfo.recordinfojson.html#asseturi" class="tsd-kind-icon">asset<wbr>Uri</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recordinfo.recordinfojson.html#globalversion" class="tsd-kind-icon">global<wbr>Version</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recordinfo.recordinfojson.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recordinfo.recordinfojson.html#ownerid" class="tsd-kind-icon">owner<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recordinfo.recordinfojson.html#recordid" class="tsd-kind-icon">record<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recordinfo.recordinfojson.html#thumbnailuri" class="tsd-kind-icon">thumbnail<wbr>Uri</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="totp_key.totp_keyjson.html#recoverycodes" class="tsd-kind-icon">recovery<wbr>Codes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="totp_key.totp_keyjson.html#secretkeybase32" class="tsd-kind-icon">secret<wbr>Key<wbr>Base32</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="totp_key.totp_keyjson.html#userid" class="tsd-kind-icon">user<wbr>Id</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,62 +94,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="asseturi" class="tsd-anchor"></a>
-					<h3>asset<wbr>Uri</h3>
-					<div class="tsd-signature tsd-kind-icon">asset<wbr>Uri<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="recoverycodes" class="tsd-anchor"></a>
+					<h3>recovery<wbr>Codes</h3>
+					<div class="tsd-signature tsd-kind-icon">recovery<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/RecordInfo.ts#L31">RecordInfo.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/TOTP_Key.ts#L30">TOTP_Key.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="globalversion" class="tsd-anchor"></a>
-					<h3>global<wbr>Version</h3>
-					<div class="tsd-signature tsd-kind-icon">global<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="secretkeybase32" class="tsd-anchor"></a>
+					<h3>secret<wbr>Key<wbr>Base32</h3>
+					<div class="tsd-signature tsd-kind-icon">secret<wbr>Key<wbr>Base32<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/RecordInfo.ts#L33">RecordInfo.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/TOTP_Key.ts#L29">TOTP_Key.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="userid" class="tsd-anchor"></a>
+					<h3>user<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">user<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/RecordInfo.ts#L30">RecordInfo.ts:30</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="ownerid" class="tsd-anchor"></a>
-					<h3>owner<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">owner<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/RecordInfo.ts#L29">RecordInfo.ts:29</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="recordid" class="tsd-anchor"></a>
-					<h3>record<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">record<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/RecordInfo.ts#L28">RecordInfo.ts:28</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="thumbnailuri" class="tsd-anchor"></a>
-					<h3>thumbnail<wbr>Uri</h3>
-					<div class="tsd-signature tsd-kind-icon">thumbnail<wbr>Uri<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/RecordInfo.ts#L32">RecordInfo.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/PolyLogiX-Studio/CloudX.js/blob/7ad003e/src/TOTP_Key.ts#L28">TOTP_Key.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,37 +132,28 @@
 						<a href="../modules.html">Exports</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/recordinfo.html">Record<wbr>Info</a>
+						<a href="../modules/totp_key.html">TOTP_<wbr><wbr>Key</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/recordinfo.recordinfo-1.html" class="tsd-kind-icon">Record<wbr>Info</a>
+						<a href="../classes/totp_key.totp_key-1.html" class="tsd-kind-icon">TOTP_<wbr><wbr>Key</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="recordinfo.recordinfojson.html" class="tsd-kind-icon">Record<wbr>InfoJSON</a>
+						<a href="totp_key.totp_keyjson.html" class="tsd-kind-icon">TOTP_<wbr><wbr>KeyJSON</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recordinfo.recordinfojson.html#asseturi" class="tsd-kind-icon">asset<wbr>Uri</a>
+								<a href="totp_key.totp_keyjson.html#recoverycodes" class="tsd-kind-icon">recovery<wbr>Codes</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recordinfo.recordinfojson.html#globalversion" class="tsd-kind-icon">global<wbr>Version</a>
+								<a href="totp_key.totp_keyjson.html#secretkeybase32" class="tsd-kind-icon">secret<wbr>Key<wbr>Base32</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recordinfo.recordinfojson.html#name" class="tsd-kind-icon">name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recordinfo.recordinfojson.html#ownerid" class="tsd-kind-icon">owner<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recordinfo.recordinfojson.html#recordid" class="tsd-kind-icon">record<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recordinfo.recordinfojson.html#thumbnailuri" class="tsd-kind-icon">thumbnail<wbr>Uri</a>
+								<a href="totp_key.totp_keyjson.html#userid" class="tsd-kind-icon">user<wbr>Id</a>
 							</li>
 						</ul>
 					</li>
