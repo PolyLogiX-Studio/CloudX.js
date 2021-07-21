@@ -4,6 +4,7 @@ export class LoginCredentials {
 	Username?: string;
 	Email?: string;
 	Password?: string;
+	TOTP?:string
 	RecoverCode?: string;
 	SessionToken?: string;
 	SecretMachineId?: string;
@@ -14,6 +15,7 @@ export class LoginCredentials {
 		this.Username = $b.username as string;
 		this.Email = $b.email as string;
 		this.Password = $b.password as string;
+		this.TOTP = $b.totp
 		this.RecoverCode = $b.recoverCode as string;
 		this.SessionToken = $b.sessionToken as string;
 		this.SecretMachineId = $b.secretMachineId as string;
@@ -25,6 +27,7 @@ export class LoginCredentials {
 			ownerId: this.OwnerId as string,
 			username: this.Username as string,
 			email: this.Email as string,
+			totp: this.TOTP,
 			password: this.Password as string,
 			recoverCode: this.RecoverCode as string,
 			sessionToken: this.SessionToken as string,
@@ -46,6 +49,7 @@ export interface LoginCredentialsJSON {
 	username?: string;
 	email?: string;
 	password?: string;
+	totp?:string;
 	recoverCode?: string;
 	sessionToken?: string;
 	secretMachineId?: string;

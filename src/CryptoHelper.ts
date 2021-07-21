@@ -1,4 +1,5 @@
 import CRYPTO from "crypto";
+import base32 from 'hi-base32';
 export class CryptoHelper {
 	public static readonly crypto = CRYPTO;
 	public static GenerateCryptoBlob(length: number): Buffer {
@@ -6,6 +7,9 @@ export class CryptoHelper {
 	}
 	public static CryptoTokenStringLength(length: number): number {
 		return ((4 * length) / 3 + 3) & -4;
+	}
+	public static GenerateReadableCryptoToken(length = 12): string {
+		return base32.encode(CryptoHelper.GenerateCryptoBlob(length)).replace("=","")
 	}
 	public static GenerateCryptoToken(length = 128): string {
 		return CryptoHelper.GenerateCryptoBlob(length)

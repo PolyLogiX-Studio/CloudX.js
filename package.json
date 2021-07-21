@@ -62,6 +62,7 @@
 		"@bombitmanbomb/http-client": "2.3.0",
 		"@bombitmanbomb/signalr": "5.0.1-neos",
 		"@bombitmanbomb/utils": "2.12.1",
+		"hi-base32": "^0.5.1",
 		"uuid": "^8.3.2"
 	}
 }
