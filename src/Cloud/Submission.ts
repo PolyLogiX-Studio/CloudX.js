@@ -1,5 +1,5 @@
-import { RecordId } from "./RecordId";
-import type { RecordIdJSON } from "./RecordId";
+import { RecordId } from "../RecordId";
+import type { RecordIdJSON } from "../RecordId";
 export class Submission {
 	public Id: string;
 	public GroupId: string;

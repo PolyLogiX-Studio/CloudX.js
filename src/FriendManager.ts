@@ -1,5 +1,5 @@
 import { Dictionary, List, Out } from "@bombitmanbomb/utils";
-import { Friend, FriendJSON } from "./Friend";
+import { Friend, FriendJSON } from "./Cloud/Friend";
 import { SessionInfo } from "./SessionInfo";
 import { CloudXInterface } from "./CloudXInterface";
 import { FriendStatus } from "./FriendStatus";

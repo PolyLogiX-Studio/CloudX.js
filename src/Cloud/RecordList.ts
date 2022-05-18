@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { Record, RecordJSON } from "./Record";
+import { Record, RecordJSON } from "../Record";
 export class RecordList {
 	public get Id(): string {
 		return this.Name + "-" + this.Page;

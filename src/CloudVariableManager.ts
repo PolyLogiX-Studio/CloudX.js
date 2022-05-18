@@ -3,8 +3,8 @@ import { Dictionary } from "@bombitmanbomb/utils";
 import { VariableReadResult } from "./VariableReadResult";
 import { CloudVariableProxy } from "./CloudVariableProxy";
 import { CloudXInterface } from "./CloudXInterface";
-import { CloudVariable } from "./CloudVariable";
-import { CloudVariableDefinition } from "./CloudVariableDefinition";
+import { CloudVariable } from "./Cloud/CloudVariable";
+import { CloudVariableDefinition } from "./Cloud/CloudVariableDefinition";
 //TODO Need BaseX Pool
 //TODO Need BatchQuery
 export class CloudVariableManager {

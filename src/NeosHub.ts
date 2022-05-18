@@ -1,7 +1,7 @@
 import { HubConnection } from "@bombitmanbomb/signalr";
 import { INeosHubServer } from "./INeosHubServer";
 import { MarkReadBatch } from "./MarkReadBatch";
-import { Message } from "./Message";
+import { Message } from "./Cloud/Message";
 export class NeosHub implements INeosHubServer {
 	public Hub: HubConnection;
 

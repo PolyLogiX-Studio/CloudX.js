@@ -1,5 +1,5 @@
-import { CloudVariableDefinition } from "./CloudVariableDefinition";
-import { CloudVariable } from "./CloudVariable";
+import { CloudVariableDefinition } from "./Cloud/CloudVariableDefinition";
+import { CloudVariable } from "./Cloud/CloudVariable";
 import { CloudVariableManager } from "./CloudVariableManager";
 import { CloudVariableState } from "./CloudVariableState";
 import { CloudVariableIdentity } from "./CloudVariableIdentity";

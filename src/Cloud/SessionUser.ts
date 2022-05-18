@@ -1,4 +1,4 @@
-import type { OutputDevice } from "./OutputDevice";
+import type { OutputDevice } from "../OutputDevice";
 export class SessionUser {
 	public Username: string;
 	public UserID: string;

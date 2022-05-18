@@ -1,5 +1,5 @@
-import { IRecord } from "./IRecord";
-import { RecordUtil } from "./RecordUtil";
+import { IRecord } from "../IRecord";
+import { RecordUtil } from "../RecordUtil";
 import { Uri, Out } from "@bombitmanbomb/utils";
 export class RecordHelper {
 	public static IsSameVersion(record: IRecord, other: IRecord): boolean {

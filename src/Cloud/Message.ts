@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import type { MessageType } from "./MessageType";
-import { SendStatus } from "./SendStatus";
+import type { MessageType } from "../MessageType";
+import { SendStatus } from "../SendStatus";
 export class Message {
 	public Id: string;
 	public OwnerId: string;

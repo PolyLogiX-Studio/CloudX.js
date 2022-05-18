@@ -1,17 +1,19 @@
 import type { IRecord } from "./IRecord";
 import { NeosDBAsset } from "./NeosDBAsset";
 import type { NeosDBAssetJSON } from "./NeosDBAsset";
-import { Submission } from "./Submission";
-import type { SubmissionJSON } from "./Submission";
+import { Submission } from "./Cloud/Submission";
+import type { SubmissionJSON } from "./Cloud/Submission";
 import { List, Uri } from "@bombitmanbomb/utils";
 import { IdUtil } from "./IdUtil";
 import { OwnerType } from "./OwnerType";
 import { RecordUtil } from "./RecordUtil";
-import { RecordHelper } from "./RecordHelper";
+import { RecordHelper } from "./Cloud/RecordHelper";
+import { RecordId } from "./RecordId";
 export class Record implements IRecord {
 	public RecordId: string;
 	public OwnerId: string;
 	public AssetURI: string;
+	public CombinedRecord?: RecordId | undefined;
 	public GlobalVersion: number;
 	public LocalVersion: number;
 	public LastModifyingUserId: string;

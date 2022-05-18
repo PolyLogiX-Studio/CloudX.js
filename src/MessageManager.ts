@@ -7,7 +7,7 @@ import {
 	CancellationTokenSource,
 } from "@bombitmanbomb/utils";
 import { CloudXInterface } from "./CloudXInterface";
-import { Message, MessageJSON } from "./Message";
+import { Message, MessageJSON } from "./Cloud/Message";
 import { MessageType } from "./MessageType";
 import {
 	TransactionMessage,

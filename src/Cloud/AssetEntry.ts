@@ -1,5 +1,5 @@
-import { ComputationLock } from "./ComputationLock";
-import type { ComputationLockJSON } from "./ComputationLock";
+import { ComputationLock } from "../ComputationLock";
+import type { ComputationLockJSON } from "../ComputationLock";
 /**
  *
  * @export
