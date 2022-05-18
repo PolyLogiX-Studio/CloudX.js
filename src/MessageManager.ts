@@ -22,7 +22,7 @@ import type { INeosHubMessagingClient } from "./INeosHubMessagingClient";
 import { SendStatus } from "./SendStatus";
 /**@internal */
 export class UserMessages {
-	private _messageIds: Set<string> = new Set;
+	private _messageIds: Set<string> = new Set();
 	private _historyLoadTask: unknown;
 	private _historyLoaded = false;
 
@@ -49,7 +49,13 @@ export class UserMessages {
 		const ids: List<List<string>> = new List();
 		ids.Add(new List());
 		for (const message of this.Messages) {
-			if (!message.IsSent && !(message.ReadTime != null && message.ReadTime.getTime != new Date(0).getTime())) {
+			if (
+				!message.IsSent &&
+				!(
+					message.ReadTime != null &&
+					message.ReadTime.getTime != new Date(0).getTime()
+				)
+			) {
 				message.ReadTime = new Date();
 				if (ids[index].Count == 512) {
 					ids.Add(new List());
@@ -169,7 +175,8 @@ export class UserMessages {
 				MessageManager.MAX_READ_HISTORY
 			);
 		}
-		const cloudResult: CloudResult<List<Message>> = (await this._historyLoadTask) as CloudResult<List<Message>>;
+		const cloudResult: CloudResult<List<Message>> = (await this
+			._historyLoadTask) as CloudResult<List<Message>>;
 		if (!isFirstRequest) return;
 		if (!cloudResult.IsOK) {
 			console.error(

@@ -81,7 +81,7 @@ import type { HubConnection } from "@bombitmanbomb/signalr";
 import { INeosModerationClient } from "./INeosModerationClient";
 import { ReadMessageBatch } from "./ReadMessageBatch";
 import { InfiniteRetryPolicy } from "./InfiniteRetryPolicy";
-import { TOTP_Key } from './TOTP_Key';
+import { TOTP_Key } from "./TOTP_Key";
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -640,13 +640,16 @@ implements INeosHubDebugClient, INeosModerationClient
 		entity: unknown,
 		timeout: TimeSpan | null = null,
 		throwOnError = true,
-		totp: string|null = null
+		totp: string | null = null
 	): Promise<CloudResult<T>> {
 		return this.HttpClient.RunRequest(
 			() => {
-				const request = this.HttpClient.CreateRequest(resource, HttpMethod.Post);
+				const request = this.HttpClient.CreateRequest(
+					resource,
+					HttpMethod.Post
+				);
 				if (entity != null) this.HttpClient.AddBody(request, entity);
-				if (totp != null) request.Headers.TOTP = totp
+				if (totp != null) request.Headers.TOTP = totp;
 				return request;
 			},
 			timeout,
@@ -715,7 +718,7 @@ implements INeosHubDebugClient, INeosModerationClient
 		secretMachineId: string,
 		rememberMe: boolean,
 		recoverCode: null,
-		totp?:string | null
+		totp?: string | null
 	): Promise<CloudResult<UserSession>>;
 	public async Login(
 		credential: string,
@@ -747,7 +750,13 @@ implements INeosHubDebugClient, INeosModerationClient
 		else credentials.Username = credential;
 		//TODO Crypto
 		const result: CloudResult<UserSession> = (
-			await this.POST<UserSession>("api/userSessions", credentials, null as unknown as TimeSpan, false, totp)
+			await this.POST<UserSession>(
+				"api/userSessions",
+				credentials,
+				null as unknown as TimeSpan,
+				false,
+				totp
+			)
 		).Convert<UserSession>(UserSession);
 		if (result.IsOK) {
 			this.CurrentSession = result.Entity;
@@ -1654,11 +1663,11 @@ implements INeosHubDebugClient, INeosModerationClient
 
 	public SendTransaction(
 		transaction: CreditTransaction,
-		totpCode:string|null = null
+		totpCode: string | null = null
 	): Promise<CloudResult<unknown>> {
-		let resource:string = `api/transactions/${transaction.Token}`
-		let creditTransaction = transaction
-		return this.POST(resource, creditTransaction, null, false, totpCode)
+		const resource = `api/transactions/${transaction.Token}`;
+		const creditTransaction = transaction;
+		return this.POST(resource, creditTransaction, null, false, totpCode);
 	}
 
 	public RequestDepositAddress(): Promise<CloudResult<unknown>> {
@@ -1838,11 +1847,16 @@ implements INeosHubDebugClient, INeosModerationClient
 		).Convert(CurrencyRates).Entity;
 	}
 
-	public async InitializeTOTP():Promise<CloudResult<TOTP_Key>>{
-		return (await this.POST<TOTP_Key>(`api/users/${this.CurrentUser?.Id}/totp`, null)).Convert(TOTP_Key)
+	public async InitializeTOTP(): Promise<CloudResult<TOTP_Key>> {
+		return (
+			await this.POST<TOTP_Key>(`api/users/${this.CurrentUser?.Id}/totp`, null)
+		).Convert(TOTP_Key);
 	}
-	public ActivateTOTP(code:string):Promise<CloudResult<void>>{
-		return this.PATCH(`api/users/${this.CurrentUser?.Id}/totp?code=${code}`,null)
+	public ActivateTOTP(code: string): Promise<CloudResult<void>> {
+		return this.PATCH(
+			`api/users/${this.CurrentUser?.Id}/totp?code=${code}`,
+			null
+		);
 	}
 }
 interface Constructable<T> {

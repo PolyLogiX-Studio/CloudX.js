@@ -20,9 +20,13 @@ export class Message {
 		this.SenderId = $b.senderId;
 		this.MessageType = $b.messageType;
 		this.Content = $b.content;
-		this.SendTime = $b.sendTime != null ? new Date($b.sendTime) : null as unknown as Date;
+		this.SendTime =
+			$b.sendTime != null ? new Date($b.sendTime) : (null as unknown as Date);
 		this.LastUpdateTime = new Date($b.lastUpdateTime ?? 0);
-		this.ReadTime = $b.readTime != null ? new Date(($b.readTime as Date) ?? 0) : null as unknown as Date;
+		this.ReadTime =
+			$b.readTime != null
+				? new Date(($b.readTime as Date) ?? 0)
+				: (null as unknown as Date);
 	}
 
 	public get IsValid(): boolean {
