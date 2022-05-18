@@ -1,10 +1,12 @@
 import { FriendStatus } from "../FriendStatus";
 import { UserStatus, UserStatusJSON } from "../Models/UserStatus";
 import { UserProfile, UserProfileJSON } from "../Models/UserProfile";
+import { List } from "@bombitmanbomb/utils/lib";
 export class Friend {
 	FriendUserId: string;
 	OwnerId: string;
 	FriendUsername: string;
+	AlternateUsernames: List<string>;
 	FriendStatus: FriendStatus;
 	IsAccepted: boolean;
 	UserStatus: UserStatus;
@@ -14,6 +16,7 @@ export class Friend {
 		this.FriendUserId = $b.id;
 		this.OwnerId = $b.ownerId;
 		this.FriendUsername = $b.friendUsername;
+		this.AlternateUsernames = List.ToList($b.alternateUsernames);
 		this.FriendStatus = $b.friendStatus;
 		this.IsAccepted = $b.isAccepted;
 		this.UserStatus =
@@ -31,6 +34,7 @@ export class Friend {
 			id: this.FriendUserId,
 			ownerId: this.OwnerId,
 			friendUsername: this.FriendUsername,
+			alternateUsernames: this.AlternateUsernames.toJSON(),
 			friendStatus: this.FriendStatus,
 			isAccepted: this.IsAccepted,
 			userStatus: this.UserStatus?.toJSON(),
@@ -43,6 +47,7 @@ export interface FriendJSON {
 	id: string;
 	ownerId: string;
 	friendUsername: string;
+	alternateUsernames: string[];
 	friendStatus: FriendStatus;
 	isAccepted: boolean;
 	userStatus: UserStatusJSON;
