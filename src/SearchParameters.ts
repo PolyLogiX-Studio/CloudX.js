@@ -155,7 +155,7 @@ export class SearchParameters {
 				+(this.MaxDate as Date)) *
 				-1521134295 +
 				hashCode(this.SortBy)) *
-				-1521134295 +
+			-1521134295 +
 			hashCode(this.SortDirection);
 		if (this.OptionalTags != null) {
 			for (const optionalTag in this.OptionalTags)

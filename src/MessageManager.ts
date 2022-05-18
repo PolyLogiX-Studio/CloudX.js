@@ -12,12 +12,12 @@ import { MessageType } from "./MessageType";
 import {
 	TransactionMessage,
 	TransactionMessageJSON,
-} from "./TransactionMessage";
-import { SessionInfo } from "./SessionInfo";
+} from "./Models/TransactionMessage";
+import { SessionInfo } from "./Models/SessionInfo";
 import { CloudResult } from "@bombitmanbomb/http-client";
 import { TransactionType } from "./TransactionType";
-import { ReadMessageBatch } from "./ReadMessageBatch";
-import { MarkReadBatch } from "./MarkReadBatch";
+import { ReadMessageBatch } from "./Models/ReadMessageBatch";
+import { MarkReadBatch } from "./Models/MarkReadBatch";
 import type { INeosHubMessagingClient } from "./INeosHubMessagingClient";
 import { SendStatus } from "./SendStatus";
 /**@internal */
@@ -341,7 +341,7 @@ export class MessageManager implements INeosHubMessagingClient {
 				this._messages.length != 0
 					? this._messages?.reduce((a, m) => {
 						a + m.Value.UnreadCount;
-					  }, 0)
+					}, 0)
 					: 0;
 			for (const message of this._messages) {
 				if (message.Value.UnreadCount == 0)
@@ -364,7 +364,7 @@ export class MessageManager implements INeosHubMessagingClient {
 	private PollMessages(): void {
 		if (
 			new Date().getTime() - (this.lastRequest?.getTime() ?? 0) / 1000 <
-				MessageManager.UPDATE_PERIOD_SECONDS ||
+			MessageManager.UPDATE_PERIOD_SECONDS ||
 			this.runningRequest != null
 		)
 			return;
@@ -383,7 +383,7 @@ export class MessageManager implements INeosHubMessagingClient {
 									this.lastUnreadMessage.getTime(),
 									message.LastUpdateTime?.getTime() ?? 0
 								)
-							  )
+							)
 							: new Date(message.LastUpdateTime?.getTime() ?? 0);
 					if (!this.GetUserMessages(message.SenderId).AddMessage(message))
 						hset.Add(message);

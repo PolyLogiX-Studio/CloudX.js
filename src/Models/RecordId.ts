@@ -1,6 +1,6 @@
-import { RecordUtil } from "./RecordUtil";
-import { IdUtil } from "./IdUtil";
-import { OwnerType } from "./OwnerType";
+import { RecordUtil } from "../RecordUtil";
+import { IdUtil } from "../IdUtil";
+import { OwnerType } from "../OwnerType";
 import { Out } from "@bombitmanbomb/utils";
 export class RecordId {
 	public Id!: string;

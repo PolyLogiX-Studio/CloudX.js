@@ -1,4 +1,4 @@
-import type { AssetVariantEntityType } from "./AssetVariantEntityType";
+import type { AssetVariantEntityType } from "../AssetVariantEntityType";
 /**
  *Asset Variant Computation Info
  *

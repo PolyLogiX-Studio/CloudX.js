@@ -1,6 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildChangeType } from "./BuildChangeType";
-import { BuildReporter, BuildReporterJSON } from "./BuildReporter";
+import { BuildChangeType } from "../../BuildChangeType";
+import { BuildReporter, BuildReporterJSON } from "../../BuildReporter";
 /**
  *Build Changes
  *

@@ -1,4 +1,4 @@
-import type { RecordPreprocessState } from "./RecordPreprocessState";
+import type { RecordPreprocessState } from "../RecordPreprocessState";
 import { AssetDiff, AssetDiffJSON } from "./AssetDiff";
 import { List } from "@bombitmanbomb/utils";
 export class RecordPreprocessStatus {

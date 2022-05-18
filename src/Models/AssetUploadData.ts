@@ -1,4 +1,4 @@
-import type { UploadState } from "./UploadState";
+import type { UploadState } from "../UploadState";
 /**
  * Asset Upload Info
  * @export

@@ -1,6 +1,6 @@
 import type { List } from "@bombitmanbomb/utils";
-import type { NeosDBAsset } from "./NeosDBAsset";
-import { RecordId } from './RecordId';
+import type { NeosDBAsset } from "./Models/NeosDBAsset";
+import { RecordId } from './Models/RecordId';
 export interface IRecord {
 	RecordId: string; //
 	OwnerId: string; //

@@ -1,7 +1,7 @@
-import { VariablePermissionType } from "./VariablePermissionType";
-import { OwnerType } from "./OwnerType";
+import { VariablePermissionType } from "../../VariablePermissionType";
+import { OwnerType } from "../../OwnerType";
 import { List, Out } from "@bombitmanbomb/utils";
-import { IdUtil } from "./IdUtil";
+import { IdUtil } from "../../IdUtil";
 //TODO BaseX Interface
 /**
  *Cloud Variable Helper Class
@@ -96,17 +96,17 @@ export class CloudVariableHelper {
 		) {
 			for (const str of stringList2) {
 				switch (str) {
-				case "definition_owner_only":
-				case "definition_owner_only_contacts":
-				case "definition_owner_only_contacts_unsafe":
-				case "definition_owner_only_unsafe":
-				case "variable_owner":
-				case "variable_owner_only_contacts":
-				case "variable_owner_only_contacts_unsafe":
-				case "variable_owner_unsafe":
-					continue;
-				default:
-					return false;
+					case "definition_owner_only":
+					case "definition_owner_only_contacts":
+					case "definition_owner_only_contacts_unsafe":
+					case "definition_owner_only_unsafe":
+					case "variable_owner":
+					case "variable_owner_only_contacts":
+					case "variable_owner_only_contacts_unsafe":
+					case "variable_owner_unsafe":
+						continue;
+					default:
+						return false;
 				}
 			}
 		}
@@ -182,17 +182,17 @@ export class CloudVariableHelper {
 			const c = path[index];
 			if (isNaN(c as unknown as number)) {
 				switch (c) {
-				case "-":
-				case "_":
-					continue;
-				case ".":
-					if (seperatorIndex.Out == -1) {
-						seperatorIndex.Out = index;
+					case "-":
+					case "_":
 						continue;
-					}
-					continue;
-				default:
-					continue;
+					case ".":
+						if (seperatorIndex.Out == -1) {
+							seperatorIndex.Out = index;
+							continue;
+						}
+						continue;
+					default:
+						continue;
 				}
 			}
 		}
@@ -223,13 +223,13 @@ export class CloudVariableHelper {
 			return false;
 		ownerId.Out = path.substr(0, separatorIndex.Out);
 		switch (IdUtil.GetOwnerType(ownerId.Out)) {
-		case OwnerType.User:
-		case OwnerType.Group:
-			subpath.Out = path.substr((separatorIndex.Out as number) + 1);
-			return true;
-		default:
-			ownerId.Out = null as unknown as string;
-			return false;
+			case OwnerType.User:
+			case OwnerType.Group:
+				subpath.Out = path.substr((separatorIndex.Out as number) + 1);
+				return true;
+			default:
+				ownerId.Out = null as unknown as string;
+				return false;
 		}
 	}
 	/**

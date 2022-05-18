@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildFile, BuildFileJSON } from "./BuildFile";
+import { BuildFile, BuildFileJSON } from "./Models/Builds/BuildFile";
 import type { BuildPlatform } from "./BuildPlatform";
 import type { BuildRuntime } from "./BuildRuntime";
 /**

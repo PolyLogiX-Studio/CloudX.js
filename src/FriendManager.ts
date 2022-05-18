@@ -1,6 +1,6 @@
 import { Dictionary, List, Out } from "@bombitmanbomb/utils";
 import { Friend, FriendJSON } from "./Cloud/Friend";
-import { SessionInfo } from "./SessionInfo";
+import { SessionInfo } from "./Models/SessionInfo";
 import { CloudXInterface } from "./CloudXInterface";
 import { FriendStatus } from "./FriendStatus";
 import { SessionAccessLevel } from "./SessionAccessLevel";
@@ -187,7 +187,7 @@ export class FriendManager {
 						if (
 							(activeSession.AccessLevel == SessionAccessLevel.Friends ||
 								activeSession.AccessLevel ==
-									SessionAccessLevel.FriendsOfFriends) &&
+								SessionAccessLevel.FriendsOfFriends) &&
 							!this._friendSessions.ContainsKey(activeSession.SessionId)
 						)
 							this._friendSessions.Add(activeSession.SessionId, activeSession);
@@ -206,7 +206,7 @@ export class FriendManager {
 		if (
 			this.Cloud.CurrentUser == null ||
 			(new Date().getTime() - this.lastRequest.getTime()) / 1000 <
-				FriendManager.UPDATE_PERIOD_SECONDS ||
+			FriendManager.UPDATE_PERIOD_SECONDS ||
 			this.runningRequest != null
 		)
 			return;

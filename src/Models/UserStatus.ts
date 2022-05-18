@@ -1,7 +1,7 @@
-import { OnlineStatus } from "./OnlineStatus";
-import { SessionAccessLevel } from "./SessionAccessLevel";
+import { OnlineStatus } from "../OnlineStatus";
+import { SessionAccessLevel } from "../SessionAccessLevel";
 import { RSAParametersData, RSAParameters } from "./RSAParametersData";
-import { OutputDevice } from "./OutputDevice";
+import { OutputDevice } from "../OutputDevice";
 import { SessionInfoJSON, SessionInfo } from "./SessionInfo";
 import { List } from "@bombitmanbomb/utils";
 export class UserStatus {

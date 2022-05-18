@@ -1,7 +1,7 @@
 import { RecordId, RecordIdJSON } from "./RecordId";
 import { List, Uri } from "@bombitmanbomb/utils";
-import { SessionUser, SessionUserJSON } from "./Cloud/SessionUser";
-import { SessionAccessLevel } from "./SessionAccessLevel";
+import { SessionUser, SessionUserJSON } from "../Cloud/SessionUser";
+import { SessionAccessLevel } from "../SessionAccessLevel";
 export class SessionInfo {
 	public static MAX_DLL_LENGTH = 128;
 	public static MAX_NAME_LENGTH = 256;

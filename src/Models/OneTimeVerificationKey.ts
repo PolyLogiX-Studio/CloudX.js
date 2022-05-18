@@ -1,11 +1,10 @@
-import { CryptoHelper } from "./CryptoHelper";
-import { VerificationKeyUse } from "./VerificationKeyUse";
+import { CryptoHelper } from "../CryptoHelper";
+import { VerificationKeyUse } from "../VerificationKeyUse";
 
 export class OneTimeVerificationKey {
 	public static GenerateId(baseId?: string): string {
-		return `K-${
-			baseId == null || baseId.trim() == "" ? "" : baseId + ":"
-		}${CryptoHelper.GenerateCryptoToken(64)}`;
+		return `K-${baseId == null || baseId.trim() == "" ? "" : baseId + ":"
+			}${CryptoHelper.GenerateCryptoToken(64)}`;
 	}
 
 	public static IsValidId(id: string): boolean {

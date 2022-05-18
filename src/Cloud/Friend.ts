@@ -1,6 +1,6 @@
 import { FriendStatus } from "../FriendStatus";
-import { UserStatus, UserStatusJSON } from "../UserStatus";
-import { UserProfile, UserProfileJSON } from "../UserProfile";
+import { UserStatus, UserStatusJSON } from "../Models/UserStatus";
+import { UserProfile, UserProfileJSON } from "../Models/UserProfile";
 export class Friend {
 	FriendUserId: string;
 	OwnerId: string;

@@ -1,4 +1,4 @@
-import { TransactionType } from "./TransactionType";
+import { TransactionType } from "../TransactionType";
 export class TransactionMessage {
 	public Token: string;
 	public RecipientId: string;

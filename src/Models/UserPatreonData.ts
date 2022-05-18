@@ -1,7 +1,7 @@
 import { PatreonSnapshotJSON, PatreonSnapshot } from "./PatreonSnapshot";
 import { List, Out } from "@bombitmanbomb/utils";
 import { NeosAccount } from "./NeosAccount";
-import { AccountType } from "./AccountType";
+import { AccountType } from "../AccountType";
 export class UserPatreonData {
 	public static MIN_WORLD_ACCESS_CENTS = 600;
 	public static ACTIVATION_LENGTH = 40;

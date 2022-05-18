@@ -1,4 +1,4 @@
-import type { TransactionType } from "./TransactionType";
+import type { TransactionType } from "../TransactionType";
 export class CreditTransaction {
 	public Token: string;
 	public FromUserId: string;

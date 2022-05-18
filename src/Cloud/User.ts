@@ -1,9 +1,9 @@
 import { PublicBanType } from "../PublicBanType";
-import { UserPatreonData, UserPatreonDataJSON } from "../UserPatreonData";
-import { UserProfile, UserProfileJSON } from "../UserProfile";
+import { UserPatreonData, UserPatreonDataJSON } from "../Models/UserPatreonData";
+import { UserProfile, UserProfileJSON } from "../Models/UserProfile";
 import { Dictionary, List } from "@bombitmanbomb/utils";
 import { AccountType } from "../AccountType";
-import { NeosAccount } from "../NeosAccount";
+import { NeosAccount } from "../Models/NeosAccount";
 import { CryptoHelper } from "../CryptoHelper";
 export class User {
 	public Id: string;

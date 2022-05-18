@@ -37,17 +37,17 @@ export class IdUtil {
 			stringBuilder.Append(str);
 		}
 		switch (ownerType) {
-		case OwnerType.Machine:
-			stringBuilder.Insert(0, "M-");
-			break;
-		case OwnerType.User:
-			stringBuilder.Insert(0, "U-");
-			break;
-		case OwnerType.Group:
-			stringBuilder.Insert(0, "G-");
-			break;
-		default:
-			throw new Error("Invalid owner type");
+			case OwnerType.Machine:
+				stringBuilder.Insert(0, "M-");
+				break;
+			case OwnerType.User:
+				stringBuilder.Insert(0, "U-");
+				break;
+			case OwnerType.Group:
+				stringBuilder.Insert(0, "G-");
+				break;
+			default:
+				throw new Error("Invalid owner type");
 		}
 		return stringBuilder.toString();
 	}

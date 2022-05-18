@@ -1,5 +1,5 @@
 import { BatchQuery } from "./BatchQuery";
-import { CloudXInterface } from "./CloudXInterface";
+import { CloudXInterface } from "../CloudXInterface";
 import { List } from "@bombitmanbomb/utils";
 export class MetadataBatchQuery<M> extends BatchQuery<string, M> {
 	//TODO M Extends IAssetMetadata

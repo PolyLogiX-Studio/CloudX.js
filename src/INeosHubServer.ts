@@ -1,4 +1,4 @@
-import { MarkReadBatch } from "./MarkReadBatch";
+import { MarkReadBatch } from "./Models/MarkReadBatch";
 import { Message } from "./Cloud/Message";
 export interface INeosHubServer {
 	Ping(index: number): Promise<void>;

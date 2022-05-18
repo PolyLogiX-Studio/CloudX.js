@@ -11,9 +11,9 @@ import {
 	List,
 	Out,
 } from "@bombitmanbomb/utils";
-import { CloudVariableHelper } from "./CloudVariableHelper";
+import { CloudVariableHelper } from "./Models/Variables/CloudVariableHelper";
 import { CloudXInterface } from "./CloudXInterface";
-import { VariableReadResult } from "./VariableReadResult";
+import { VariableReadResult } from "./Models/Variables/VariableReadResult";
 /**
  *Cloud Variable Proxy
  * @todo
@@ -54,7 +54,7 @@ export class CloudVariableProxy {
 			? this._definition.DefinitionOwnerId == this.Cloud.CurrentUser?.Id
 			: this.Cloud.IsCurrentUserMemberOfGroup(
 				this._definition.DefinitionOwnerId
-			  );
+			);
 	}
 	public get IsVariableOwner(): boolean {
 		return IdUtil.GetOwnerType(this.Identity.ownerId) == OwnerType.User
@@ -136,8 +136,8 @@ export class CloudVariableProxy {
 			);
 		if (
 			new Date(new Date().getTime() - this.LastCloudWrite.getTime()).getTime() /
-				1000 <
-				30.0 ||
+			1000 <
+			30.0 ||
 			this._writeTask == null
 		)
 			return false;
@@ -188,7 +188,7 @@ export class CloudVariableProxy {
 					await TimeSpan.Delay(TimeSpan.fromSeconds(0.5));
 				//
 				if (
-					cancel.IsCancellationRequested ||
+					cancel.IsCancellationRequested() ||
 					this.State == CloudVariableState.ChangedLocally
 				)
 					return;

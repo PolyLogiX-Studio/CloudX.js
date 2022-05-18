@@ -1,6 +1,6 @@
 import { CloudXInterface } from "./CloudXInterface";
 import { CloudResult } from "@bombitmanbomb/http-client";
-import { TransactionUtil } from "./TransactionUtil";
+import { TransactionUtil } from "./Utility/TransactionUtil";
 export class TransactionManager {
 	public Cloud: CloudXInterface;
 	public NCRConversionRatio?: number;
@@ -18,9 +18,9 @@ export class TransactionManager {
 		else
 			console.error(
 				"Error getting NCR conversion ratio. " +
-					cloudResult1.State.toString() +
-					"\n\n" +
-					cloudResult1.Content
+				cloudResult1.State.toString() +
+				"\n\n" +
+				cloudResult1.Content
 			);
 		const cloudResult2: CloudResult<number> =
 			await this.Cloud.ReadGlobalVariable<number>(
@@ -31,9 +31,9 @@ export class TransactionManager {
 		else
 			console.error(
 				"Error getting CDFT conversion ratio. " +
-					cloudResult2.State.toString() +
-					"\n\n" +
-					cloudResult2.Content
+				cloudResult2.State.toString() +
+				"\n\n" +
+				cloudResult2.Content
 			);
 	}
 	public TryConvert(

@@ -1,5 +1,5 @@
 import { Message } from "./Cloud/Message";
-import { ReadMessageBatch } from "./ReadMessageBatch";
+import { ReadMessageBatch } from "./Models/ReadMessageBatch";
 export interface INeosHubMessagingClient {
 	ReceiveMessage(message: Message): Promise<void>;
 

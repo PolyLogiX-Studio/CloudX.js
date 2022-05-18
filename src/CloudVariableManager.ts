@@ -1,6 +1,6 @@
 import { Dictionary } from "@bombitmanbomb/utils";
 //import { CloudVariableIdentity } from "./CloudVariableIdentity";
-import { VariableReadResult } from "./VariableReadResult";
+import { VariableReadResult } from "./Models/Variables/VariableReadResult";
 import { CloudVariableProxy } from "./CloudVariableProxy";
 import { CloudXInterface } from "./CloudXInterface";
 import { CloudVariable } from "./Cloud/CloudVariable";

@@ -1,1 +1,1 @@
-export class CloudVariableParser {}
+export class CloudVariableParser { }

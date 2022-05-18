@@ -1,4 +1,4 @@
-import { CryptoHelper } from "./CryptoHelper";
+import { CryptoHelper } from "../CryptoHelper";
 export class LoginCredentials {
 	OwnerId?: string;
 	Username?: string;

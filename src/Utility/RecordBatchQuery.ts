@@ -1,7 +1,7 @@
 import { BatchQuery } from "./BatchQuery";
-import { RecordId } from "./RecordId";
-import { IRecord } from "./IRecord";
-import { CloudXInterface } from "./CloudXInterface";
+import { RecordId } from "../Models/RecordId";
+import { IRecord } from "../IRecord";
+import { CloudXInterface } from "../CloudXInterface";
 export class RecordBatchQuery<R extends IRecord> extends BatchQuery<
 	RecordId,
 	R

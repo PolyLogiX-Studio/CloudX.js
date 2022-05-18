@@ -34,7 +34,7 @@ export class Visit {
 			this.Start.getFullYear() >= 2016 &&
 			!(this.Start >= this.End) &&
 			new Date(this.End.getTime() - this.Start.getTime()).getTime() >=
-				this.Duration &&
+			this.Duration &&
 			this.URL != null &&
 			this.URL.trim() != ""
 		);
