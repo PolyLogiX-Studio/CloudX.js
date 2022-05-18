@@ -72,6 +72,7 @@ export class Message {
 		};
 	}
 
+
 	public get IsSent(): boolean {
 		return this.SenderId == this.OwnerId;
 	}
@@ -80,6 +81,10 @@ export class Message {
 	}
 	public get IsRead(): boolean {
 		return this.ReadTime != null;
+	}
+
+	public toString(): string {
+		return `Id: ${this.Id}, OwnerId: ${this.OwnerId}, RecipientId: ${this.RecipientId}, SenderId: ${this.SenderId}, Type: ${this.MessageType}`
 	}
 }
 export interface MessageJSON {
