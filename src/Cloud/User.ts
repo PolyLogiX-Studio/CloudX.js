@@ -8,6 +8,7 @@ import { CryptoHelper } from "../CryptoHelper";
 export class User {
 	public Id: string;
 	public Username: string;
+	public AlternateNormalizedNames: List<string>;
 	public Email?: string;
 	public RegistrationDate: Date;
 	public QuotaBytes: number;
@@ -32,6 +33,7 @@ export class User {
 	constructor($b: UserJSON = {} as UserJSON) {
 		this.Id = $b.id;
 		this.Username = $b.id;
+		this.AlternateNormalizedNames = List.ToList($b.alternateNormalizedNames);
 		this.RegistrationDate = new Date($b.registrationDate ?? 0);
 		this.QuotaBytes = $b.quotaBytes;
 		this.UsedBytes = $b.usedBytes;
@@ -136,6 +138,7 @@ export class User {
 		return {
 			id: this.Id,
 			username: this.Username,
+			alternateNormalizedNames: this.AlternateNormalizedNames.toJSON(),
 			email: this.Email as string,
 			registrationDate: this.RegistrationDate,
 			quotaBytes: this.QuotaBytes,
@@ -163,6 +166,7 @@ export class User {
 export interface UserJSON {
 	id: string;
 	username: string;
+	alternateNormalizedNames: string[];
 	email?: string;
 	registrationDate: Date;
 	quotaBytes: number;
