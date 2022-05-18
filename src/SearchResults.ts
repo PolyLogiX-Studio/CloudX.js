@@ -1,6 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
 import { IRecord } from "./IRecord";
-import { Record } from "./Record";
+import { Record } from "./Cloud/Record";
 export class SearchResults<R extends IRecord> {
 	public Records: List<R>;
 	public HasMoreResults: boolean;
