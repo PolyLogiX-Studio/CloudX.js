@@ -71,7 +71,7 @@ export { PicturePatreon } from "./PicturePatreon";
 export { PriorityIssue } from "./Models/PriorityIssue";
 export { ProductInfoHeaderValue } from "./ProductInfoHeaderValue";
 export { PublicBanType } from "./PublicBanType";
-export { Record } from "./Record";
+export { Record } from "./Cloud/Record";
 export { RecordBatchQuery } from "./Utility/RecordBatchQuery";
 export { RecordHelper } from "./Cloud/RecordHelper";
 export { RecordId } from "./Models/RecordId";
