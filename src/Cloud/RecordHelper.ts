@@ -16,7 +16,7 @@ export class RecordHelper {
 		return record.OwnerId == other.OwnerId && record.RecordId == other.RecordId;
 	}
 
-	public static InhericPermissions(record: IRecord, source: IRecord): void {
+	public static InheritPermissions(record: IRecord, source: IRecord): void {
 		record.IsPublic = source.IsPublic as boolean;
 		record.IsForPatrons = source.IsForPatrons as boolean;
 	}
