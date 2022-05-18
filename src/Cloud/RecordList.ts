@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { Record, RecordJSON } from "../Record";
+import { Record, RecordJSON } from "./Record";
 export class RecordList {
 	public get Id(): string {
 		return this.Name + "-" + this.Page;
@@ -12,7 +12,10 @@ export class RecordList {
 		this.OwnerId = $b.ownerId;
 		this.Name = $b.name;
 		this.Page = $b.page;
-		this.Records = List.ToListAs($b.records, Record);
+		this.Records =
+			$b.records instanceof List
+				? $b.records
+				: List.ToListAs($b.records, Record);
 	}
 	toJSON(): RecordListJSON {
 		return {
