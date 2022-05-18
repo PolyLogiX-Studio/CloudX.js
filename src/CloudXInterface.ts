@@ -34,7 +34,7 @@ import { UserTags } from "./UserTags";
 import { RecordUtil } from "./RecordUtil";
 import { IRecord } from "./IRecord";
 import { RecordId } from "./Models/RecordId";
-import { Record } from "./Record";
+import { Record } from "./Cloud/Record";
 import { SearchParameters } from "./SearchParameters";
 import { SearchResults } from "./SearchResults";
 import { CloudMessage } from "./Cloud/CloudMessage";
