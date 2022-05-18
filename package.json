@@ -33,7 +33,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.14.5",
 		"@babel/plugin-transform-flow-strip-types": "^7.14.5",
-		"@types/jest": "^26.0.23",
+		"@types/jest": "^27.5.1",
 		"@types/minimist": "^1.2.1",
 		"@types/node": "^15.12.2",
 		"@types/normalize-package-data": "^2.4.0",
@@ -45,21 +45,21 @@
 		"dotenv": "^8.6.0",
 		"eslint": "^7.28.0",
 		"eslint-plugin-jsdoc": "^33.3.0",
-		"jest": "^27.0.4",
+		"jest": "^28.1.0",
 		"jsdoc-tsimport-plugin": "^1.0.5",
 		"prettier": "^2.3.1",
-		"ts-jest": "^27.0.3",
-		"typedoc": "^0.20.36",
-		"typescript": "4.2.4",
+		"ts-jest": "^28.0.2",
+		"typedoc": "^0.22.15",
+		"typescript": "^4.6.4",
 		"typescript-eslint": "^0.0.1-alpha.0"
 	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": ">=16.0.0"
 	},
 	"dependencies": {
 		"@bombitmanbomb/basex": "^0.1.0-alpha.2",
 		"@bombitmanbomb/codex": "^0.0.1-alpha.2",
-		"@bombitmanbomb/http-client": "2.3.0",
+		"@bombitmanbomb/http-client": "^2.3.0",
 		"@bombitmanbomb/signalr": "5.0.1-neos",
 		"@bombitmanbomb/utils": "2.12.1",
 		"hi-base32": "^0.5.1",
