@@ -1,14 +1,14 @@
-import type { IRecord } from "./IRecord";
-import { NeosDBAsset } from "./Models/NeosDBAsset";
-import type { NeosDBAssetJSON } from "./Models/NeosDBAsset";
-import { Submission } from "./Cloud/Submission";
-import type { SubmissionJSON } from "./Cloud/Submission";
+import type { IRecord } from "../IRecord";
+import { NeosDBAsset } from "../Models/NeosDBAsset";
+import type { NeosDBAssetJSON } from "../Models/NeosDBAsset";
+import { Submission } from "./Submission";
+import type { SubmissionJSON } from "./Submission";
 import { List, Uri } from "@bombitmanbomb/utils";
-import { IdUtil } from "./IdUtil";
-import { OwnerType } from "./OwnerType";
-import { RecordUtil } from "./RecordUtil";
-import { RecordHelper } from "./Cloud/RecordHelper";
-import { RecordId } from "./Models/RecordId";
+import { IdUtil } from "../IdUtil";
+import { OwnerType } from "../OwnerType";
+import { RecordUtil } from "../RecordUtil";
+import { RecordHelper } from "./RecordHelper";
+import { RecordId } from "../Models/RecordId";
 export class Record implements IRecord {
 	public RecordId: string;
 	public OwnerId: string;
@@ -92,6 +92,9 @@ export class Record implements IRecord {
 		this.GlobalVersion = 0;
 		this.LastModifyingMachineId = null as unknown as string;
 		this.LastModifyingUserId = null as unknown as string;
+	}
+	public Clone():Record {
+		return new Record(this.toJSON()); //Potentially a more efficient way of this
 	}
 	toJSON(): RecordJSON {
 		return {
