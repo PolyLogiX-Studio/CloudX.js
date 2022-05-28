@@ -66,7 +66,7 @@ export class AssetUtil {
 	 */
 	public static ExtractSignature(
 		uri: Uri,
-		extension: Out<string> = []
+		extension: Out<string> = new Out
 	): string {
 		if (uri?.Scheme != "neosdb") throw new Error("Not a NeosDB URI");
 		const segment: string = uri.Segments[1];
