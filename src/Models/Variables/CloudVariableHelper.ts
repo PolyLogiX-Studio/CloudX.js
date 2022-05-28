@@ -147,7 +147,7 @@ export class CloudVariableHelper {
 	 * @memberof CloudVariableHelper
 	 */
 	public static IsValidPath(path: string): boolean {
-		return CloudVariableHelper.SplitPath(path, []);
+		return CloudVariableHelper.SplitPath(path);
 	}
 	/**
 	 *Check that a SubPath is Valid
@@ -160,7 +160,7 @@ export class CloudVariableHelper {
 	public static IsValidSubpath(subpath: string): boolean {
 		return (
 			(subpath == null || subpath.length <= 256) &&
-			CloudVariableHelper.PreprocessPath(subpath, [])
+			CloudVariableHelper.PreprocessPath(subpath)
 		);
 	}
 	/**
@@ -174,7 +174,7 @@ export class CloudVariableHelper {
 	 */
 	public static PreprocessPath(
 		path: string,
-		seperatorIndex: Out<number> = []
+		seperatorIndex: Out<number> = new Out()
 	): boolean {
 		seperatorIndex.Out = -1;
 		if (path == null || path.trim() == "") return false;
