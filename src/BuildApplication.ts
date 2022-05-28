@@ -1,4 +1,4 @@
 export enum BuildApplication {
-  Neos,
-  Neosine
+  Neos = "Neos",
+  Neosine = "Neosine"
 }
