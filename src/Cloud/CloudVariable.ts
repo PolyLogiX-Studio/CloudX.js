@@ -1,4 +1,4 @@
-import type { Out } from "@bombitmanbomb/utils";
+import { Out } from "@bombitmanbomb/utils";
 /**
  *Cloud Variable Object
  *
@@ -23,8 +23,8 @@ export class CloudVariable {
 	 * @memberof CloudVariable
 	 */
 	public GetDefinitionPath(
-		ownerId: Out<string> = [],
-		subpath: Out<string> = []
+		ownerId: Out<string> = new Out<string>(),
+		subpath: Out<string> = new Out<string>()
 	): void {
 		return CloudVariable.GetDefinitionPath(this.Path, ownerId, subpath);
 	}
@@ -39,8 +39,8 @@ export class CloudVariable {
 	 */
 	public static GetDefinitionPath(
 		path: string,
-		ownerId: Out<string> = [],
-		subpath: Out<string> = []
+		ownerId: Out<string> = new Out,
+		subpath: Out<string> = new Out
 	): void {
 		const length = path.indexOf(".");
 		ownerId.Out = path.substr(0, length);
