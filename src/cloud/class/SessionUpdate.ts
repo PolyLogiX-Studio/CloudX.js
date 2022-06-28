@@ -1,0 +1,25 @@
+import { SessionInfo } from "./SessionInfo";
+import { List } from "@bombitmanbomb/utils";
+import { SessionUpdateJSON } from "../interface/ISessionUpdate";
+import { ISessionInfo } from "../interface/ISessionInfo";
+export class SessionUpdate {
+	public HostedSessions: List<SessionInfo>;
+	public RemovedSessions: List<string>;
+	constructor($b: SessionUpdateJSON = {} as SessionUpdateJSON) {
+		this.HostedSessions =
+			$b.hostedSessions instanceof List
+				? $b.hostedSessions
+				: List.ToListAs($b.hostedSessions, SessionInfo);
+		this.RemovedSessions =
+			$b.removedSessions instanceof List
+				? $b.removedSessions
+				: List.ToList($b.removedSessions);
+	}
+	toJSON(): SessionUpdateJSON {
+		return {
+			hostedSessions:
+				this.HostedSessions?.toJSON() as unknown as ISessionInfo[],
+			removedSessions: this.RemovedSessions?.toJSON(),
+		};
+	}
+}
