@@ -1,10 +1,10 @@
 import { Dictionary } from "@bombitmanbomb/utils";
 //import { CloudVariableIdentity } from "./CloudVariableIdentity";
-import { VariableReadResult } from "./Models/Variables/VariableReadResult";
+import { VariableReadResult } from "./VariableReadResult";
 import { CloudVariableProxy } from "./CloudVariableProxy";
 import { CloudXInterface } from "./CloudXInterface";
-import { CloudVariable } from "./Cloud/CloudVariable";
-import { CloudVariableDefinition } from "./Cloud/CloudVariableDefinition";
+import { CloudVariable } from "./CloudVariable";
+import { CloudVariableDefinition } from "./CloudVariableDefinition";
 //TODO Need BaseX Pool
 //TODO Need BatchQuery
 export class CloudVariableManager {

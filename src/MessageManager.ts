@@ -7,17 +7,17 @@ import {
 	CancellationTokenSource,
 } from "@bombitmanbomb/utils";
 import { CloudXInterface } from "./CloudXInterface";
-import { Message, MessageJSON } from "./Cloud/Message";
+import { Message, MessageJSON } from "./Message";
 import { MessageType } from "./MessageType";
 import {
 	TransactionMessage,
 	TransactionMessageJSON,
-} from "./Models/TransactionMessage";
-import { SessionInfo } from "./Models/SessionInfo";
+} from "./TransactionMessage";
+import { SessionInfo } from "./SessionInfo";
 import { CloudResult } from "@bombitmanbomb/http-client";
 import { TransactionType } from "./TransactionType";
-import { ReadMessageBatch } from "./Models/ReadMessageBatch";
-import { MarkReadBatch } from "./Models/MarkReadBatch";
+import { ReadMessageBatch } from "./ReadMessageBatch";
+import { MarkReadBatch } from "./MarkReadBatch";
 import type { INeosHubMessagingClient } from "./INeosHubMessagingClient";
 import { SendStatus } from "./SendStatus";
 /**@internal */

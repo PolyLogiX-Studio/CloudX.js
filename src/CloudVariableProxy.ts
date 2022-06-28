@@ -1,5 +1,5 @@
-import { CloudVariableDefinition } from "./Cloud/CloudVariableDefinition";
-import { CloudVariable } from "./Cloud/CloudVariable";
+import { CloudVariableDefinition } from "./CloudVariableDefinition";
+import { CloudVariable } from "./CloudVariable";
 import { CloudVariableManager } from "./CloudVariableManager";
 import { CloudVariableState } from "./CloudVariableState";
 import { CloudVariableIdentity } from "./CloudVariableIdentity";
@@ -11,9 +11,9 @@ import {
 	List,
 	Out,
 } from "@bombitmanbomb/utils";
-import { CloudVariableHelper } from "./Models/Variables/CloudVariableHelper";
+import { CloudVariableHelper } from "./CloudVariableHelper";
 import { CloudXInterface } from "./CloudXInterface";
-import { VariableReadResult } from "./Models/Variables/VariableReadResult";
+import { VariableReadResult } from "./VariableReadResult";
 /**
  *Cloud Variable Proxy
  * @todo

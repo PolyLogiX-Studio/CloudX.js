@@ -1,6 +1,6 @@
 import { CloudXInterface } from "./CloudXInterface";
 import { CloudResult } from "@bombitmanbomb/http-client";
-import { TransactionUtil } from "./Utility/TransactionUtil";
+import { TransactionUtil } from "./TransactionUtil";
 export class TransactionManager {
 	public Cloud: CloudXInterface;
 	public NCRConversionRatio?: number;

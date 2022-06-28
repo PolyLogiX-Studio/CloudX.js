@@ -13,62 +13,62 @@ import {
 	Uri,
 	StringBuilder,
 } from "@bombitmanbomb/utils";
-import { UserSession } from "./Cloud/UserSession";
-import { Membership } from "./Cloud/Membership";
-import { User, UserJSON } from "./Cloud/User";
-import { Member } from "./Cloud/Member";
-import { Group } from "./Cloud/Group";
+import { UserSession } from "./UserSession";
+import { Membership } from "./Membership";
+import { User, UserJSON } from "./User";
+import { Member } from "./Member";
+import { Group } from "./Group";
 import { AuthenticationHeaderValue } from "./AuthenticationHeaderValue";
 import { ProductInfoHeaderValue } from "./ProductInfoHeaderValue";
-import { RSAParameters, RSAParametersData } from "./Models/RSAParametersData";
+import { RSAParameters, RSAParametersData } from "./RSAParametersData";
 import { ServerStatus } from "./ServerStatus";
 //import { CloudVariableManager } from "./CloudVariableManager"; //TODO Variables
 import { FriendManager } from "./FriendManager";
-import { ServerStatistics } from "./Models/ServerStatistics";
+import { ServerStatistics } from "./ServerStatistics";
 import { IdUtil } from "./IdUtil";
 import { OwnerType } from "./OwnerType";
 import { NeosDB_Endpoint } from "./NeosDB_Endpoint";
-import { ThumbnailInfo } from "./Models/ThumbnailInfo";
-import { LoginCredentials } from "./Models/LoginCredentials";
+import { ThumbnailInfo } from "./ThumbnailInfo";
+import { LoginCredentials } from "./LoginCredentials";
 import { UserTags } from "./UserTags";
 import { RecordUtil } from "./RecordUtil";
 import { IRecord } from "./IRecord";
-import { RecordId } from "./Models/RecordId";
-import { Record } from "./Cloud/Record";
+import { RecordId } from "./RecordId";
+import { Record } from "./Record";
 import { SearchParameters } from "./SearchParameters";
 import { SearchResults } from "./SearchResults";
-import { CloudMessage } from "./Cloud/CloudMessage";
-import { RecordPreprocessStatus } from "./Models/RecordPreprocessStatus";
-import { AssetInfo } from "./Cloud/AssetInfo";
-import { AssetUploadData } from "./Models/AssetUploadData";
+import { CloudMessage } from "./CloudMessage";
+import { RecordPreprocessStatus } from "./RecordPreprocessStatus";
+import { AssetInfo } from "./AssetInfo";
+import { AssetUploadData } from "./AssetUploadData";
 import { UploadState } from "./UploadState";
-import { Submission, SubmissionJSON } from "./Cloud/Submission";
-import { CloudVariableDefinition } from "./Cloud/CloudVariableDefinition";
-import { CloudVariable } from "./Cloud/CloudVariable";
-import { CloudVariableHelper } from "./Models/Variables/CloudVariableHelper";
-import { VariableReadRequest } from "./Models/Variables/VariableReadRequest";
-import { VariableReadResult } from "./Models/Variables/VariableReadResult";
-import { Visit } from "./Cloud/Visit";
-import { NeosSession } from "./Cloud/NeosSession";
-import { UserStatus } from "./Models/UserStatus";
-import { UserProfile } from "./Models/UserProfile";
-import { Friend } from "./Cloud/Friend";
-import { Message } from "./Cloud/Message";
-import { SessionUpdate } from "./Models/SessionUpdate";
-import { SessionInfo } from "./Models/SessionInfo";
-import { CreditTransaction } from "./Models/CreditTransaction";
+import { Submission, SubmissionJSON } from "./Submission";
+import { CloudVariableDefinition } from "./CloudVariableDefinition";
+import { CloudVariable } from "./CloudVariable";
+import { CloudVariableHelper } from "./CloudVariableHelper";
+import { VariableReadRequest } from "./VariableReadRequest";
+import { VariableReadResult } from "./VariableReadResult";
+import { Visit } from "./Visit";
+import { NeosSession } from "./NeosSession";
+import { UserStatus } from "./UserStatus";
+import { UserProfile } from "./UserProfile";
+import { Friend } from "./Friend";
+import { Message } from "./Message";
+import { SessionUpdate } from "./SessionUpdate";
+import { SessionInfo } from "./SessionInfo";
+import { CreditTransaction } from "./CreditTransaction";
 import { VerificationKeyUse } from "./VerificationKeyUse";
-import { OneTimeVerificationKey } from "./Models/OneTimeVerificationKey";
-import { CheckContactData } from "./Models/CheckContactData";
-import { SugarCube } from "./Models/Integrations/SugarCube";
-import { OnlineUserStats } from "./Models/OnlineUserStats";
-import { HubPatrons } from "./Models/HubPatrons";
-import { ExitMessage } from "./Models/ExitMessage";
-import { CurrencyRates } from "./Models/CurrencyRates";
+import { OneTimeVerificationKey } from "./OneTimeVerificationKey";
+import { CheckContactData } from "./CheckContactData";
+import { SugarCube } from "./SugarCube";
+import { OnlineUserStats } from "./OnlineUserStats";
+import { HubPatrons } from "./HubPatrons";
+import { ExitMessage } from "./ExitMessage";
+import { CurrencyRates } from "./CurrencyRates";
 import { MessageManager } from "./MessageManager";
 import { TransactionManager } from "./TransactionManager";
 import { INeosHubDebugClient } from "./INeosHubDebugClient";
-import { NeosHub } from "./Hub/NeosHub";
+import { NeosHub } from "./NeosHub";
 import {
 	HttpTransportType,
 	HubConnectionBuilder,
@@ -79,9 +79,9 @@ import {
 } from "@bombitmanbomb/signalr";
 import type { HubConnection } from "@bombitmanbomb/signalr";
 import { INeosModerationClient } from "./INeosModerationClient";
-import { ReadMessageBatch } from "./Models/ReadMessageBatch";
-import { InfiniteRetryPolicy } from "./Utility/InfiniteRetryPolicy";
-import { TOTP_Key } from "./Models/TOTP_Key";
+import { ReadMessageBatch } from "./ReadMessageBatch";
+import { InfiniteRetryPolicy } from "./InfiniteRetryPolicy";
+import { TOTP_Key } from "./TOTP_Key";
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
