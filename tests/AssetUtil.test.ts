@@ -1,4 +1,4 @@
-import { AssetUtil } from '../src/AssetUtil'
+import { AssetUtil } from '../src/'
 import { Uri, Out } from '@bombitmanbomb/utils';
 test("Compute Version Included", () => {
   expect(AssetUtil.COMPUTE_VERSION).toBeGreaterThan(0)
@@ -32,7 +32,7 @@ describe("Extract Signature", () => {
     expect(() => { AssetUtil.ExtractSignature(Url, extension) }).toThrow()
   })
 })
-test("Extract Signature no Out",()=>{
+test("Extract Signature no Out", () => {
   const Url = AssetUtil.GenerateURL("DkjHdkjHd33qdhIdhkeHDk83he", ".jpg")
   let signature = AssetUtil.ExtractSignature(Url)
   expect(signature).toBe("DkjHdkjHd33qdhIdhkeHDk83he")

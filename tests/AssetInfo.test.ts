@@ -1,5 +1,5 @@
-import { AssetInfo, AssetInfoJSON } from '../src/AssetInfo';
-const json: AssetInfoJSON = {
+import { AssetInfo, IAssetInfo } from '../src/';
+const json: IAssetInfo = {
   assetHash: "abcde",
   ownerId: "A-abcde",
   bytes: 3,
@@ -11,6 +11,6 @@ const json: AssetInfoJSON = {
 test("Serialize", () => {
   expect(new AssetInfo(json).toJSON()).toEqual(json)
 })
-test("BuildEmpty", ()=>{
+test("BuildEmpty", () => {
   expect(new AssetInfo).not.toBeNull()
 })

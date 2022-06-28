@@ -1,10 +1,10 @@
-import { ComputationLock, ComputationLockJSON } from '../src/ComputationLock';
+import { ComputationLock, IComputationLock } from '../src/';
 import { TimeSpan } from '@bombitmanbomb/utils';
-const jsonExpired: ComputationLockJSON = {
+const jsonExpired: IComputationLock = {
   timestamp: new Date(0),
   token: "yes"
 }
-const jsonValid: ComputationLockJSON = {
+const jsonValid: IComputationLock = {
   timestamp: new Date((new Date).getTime() + 90000),
   token: "ea33eb2f-94b0-45d9-95ba-ddefb72c875f"
 }

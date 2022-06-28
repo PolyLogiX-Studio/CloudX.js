@@ -1,7 +1,7 @@
-import { Build, BuildJSON } from '../src/Build';
-import { BuildChangeType } from '../src/BuildChangeType';
-const json: BuildJSON = {
+import { Build, IBuild, BuildChangeType, BuildApplication } from '../src/';
+const json: IBuild = {
   versionNumber: "one",
+  application: BuildApplication.Neos,
   alternateVersionNumber: "two",
   changes: [{
     description: "A Description",
@@ -13,10 +13,26 @@ const json: BuildJSON = {
       username: "bombitmanbomb"
     }],
     type: BuildChangeType.NewFeature,
-    workInProgress: true
+    workInProgress: true,
+    branchSpecific: true,
+    changeId: "4",
+    relatedIssues: []
   }],
   knownIssues: ["test"],
-  notes: ["Note"]
+  notes: ["Note"],
+  description: {
+    primaryLocale: "en",
+    valuesByLocale: {
+      "en": "A good description"
+    }
+  },
+  graphic: {
+    primaryLocale: "en",
+    valuesByLocale: {
+    }
+  },
+  branch: "terst",
+  mergedBranch: "nope"
 }
 describe("Build", () => {
   test("Serialize", () => {
