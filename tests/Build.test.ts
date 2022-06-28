@@ -1,5 +1,4 @@
 import { Build, IBuild, BuildChangeType, BuildApplication } from '../src/';
-import { IMultiLanguageValue } from '../src/cloud/interface/IMultiLanguageValue';
 const json: IBuild = {
   versionNumber: "one",
   application: BuildApplication.Neos,
