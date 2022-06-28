@@ -1,4 +1,4 @@
-import { ILicense } from "../interface/ILicense";
+import { ILicense } from "../interface/";
 export class License {
 	public LicenseGroup: string;
 	public LicenseKey: string;

@@ -1,11 +1,8 @@
 import { CryptoHelper } from "../../utility/CryptoHelper";
-import { IBuildVariantBase } from "../interface/IBuildVariantBase";
-import { VersionNumber } from "./VersionNumber";
-import { BuildStatus } from "../../enum/BuildStatus";
-import { BuildPlatform } from "../../enum/BuildPlatform";
+import { IBuildVariantBase, IBuildFile } from "../interface/";
+import { VersionNumber, BuildFile } from "./";
+import { BuildStatus, BuildPlatform } from "../../enum/";
 import { List } from "@bombitmanbomb/utils/lib";
-import { BuildFile } from "./BuildFile";
-import { IBuildFile } from "../interface/IBuildFile";
 export class BuildVariantBase {
 	public get VariantId(): string {
 		return CryptoHelper.HashIDToToken(this.GetIDString());

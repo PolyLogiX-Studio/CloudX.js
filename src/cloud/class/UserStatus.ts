@@ -1,11 +1,7 @@
-import { OnlineStatus } from "../../enum/OnlineStatus";
-import { SessionAccessLevel } from "../../enum/SessionAccessLevel";
-import { RSAParametersData } from "./RSAParametersData";
-import { OutputDevice } from "../../enum/OutputDevice";
-import { SessionInfo } from "./SessionInfo";
+import { OnlineStatus, OutputDevice, SessionAccessLevel } from "../../enum/";
+import { RSAParametersData, SessionInfo } from "./";
 import { List } from "@bombitmanbomb/utils";
-import { IUserStatus } from "../interface/IUserStatus";
-import { ISessionInfo } from "../interface/ISessionInfo";
+import { IUserStatus, ISessionInfo } from "../interface/";
 export class UserStatus {
 	public static STATUS_RESET_SECONDS = 120;
 	public static REMOVED_STATUS_KEEP_SECONDS = 300;

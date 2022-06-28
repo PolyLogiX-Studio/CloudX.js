@@ -1,6 +1,6 @@
-import { CryptoHelper } from "../../utility/CryptoHelper";
-import { VerificationKeyUse } from "../../enum/VerificationKeyUse";
-import { IOneTimeVerificationKey } from "../interface/IOneTimeVerificationKey";
+import { CryptoHelper } from "../../utility/";
+import { VerificationKeyUse } from "../../enum/";
+import { IOneTimeVerificationKey } from "../interface/";
 
 export class OneTimeVerificationKey {
 	public static GenerateId(baseId?: string): string {

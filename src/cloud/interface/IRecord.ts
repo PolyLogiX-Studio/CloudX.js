@@ -1,5 +1,4 @@
-import { SubmissionJSON } from "../class/Submission";
-import { INeosDBAsset } from "./INeosDBAsset";
+import { INeosDBAsset, ISubmission } from "./";
 
 export interface IRecord {
 	id: string;
@@ -24,6 +23,6 @@ export interface IRecord {
 	firstPublishTime?: Date;
 	creationTime?: Date;
 	lastModificationTime: Date;
-	submissions: SubmissionJSON[];
+	submissions: ISubmission[];
 	neosDBmanifest?: INeosDBAsset[];
 }

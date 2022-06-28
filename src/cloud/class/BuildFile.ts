@@ -1,4 +1,4 @@
-import { IBuildFile } from "../interface/IBuildFile";
+import { IBuildFile } from "../interface/";
 
 /**
  *Build File Info

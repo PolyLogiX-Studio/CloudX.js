@@ -7,7 +7,7 @@
 	"scripts": {
 		"test": "jest",
 		"lint": "prettier --use-tabs --write ./src/. && eslint -c .eslintrc.json --fix ./src/**/*",
-		"document": "npx typedoc ./src",
+		"document": "npx typedoc ./src/index.ts",
 		"ready": "npm run document && npm run lint",
 		"build": "Del lib /S /Q && tsc",
 		"prepublishOnly": "tsc"

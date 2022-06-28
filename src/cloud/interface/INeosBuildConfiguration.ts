@@ -1,4 +1,5 @@
-import { INeosConfig } from "../../../lib/NeosConfig";
+import { INeosConfig } from "./";
+
 export interface INeosBuildConfiguration {
 	configId: string;
 	ownerId: string;

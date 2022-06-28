@@ -1,4 +1,4 @@
-import { VerificationKeyUse } from "../../enum/VerificationKeyUse";
+import { VerificationKeyUse } from "../../enum/";
 
 export interface IOneTimeVerificationKey {
 	ownerId: string;

@@ -1,5 +1,5 @@
 import { List, StringBuilder } from "@bombitmanbomb/utils";
-import type { SessionAccessLevel } from "../enum/SessionAccessLevel";
+import type { SessionAccessLevel } from "../enum/";
 export class RecordTags {
 	private static IGNORE_TAGS = List.ToList(["a", "an", "the", "and"]);
 	public static CommonAvatar = "common_avatar";

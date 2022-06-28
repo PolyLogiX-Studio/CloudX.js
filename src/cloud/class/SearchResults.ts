@@ -1,7 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
-import { IRecordBase } from "../interface/IRecordBase";
-import { Record } from "./Record";
-import { ISearchResults } from "../interface/ISearchResults";
+import { IRecordBase, ISearchResults } from "../interface/";
+import { Record } from "./";
 export class SearchResults<R extends IRecordBase> {
 	public Records: List<R>;
 	public HasMoreResults: boolean;

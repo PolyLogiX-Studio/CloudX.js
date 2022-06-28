@@ -1,4 +1,4 @@
-import { IRecord } from "./IRecord";
+import { IRecord } from "./";
 
 export interface IRecordList {
 	readonly id?: string;

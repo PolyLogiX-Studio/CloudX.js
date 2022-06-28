@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { IUserProfile } from "../interface/IUserProfile";
+import { IUserProfile } from "../interface/";
 export class UserProfile {
 	IconUrl: string;
 	BackgroundUrl: string;

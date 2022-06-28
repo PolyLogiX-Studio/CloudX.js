@@ -1,6 +1,6 @@
 import { TimeSpan } from "@bombitmanbomb/utils";
 import { v4 as uuidv4 } from "uuid";
-import { IComputationLock } from "../interface/IComputationLock";
+import { IComputationLock } from "../interface/";
 /**
  *
  * @export

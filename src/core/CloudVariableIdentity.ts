@@ -1,4 +1,4 @@
-import { hashCode } from "../utility/HashCode";
+import { hashCode } from "../utility/";
 /**
  *Cloud Variable Identity
  *

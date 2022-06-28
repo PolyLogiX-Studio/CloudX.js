@@ -1,5 +1,5 @@
-import { CryptoHelper } from "../../utility/CryptoHelper";
-import { ILoginCredentials } from "../interface/ILoginCredentials";
+import { CryptoHelper } from "../../utility/";
+import { ILoginCredentials } from "../interface/";
 export class LoginCredentials {
 	OwnerId?: string;
 	Username?: string;

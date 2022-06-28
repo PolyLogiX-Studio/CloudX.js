@@ -1,4 +1,4 @@
-import { IRecordInfo } from "../interface/IRecordInfo";
+import { IRecordInfo } from "../interface/";
 export class RecordInfo {
 	RecordId: string;
 	OwnerId: string;

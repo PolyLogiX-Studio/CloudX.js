@@ -1,9 +1,7 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildFile } from "./BuildFile";
-import type { BuildPlatform } from "../../enum/BuildPlatform";
-import type { BuildRuntime } from "../../enum/BuildRuntime";
-import { IBuildFile } from "../interface/IBuildFile";
-import { IBuildVariant } from "../interface/IBuildVariant";
+import { BuildFile } from "./";
+import { BuildPlatform, BuildRuntime } from "../../enum/";
+import { IBuildFile, IBuildVariant } from "../interface/";
 /**
  *Build Variant Info
  *

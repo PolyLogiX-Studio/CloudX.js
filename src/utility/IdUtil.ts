@@ -1,4 +1,4 @@
-import { OwnerType } from "../enum/OwnerType";
+import { OwnerType } from "../enum/";
 import { StringBuilder } from "@bombitmanbomb/utils";
 import { v4 as uuidv4 } from "uuid";
 export class IdUtil {

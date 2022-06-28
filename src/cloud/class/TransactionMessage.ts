@@ -1,5 +1,5 @@
-import { TransactionType } from "../../enum/TransactionType";
-import { ITransactionMessage } from "../interface/ITransactionMessage";
+import { TransactionType } from "../../enum/";
+import { ITransactionMessage } from "../interface/";
 export class TransactionMessage {
 	public Token: string;
 	public RecipientId: string;

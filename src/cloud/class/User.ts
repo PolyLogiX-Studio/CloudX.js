@@ -1,12 +1,9 @@
-import { PublicBanType } from "../../enum/PublicBanType";
-import { UserPatreonData } from "./UserPatreonData";
-import { UserProfile } from "./UserProfile";
+import { PublicBanType, AccountType } from "../../enum/";
+import { UserPatreonData, UserProfile } from "./";
 import { Dictionary, List } from "@bombitmanbomb/utils";
-import { AccountType } from "../../enum/AccountType";
-import { NeosAccount } from "../../core/NeosAccount";
-import { CryptoHelper } from "../../utility/CryptoHelper";
-import { IUser } from "../interface/IUser";
-import { IUserPatreonData } from "../interface/IUserPatreonData";
+import { NeosAccount } from "../../core/";
+import { CryptoHelper } from "../../utility/";
+import { IUser, IUserPatreonData } from "../interface/";
 export class User {
 	public Id: string;
 	public Username: string;

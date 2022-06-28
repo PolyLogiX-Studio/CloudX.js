@@ -1,6 +1,5 @@
-import { BuildChangeType } from "../../enum/BuildChangeType";
-import { IssueReferenceJSON } from "../class/IssueReference";
-import { IBuildReporter } from "./IBuildReporter";
+import { BuildChangeType } from "../../enum/";
+import { IBuildReporter, IIssueReference } from "./";
 
 /**
  *Build Changes JSON
@@ -14,7 +13,7 @@ export interface IBuildChange {
 	type: BuildChangeType;
 	workInProgress: boolean;
 	branchSpecific: boolean;
-	relatedIssues: IssueReferenceJSON[]; //TODO Other
+	relatedIssues: IIssueReference[]; //TODO Other
 	githubIssueNumbers: number[];
 	reporters: IBuildReporter[];
 }

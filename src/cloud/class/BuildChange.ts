@@ -1,10 +1,7 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildChangeType } from "../../enum/BuildChangeType";
-import { BuildReporter } from "./BuildReporter";
-import { IssueReference } from "./IssueReference";
-import { IBuildChange } from "../interface/IBuildChange";
-import { IBuildReporter } from "../interface/IBuildReporter";
-import { IIssueReference } from "../interface/IIssueReference";
+import { BuildChangeType } from "../../enum/";
+import { BuildReporter, IssueReference } from "./";
+import { IBuildChange, IBuildReporter, IIssueReference } from "../interface/";
 /**
  *Build Changes
  *

@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import type { MessageType } from "../../enum/MessageType";
-import { SendStatus } from "../../enum/SendStatus";
-import { IMessage } from "../interface/IMessage";
+import { MessageType, SendStatus } from "../../enum/";
+import { IMessage } from "../interface/";
 export class Message {
 	public Id: string;
 	public OwnerId: string;

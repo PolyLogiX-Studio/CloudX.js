@@ -1,6 +1,6 @@
-import { IRecordBase } from "../cloud/interface/IRecordBase";
-import type { SearchParameters } from "../cloud/class/SearchParameters";
-import type { CloudXInterface } from "./CloudXInterface";
+import { IRecordBase } from "../cloud/interface/";
+import type { SearchParameters } from "../cloud/class/";
+import type { CloudXInterface } from "./";
 import { List } from "@bombitmanbomb/utils";
 export class RecordSearch<R extends IRecordBase> {
 	public static DEFAULT_BATCH_SIZE = 100;

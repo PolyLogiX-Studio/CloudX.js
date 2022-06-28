@@ -1,5 +1,5 @@
 import { Uri } from "@bombitmanbomb/utils/lib";
-import { ISessionJoinParameters } from "../interface/ISessionJoinParameters";
+import { ISessionJoinParameters } from "../interface/";
 
 export class SessionJoinParameters {
 	/**

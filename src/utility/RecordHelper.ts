@@ -1,5 +1,5 @@
-import { IRecordBase } from "../cloud/interface/IRecordBase";
-import { RecordUtil } from "./RecordUtil";
+import { IRecordBase } from "../cloud/interface/";
+import { RecordUtil } from "./";
 import { Uri, Out } from "@bombitmanbomb/utils";
 export class RecordHelper {
 	public static IsSameVersion(

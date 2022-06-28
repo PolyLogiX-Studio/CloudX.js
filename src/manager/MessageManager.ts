@@ -1,3 +1,4 @@
+import { CloudResult } from "@bombitmanbomb/http-client";
 import {
 	Dictionary,
 	List,
@@ -6,19 +7,9 @@ import {
 	TaskCompletionSource,
 	CancellationTokenSource,
 } from "@bombitmanbomb/utils";
-import { CloudXInterface } from "../core/CloudXInterface";
-import { Message } from "../cloud/class/Message";
-import { MessageType } from "../enum/MessageType";
-import { TransactionMessage } from "../cloud/class/TransactionMessage";
-import { SessionInfo } from "../cloud/class/SessionInfo";
-import { CloudResult } from "@bombitmanbomb/http-client";
-import { TransactionType } from "../enum/TransactionType";
-import { ReadMessageBatch } from "../cloud/class/ReadMessageBatch";
-import { MarkReadBatch } from "../cloud/class/MarkReadBatch";
-import type { INeosHubMessagingClient } from "../cloud/interface/INeosHubMessagingClient";
-import { SendStatus } from "../enum/SendStatus";
-import { IMessage } from "../cloud/interface/IMessage";
-import { ITransactionMessage } from "../cloud/interface/ITransactionMessage";
+import { IMessage, INeosHubMessagingClient, ITransactionMessage, MarkReadBatch, Message, ReadMessageBatch, SessionInfo, TransactionMessage } from "../cloud";
+import { CloudXInterface } from "../core";
+import { MessageType, SendStatus, TransactionType } from "../enum";
 /**@internal */
 export class UserMessages {
 	private _messageIds: Set<string> = new Set();

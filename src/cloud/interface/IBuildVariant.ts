@@ -1,6 +1,5 @@
-import { BuildPlatform } from "../../enum/BuildPlatform";
-import { BuildRuntime } from "../../enum/BuildRuntime";
-import { IBuildFile } from "./IBuildFile";
+import { BuildPlatform, BuildRuntime } from "../../enum/";
+import { IBuildFile } from "./";
 /**
  *Build Variant Info JSON
  *

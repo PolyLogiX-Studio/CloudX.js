@@ -1,4 +1,4 @@
-import { INeosDBAsset } from "../interface/INeosDBAsset";
+import { INeosDBAsset } from "../interface/";
 export class NeosDBAsset {
 	public Hash: string;
 	public Bytes: number;

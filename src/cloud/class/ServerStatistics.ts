@@ -1,4 +1,4 @@
-import { IServerStatistics } from "../interface/IServerStatistics";
+import { IServerStatistics } from "../interface/";
 export class ServerStatistics {
 	public LastUpdate: Date;
 	public ResponseTimeMilliseconds: number;

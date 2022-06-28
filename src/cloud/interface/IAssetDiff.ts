@@ -1,4 +1,4 @@
-import { Diff } from "../../enum/Diff";
+import { Diff } from "../../enum/";
 
 export interface IAssetDiff {
 	hash: string;

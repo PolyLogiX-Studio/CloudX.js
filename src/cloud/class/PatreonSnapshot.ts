@@ -1,4 +1,4 @@
-import { IPatreonSnapshot } from "../interface/IPatreonSnapshot";
+import { IPatreonSnapshot } from "../interface/";
 export class PatreonSnapshot {
 	public TotalCents: number;
 	public PatreonRawCents: number;

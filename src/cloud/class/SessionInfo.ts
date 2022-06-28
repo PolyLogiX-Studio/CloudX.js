@@ -1,8 +1,8 @@
 import { RecordId } from "./RecordId";
 import { List, Uri } from "@bombitmanbomb/utils";
-import { SessionUser, SessionUserJSON } from "./SessionUser";
-import { SessionAccessLevel } from "../../enum/SessionAccessLevel";
-import { ISessionInfo } from "../interface/ISessionInfo";
+import { SessionUser } from "./";
+import { SessionAccessLevel } from "../../enum/";
+import { ISessionInfo, ISessionUser } from "../interface/";
 export class SessionInfo {
 	public static MAX_DLL_LENGTH = 128;
 	public static MAX_NAME_LENGTH = 256;
@@ -346,7 +346,7 @@ export class SessionInfo {
 			parentSessionIds: this.ParentSessionIds?.toJSON(),
 			nestedSessionIds: this.NestedSessionIds?.toJSON(),
 			sessionURLs: this.SessionURLs?.toJSON(),
-			sessionUsers: this.SessionUsers?.toJSON() as unknown as SessionUserJSON[],
+			sessionUsers: this.SessionUsers?.toJSON() as unknown as ISessionUser[],
 			thumbnail: this.Thumbnail,
 			joinedUsers: this.JoinedUsers,
 			activeUsers: this.ActiveUsers,

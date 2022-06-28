@@ -1,5 +1,4 @@
-import { ICloudVariable } from "./ICloudVariable";
-import { ICloudVariableDefinition } from "./ICloudVariableDefinition";
+import { ICloudVariable, ICloudVariableDefinition } from "./";
 
 export interface IVariableReadResult {
 	variable: ICloudVariable;

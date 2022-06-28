@@ -1,6 +1,5 @@
-import { RecordInfoOperation } from "../../enum/RecordInfoOperation";
-import { RecordIdJSON } from "../class/RecordId";
-import { RecordInfoJSON } from "../class/RecordInfo";
+import { RecordInfoOperation } from "../../enum/";
+import { IRecordId, IRecordInfo } from "./";
 
 /**
  *Child Record Diff JSON
@@ -11,6 +10,6 @@ import { RecordInfoJSON } from "../class/RecordInfo";
 export interface IChildRecordDiff {
 	operation: RecordInfoOperation;
 	created: Date;
-	parentRecord: RecordIdJSON;
-	recordInfo: RecordInfoJSON;
+	parentRecord: IRecordId;
+	recordInfo: IRecordInfo;
 }

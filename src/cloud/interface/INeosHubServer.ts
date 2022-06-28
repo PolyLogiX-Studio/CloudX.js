@@ -1,5 +1,4 @@
-import { MarkReadBatch } from "../class/MarkReadBatch";
-import { Message } from "../class/Message";
+import { MarkReadBatch, Message } from "../class/";
 export interface INeosHubServer {
 	Ping(index: number): Promise<void>;
 	SendMessage(message: Message): Promise<void>;

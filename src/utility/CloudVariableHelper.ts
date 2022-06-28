@@ -1,7 +1,6 @@
-import { VariablePermissionType } from "../enum/VariablePermissionType";
-import { OwnerType } from "../enum/OwnerType";
+import { VariablePermissionType, OwnerType } from "../enum/";
 import { List, Out } from "@bombitmanbomb/utils";
-import { IdUtil } from "./IdUtil";
+import { IdUtil } from "./";
 //TODO BaseX Interface
 /**
  *Cloud Variable Helper Class

@@ -1,9 +1,7 @@
 import { List, Uri } from "@bombitmanbomb/utils";
-import { BuildApplication } from "../../enum/BuildApplication";
-import { MultiLanguageValue } from "./MultiLanguageValue";
-import { BuildChange } from "./BuildChange";
-import { IBuild } from "../interface/IBuild";
-import { IBuildChange } from "../interface/IBuildChange";
+import { BuildApplication } from "../../enum/";
+import { MultiLanguageValue, BuildChange } from "./";
+import { IBuild, IBuildChange } from "../interface/";
 /**
  * Represents an unique build of Neos related application. This doesn't contain any actual files of given application or platform
  * specific version, but rather is a summary of changes done in this release. To get actual executables or files related to this

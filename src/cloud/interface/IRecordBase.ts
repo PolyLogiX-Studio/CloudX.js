@@ -1,6 +1,5 @@
-import type { List } from "@bombitmanbomb/utils";
-import type { NeosDBAsset } from "../class/NeosDBAsset";
-import { RecordId } from "../class/RecordId";
+import { List } from "@bombitmanbomb/utils";
+import { NeosDBAsset, RecordId } from "../class/";
 export interface IRecordBase {
 	RecordId: string; //
 	OwnerId: string; //

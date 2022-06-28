@@ -1,7 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
-import { Record } from "./Record";
-import { IRecord } from "../interface/IRecord";
-import { IRecordList } from "../interface/IRecordList";
+import { Record } from "./";
+import { IRecord, IRecordList } from "../interface/";
 export class RecordList {
 	public get Id(): string {
 		return this.Name + "-" + this.Page;

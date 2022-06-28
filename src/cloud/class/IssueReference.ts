@@ -1,6 +1,5 @@
-import { IssueAction } from "../../enum/IssueAction";
-import { IssueSystem } from "../../enum/IssueSystem";
-import { IIssueReference } from "../interface/IIssueReference";
+import { IssueAction, IssueSystem } from "../../enum/";
+import { IIssueReference } from "../interface/";
 
 export class IssueReference {
 	/**

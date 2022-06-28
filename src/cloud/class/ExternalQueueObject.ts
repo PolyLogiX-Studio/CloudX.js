@@ -1,4 +1,4 @@
-import { IExternalQueueObject } from "../interface/IExternalQueueObject";
+import { IExternalQueueObject } from "../interface/";
 export class ExternalQueueObject<T> {
 	Id: string;
 	PopReceipt: string;

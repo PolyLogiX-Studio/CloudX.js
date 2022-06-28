@@ -1,7 +1,6 @@
 import { Uri } from "@bombitmanbomb/utils/lib";
-import { BuildApplication } from "../../enum/BuildApplication";
-import { MultiLanguageValueJSON } from "../class/MultiLanguageValue";
-import { IBuildChange } from "./IBuildChange";
+import { BuildApplication } from "../../enum/";
+import { IBuildChange, IMultiLanguageValue } from "./";
 
 /**
  *Build Info JSON
@@ -13,8 +12,8 @@ export interface IBuild {
 	application: BuildApplication;
 	versionNumber: string;
 	alternateVersionNumber: string;
-	description: MultiLanguageValueJSON<string>;
-	graphic: MultiLanguageValueJSON<Uri>;
+	description: IMultiLanguageValue<string>;
+	graphic: IMultiLanguageValue<Uri>;
 	changes: IBuildChange[];
 	knownIssues: string[];
 	notes: string[];

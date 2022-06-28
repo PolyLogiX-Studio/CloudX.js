@@ -1,4 +1,4 @@
-import { IBuildReporter } from "../interface/IBuildReporter";
+import { IBuildReporter } from "../interface/";
 /**
  *Build Reporter
  *

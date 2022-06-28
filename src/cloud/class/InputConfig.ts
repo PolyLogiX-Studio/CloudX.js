@@ -1,4 +1,4 @@
-import { IInputConfig } from "../interface/IInputConfig";
+import { IInputConfig } from "../interface/";
 export class InputConfig {
 	TriggerDeadzone: number;
 	AxisDeadzone: number;

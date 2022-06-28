@@ -1,6 +1,5 @@
-import { CloudVariable } from "./CloudVariable";
-import { CloudVariableDefinition } from "./CloudVariableDefinition";
-import { IVariableReadResult } from "../interface/IVariableReadResult";
+import { CloudVariable, CloudVariableDefinition } from "./";
+import { IVariableReadResult } from "../interface/";
 export class VariableReadResult<V, D> {
 	public Variable: CloudVariable | V;
 	public Definition: CloudVariableDefinition | D;

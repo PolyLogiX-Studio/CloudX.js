@@ -1,8 +1,5 @@
-import { OnlineStatus } from "../../enum/OnlineStatus";
-import { SessionAccessLevel } from "../../enum/SessionAccessLevel";
-import { IRSAParameters } from "./IRSAParameters";
-import { OutputDevice } from "../../enum/OutputDevice";
-import { ISessionInfo } from "./ISessionInfo";
+import { OnlineStatus, OutputDevice, SessionAccessLevel } from "../../enum/";
+import { IRSAParameters, ISessionInfo } from "./";
 
 export interface IUserStatus {
 	onlineStatus: OnlineStatus;

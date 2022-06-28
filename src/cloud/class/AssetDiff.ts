@@ -1,5 +1,5 @@
-import { Diff } from "../../enum/Diff";
-import { IAssetDiff } from "../interface/IAssetDiff";
+import { Diff } from "../../enum/";
+import { IAssetDiff } from "../interface/";
 /**
  * @export
  * @class AssetDiff

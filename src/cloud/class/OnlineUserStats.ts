@@ -1,4 +1,4 @@
-import { IOnlineUserStats } from "../interface/IOnlineUserStats";
+import { IOnlineUserStats } from "../interface/";
 export class OnlineUserStats {
 	public CaptureTimestamp: Date;
 	public RegisteredserCount: number;

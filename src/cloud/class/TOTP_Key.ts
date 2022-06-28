@@ -1,6 +1,6 @@
 import { List } from "@bombitmanbomb/utils";
 import base32 from "hi-base32";
-import { ITOTP_Key } from "../interface/ITOTP_KEY";
+import { ITOTP_Key } from "../interface/";
 export class TOTP_Key {
 	UserId: string;
 	SecretKeyBase32: string;

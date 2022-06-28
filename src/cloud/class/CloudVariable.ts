@@ -1,5 +1,5 @@
 import { Out } from "@bombitmanbomb/utils";
-import { ICloudVariable } from "../interface/ICloudVariable";
+import { ICloudVariable } from "../interface/";
 /**
  *Cloud Variable Object
  *

@@ -1,4 +1,4 @@
-import type { CloudVariableProxy } from "../../core/CloudVariableProxy";
+import type { CloudVariableProxy } from "../../core/";
 export interface ACloudVariableEventHandler {
 	(proxy: CloudVariableProxy): void;
 }

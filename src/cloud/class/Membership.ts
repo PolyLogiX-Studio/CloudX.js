@@ -1,4 +1,4 @@
-import { IMembership } from "../interface/IMembership";
+import { IMembership } from "../interface/";
 export class Membership {
 	public UserId: string;
 	public GroupId: string;

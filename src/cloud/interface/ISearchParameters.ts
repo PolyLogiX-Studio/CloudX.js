@@ -1,7 +1,8 @@
-import { OwnerType } from "../../enum/OwnerType";
-import { SearchSortParameter } from "../../enum/SearchSortParameter";
-import { SearchSortDirection } from "../../enum/SearchSortDirection";
-
+import {
+	OwnerType,
+	SearchSortParameter,
+	SearchSortDirection,
+} from "../../enum/";
 export interface ISearchParameters {
 	count: number;
 	offset: number;

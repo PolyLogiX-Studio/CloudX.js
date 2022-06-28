@@ -1,4 +1,4 @@
-import { IVariableReadRequest } from "../interface/IVariableReadRequest";
+import { IVariableReadRequest } from "../interface/";
 export class VariableReadRequest {
 	public MAX_BATCH_SIZE = 32;
 	public OwnerId: string;

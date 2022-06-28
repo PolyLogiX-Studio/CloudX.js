@@ -1,4 +1,4 @@
-import { IExitMessage } from "../interface/IExitMessage";
+import { IExitMessage } from "../interface/";
 export class ExitMessage {
 	public MessageIndex: number;
 	public Message: string;

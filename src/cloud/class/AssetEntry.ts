@@ -1,5 +1,5 @@
-import { ComputationLock } from "./ComputationLock";
-import { IAssetEntry } from "../interface/IAssetEntry";
+import { ComputationLock } from "./";
+import { IAssetEntry } from "../interface/";
 /**
  *
  * @export

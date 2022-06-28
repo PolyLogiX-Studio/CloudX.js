@@ -1,9 +1,8 @@
-import { PatreonSnapshot } from "./PatreonSnapshot";
+import { PatreonSnapshot } from "./";
 import { List, Out } from "@bombitmanbomb/utils";
-import { NeosAccount } from "../../core/NeosAccount";
-import { AccountType } from "../../enum/AccountType";
-import { IPatreonSnapshot } from "../interface/IPatreonSnapshot";
-import { IUserPatreonData } from "../interface/IUserPatreonData";
+import { NeosAccount } from "../../core/";
+import { AccountType } from "../../enum/";
+import { IPatreonSnapshot, IUserPatreonData } from "../interface/";
 export class UserPatreonData {
 	public static MIN_WORLD_ACCESS_CENTS = 600;
 	public static ACTIVATION_LENGTH = 40;

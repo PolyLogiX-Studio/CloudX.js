@@ -1,11 +1,11 @@
-import type { OutputDevice } from "../../enum/OutputDevice";
-import { SessionUserJSON } from "../interface/ISessionUser";
+import type { OutputDevice } from "../../enum/";
+import { ISessionUser } from "../interface/";
 export class SessionUser {
 	public Username: string;
 	public UserID: string;
 	public IsPresent: boolean;
 	public OutputDevice: OutputDevice;
-	constructor($b: SessionUserJSON = {} as SessionUserJSON) {
+	constructor($b: ISessionUser = {} as ISessionUser) {
 		this.Username = $b.username;
 		this.UserID = $b.userID;
 		this.IsPresent = $b.isPresent;
@@ -22,7 +22,7 @@ export class SessionUser {
 			this.OutputDevice == other.OutputDevice
 		);
 	}
-	toJSON(): SessionUserJSON {
+	toJSON(): ISessionUser {
 		return {
 			username: this.Username,
 			userID: this.UserID,

@@ -1,4 +1,4 @@
-import { IPatreonSnapshot } from "./IPatreonSnapshot";
+import { IPatreonSnapshot } from "./";
 
 export interface IUserPatreonData {
 	email: string;

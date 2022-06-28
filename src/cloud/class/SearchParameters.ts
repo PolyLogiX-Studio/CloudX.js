@@ -1,9 +1,11 @@
-import { OwnerType } from "../../enum/OwnerType";
-import type { SearchSortParameter } from "../../enum/SearchSortParameter";
-import type { SearchSortDirection } from "../../enum/SearchSortDirection";
+import {
+	OwnerType,
+	SearchSortParameter,
+	SearchSortDirection,
+} from "../../enum/";
 import { List } from "@bombitmanbomb/utils";
-import { hashCode } from "../../utility/HashCode";
-import { ISearchParameters } from "../interface/ISearchParameters";
+import { hashCode } from "../../utility/";
+import { ISearchParameters } from "../interface/";
 export class SearchParameters {
 	private _isNormalized = false;
 	public Count: number;

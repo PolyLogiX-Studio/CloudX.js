@@ -1,5 +1,5 @@
 import { color } from "@bombitmanbomb/basex";
-import { ISugarCube } from "../interface/ISugarCube";
+import { ISugarCube } from "../interface/";
 export class SugarCube {
 	BatchId: string;
 	SequenceNumber: number;

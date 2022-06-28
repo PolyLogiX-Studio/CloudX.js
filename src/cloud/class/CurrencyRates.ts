@@ -1,5 +1,5 @@
 import { Dictionary } from "@bombitmanbomb/utils";
-import { ICurrencyRates } from "../interface/ICurrencyRates";
+import { ICurrencyRates } from "../interface/";
 export class CurrencyRates {
 	public BaseCurrency: string;
 	public Rates: Dictionary<string, number>;

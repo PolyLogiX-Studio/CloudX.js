@@ -1,6 +1,8 @@
-import { IInputConfig } from "./IInputConfig";
-import { IWorldStartupParameters } from "../../../lib/WorldStartupParameters";
-import { ISessionJoinParameters } from "../../../lib/SessionJoinParameters";
+import {
+	IInputConfig,
+	ISessionJoinParameters,
+	IWorldStartupParameters,
+} from "./";
 
 export interface INeosConfig {
 	$schema:

@@ -1,4 +1,4 @@
-import { IVisit } from "../interface/IVisit";
+import { IVisit } from "../interface/";
 export class Visit {
 	public URL: string;
 	public UserId: string;

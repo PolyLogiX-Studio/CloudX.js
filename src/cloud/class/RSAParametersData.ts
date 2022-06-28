@@ -1,4 +1,4 @@
-import { IRSAParameters } from "../interface/IRSAParameters";
+import { IRSAParameters } from "../interface/";
 export class RSAParametersData {
 	Exponent: unknown[];
 	Modulus: unknown[];

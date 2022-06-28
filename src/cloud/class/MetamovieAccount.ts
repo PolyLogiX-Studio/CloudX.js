@@ -1,4 +1,4 @@
-import { IMetamovieAccount } from "../interface/IMetamovieAccount";
+import { IMetamovieAccount } from "../interface/";
 export class MetamovieAccount {
 	public AccountId: string;
 	public TimeSlotStart: Date;

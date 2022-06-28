@@ -13,77 +13,87 @@ import {
 	Uri,
 	StringBuilder,
 } from "@bombitmanbomb/utils";
-import { UserSession } from "../cloud/class/UserSession";
-import { Membership } from "../cloud/class/Membership";
-import { User } from "../cloud/class/User";
-import { Member } from "../cloud/class/Member";
-import { Group } from "../cloud/class/Group";
-import { AuthenticationHeaderValue } from "../cloud/class/AuthenticationHeaderValue";
-import { ProductInfoHeaderValue } from "./ProductInfoHeaderValue";
-import { RSAParametersData } from "../cloud/class/RSAParametersData";
-import { ServerStatus } from "../enum/ServerStatus";
-//import { CloudVariableManager } from "./CloudVariableManager"; //TODO Variables
-import { FriendManager } from "../manager/FriendManager";
-import { ServerStatistics } from "../cloud/class/ServerStatistics";
-import { IdUtil } from "../utility/IdUtil";
-import { OwnerType } from "../enum/OwnerType";
-import { NeosDB_Endpoint } from "../enum/NeosDB_Endpoint";
-import { ThumbnailInfo } from "../cloud/class/ThumbnailInfo";
-import { LoginCredentials } from "../cloud/class/LoginCredentials";
-import { RecordUtil } from "../utility/RecordUtil";
-import { IRecordBase } from "../cloud/interface/IRecordBase";
-import { RecordId } from "../cloud/class/RecordId";
-import { Record } from "../cloud/class/Record";
-import { SearchParameters } from "../cloud/class/SearchParameters";
-import { SearchResults } from "../cloud/class/SearchResults";
-import { CloudMessage } from "../cloud/class/CloudMessage";
-import { RecordPreprocessStatus } from "../cloud/class/RecordPreprocessStatus";
-import { AssetInfo } from "../cloud/class/AssetInfo";
-import { AssetUploadData } from "../cloud/class/AssetUploadData";
-import { UploadState } from "../enum/UploadState";
-import { Submission } from "../cloud/class/Submission";
-import { CloudVariableDefinition } from "../cloud/class/CloudVariableDefinition";
-import { CloudVariable } from "../cloud/class/CloudVariable";
-import { CloudVariableHelper } from "../utility/CloudVariableHelper";
-import { VariableReadRequest } from "../cloud/class/VariableReadRequest";
-import { VariableReadResult } from "../cloud/class/VariableReadResult";
-import { Visit } from "../cloud/class/Visit";
-import { NeosSession } from "../cloud/class/NeosSession";
-import { UserStatus } from "../cloud/class/UserStatus";
-import { UserProfile } from "../cloud/class/UserProfile";
-import { Friend } from "../cloud/class/Friend";
-import { Message } from "../cloud/class/Message";
-import { SessionUpdate } from "../cloud/class/SessionUpdate";
-import { SessionInfo } from "../cloud/class/SessionInfo";
-import { CreditTransaction } from "../cloud/class/CreditTransaction";
-import { VerificationKeyUse } from "../enum/VerificationKeyUse";
-import { OneTimeVerificationKey } from "../cloud/class/OneTimeVerificationKey";
-import { CheckContactData } from "../cloud/class/CheckContactData";
-import { SugarCube } from "../cloud/class/SugarCube";
-import { OnlineUserStats } from "../cloud/class/OnlineUserStats";
-import { HubPatrons } from "../cloud/class/HubPatrons";
-import { ExitMessage } from "../cloud/class/ExitMessage";
-import { CurrencyRates } from "../cloud/class/CurrencyRates";
-import { MessageManager } from "../manager/MessageManager";
-import { TransactionManager } from "../manager/TransactionManager";
-import { INeosHubDebugClient } from "../cloud/interface/INeosHubDebugClient";
-import { NeosHub } from "./NeosHub";
+
 import {
 	HttpTransportType,
 	HubConnectionBuilder,
 	HubConnectionState,
 	HttpResponse,
 	HttpRequest,
+	HubConnection,
 	LogLevel,
 } from "@bombitmanbomb/signalr";
-import type { HubConnection } from "@bombitmanbomb/signalr";
-import { INeosModerationClient } from "../cloud/interface/INeosModerationClient";
-import { ReadMessageBatch } from "../cloud/class/ReadMessageBatch";
-import { InfiniteRetryPolicy } from "./InfiniteRetryPolicy";
-import { TOTP_Key } from "../cloud/class/TOTP_Key";
-import { IRSAParameters } from "../cloud/interface/IRSAParameters";
-import { IUser } from "../cloud/interface/IUser";
-import { SubmissionJSON } from "../cloud/interface/ISubmission";
+import {
+	AssetInfo,
+	AssetUploadData,
+	AuthenticationHeaderValue,
+	CheckContactData,
+	CloudMessage,
+	CloudVariable,
+	CloudVariableDefinition,
+	CreditTransaction,
+	CurrencyRates,
+	ExitMessage,
+	Friend,
+	Group,
+	HubPatrons,
+	INeosHubDebugClient,
+	INeosModerationClient,
+	IRecordBase,
+	IRSAParameters,
+	ISubmission,
+	IUser,
+	LoginCredentials,
+	Member,
+	Membership,
+	Message,
+	NeosSession,
+	OneTimeVerificationKey,
+	OnlineUserStats,
+	ReadMessageBatch,
+	Record,
+	RecordId,
+	RecordPreprocessStatus,
+	RSAParametersData,
+	SearchParameters,
+	SearchResults,
+	ServerStatistics,
+	SessionInfo,
+	SessionUpdate,
+	Submission,
+	SugarCube,
+	ThumbnailInfo,
+	TOTP_Key,
+	User,
+	UserProfile,
+	UserSession,
+	UserStatus,
+	VariableReadRequest,
+	VariableReadResult,
+	Visit
+} from "../cloud";
+import {
+	ProductInfoHeaderValue,
+	NeosHub,
+	InfiniteRetryPolicy
+} from "./";
+import {
+	NeosDB_Endpoint,
+	OwnerType,
+	ServerStatus,
+	UploadState,
+	VerificationKeyUse
+} from "../enum";
+import {
+	FriendManager,
+	MessageManager,
+	TransactionManager
+} from "../manager";
+import {
+	CloudVariableHelper,
+	IdUtil,
+	RecordUtil
+} from "../utility";
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -102,8 +112,7 @@ export enum CloudEndpoint {
  * @class CloudXInterface
  */
 export class CloudXInterface
-implements INeosHubDebugClient, INeosModerationClient
-{
+	implements INeosHubDebugClient, INeosModerationClient {
 	public static DEBUG_REQUESTS = false;
 	public static DEFAULT_RETRIES = 10;
 	public static readonly SESSION_EXTEND_INTERVAL = 3600;
@@ -172,25 +181,25 @@ implements INeosHubDebugClient, INeosModerationClient
 	public static CLOUD_ENDPOINT = CloudXInterface.CloudEndpoint.Production;
 	public static get NEOS_API(): string {
 		switch (CloudXInterface.CLOUD_ENDPOINT) {
-		case CloudXInterface.CloudEndpoint.Production:
-			return "https://api.neos.com";
-		case CloudXInterface.CloudEndpoint.Staging:
-			return "https://cloudx-staging.azurewebsites.net";
-		case CloudXInterface.CloudEndpoint.Local:
-			return "http://localhost:60612";
-		default:
-			throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
+			case CloudXInterface.CloudEndpoint.Production:
+				return "https://api.neos.com";
+			case CloudXInterface.CloudEndpoint.Staging:
+				return "https://cloudx-staging.azurewebsites.net";
+			case CloudXInterface.CloudEndpoint.Local:
+				return "http://localhost:60612";
+			default:
+				throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
 		}
 	}
 	public static get NEOS_BLOB(): string {
 		switch (CloudXInterface.CLOUD_ENDPOINT) {
-		case CloudXInterface.CloudEndpoint.Production:
-		case CloudXInterface.CloudEndpoint.Staging:
-			return CloudXInterface.NEOS_CLOUD_BLOB;
-		case CloudXInterface.CloudEndpoint.Local:
-			return CloudXInterface.NEOS_CLOUD_BLOB;
-		default:
-			throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
+			case CloudXInterface.CloudEndpoint.Production:
+			case CloudXInterface.CloudEndpoint.Staging:
+				return CloudXInterface.NEOS_CLOUD_BLOB;
+			case CloudXInterface.CloudEndpoint.Local:
+				return CloudXInterface.NEOS_CLOUD_BLOB;
+			default:
+				throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
 		}
 	}
 	public static get NEOS_ASSETS(): string {
@@ -287,7 +296,7 @@ implements INeosHubDebugClient, INeosModerationClient
 				? new AuthenticationHeaderValue(
 					"neos",
 					value.UserId + ":" + value.SessionToken
-				  )
+				)
 				: (null as unknown as AuthenticationHeaderValue);
 		this.OnSessionUpdated();
 		try {
@@ -468,12 +477,12 @@ implements INeosHubDebugClient, INeosModerationClient
 	public Update(): void {
 		if (this._updateCurrentUserInfo) {
 			switch (this.CurrentUser?.Id) {
-			case null:
-				break;
-			default:
-				this._updateCurrentUserInfo = false;
-				this.UpdateCurrentUserInfo();
-				break;
+				case null:
+					break;
+				default:
+					this._updateCurrentUserInfo = false;
+					this.UpdateCurrentUserInfo();
+					break;
 			}
 		}
 		if (this.CurrentSession != null) {
@@ -513,14 +522,14 @@ implements INeosHubDebugClient, INeosModerationClient
 	}
 	public HasPotentialAccess(ownerId: string): boolean {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-		case OwnerType.Machine:
-			return true;
-		case OwnerType.User:
-			return ownerId == this.CurrentUser.Id;
-		case OwnerType.Group:
-			return this.CurrentUserMemberships.some((m) => m.GroupId == ownerId);
-		default:
-			return false;
+			case OwnerType.Machine:
+				return true;
+			case OwnerType.User:
+				return ownerId == this.CurrentUser.Id;
+			case OwnerType.Group:
+				return this.CurrentUserMemberships.some((m) => m.GroupId == ownerId);
+			default:
+				return false;
 		}
 	}
 	private SetMemberships(memberships: List<Membership>): void {
@@ -555,18 +564,18 @@ implements INeosHubDebugClient, INeosModerationClient
 			return new Uri("https://neoscloud.blob.core.windows.net/assets/" + str3);
 		let str4;
 		switch (endpoint) {
-		case NeosDB_Endpoint.Blob:
-			str4 = CloudXInterface.NEOS_ASSETS_BLOB;
-			break;
-		case NeosDB_Endpoint.CDN:
-			str4 = CloudXInterface.NEOS_ASSETS_CDN;
-			break;
-		case NeosDB_Endpoint.VideoCDN:
-			str4 = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
-			break;
-		default:
-			str4 = CloudXInterface.NEOS_ASSETS;
-			break;
+			case NeosDB_Endpoint.Blob:
+				str4 = CloudXInterface.NEOS_ASSETS_BLOB;
+				break;
+			case NeosDB_Endpoint.CDN:
+				str4 = CloudXInterface.NEOS_ASSETS_CDN;
+				break;
+			case NeosDB_Endpoint.VideoCDN:
+				str4 = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
+				break;
+			default:
+				str4 = CloudXInterface.NEOS_ASSETS;
+				break;
 		}
 		return new Uri(str4 + str3);
 	}
@@ -1018,14 +1027,14 @@ implements INeosHubDebugClient, INeosModerationClient
 	): Promise<CloudResult<CloudMessage>> {
 		let resource = "";
 		switch (IdUtil.GetOwnerType(record.OwnerId)) {
-		case OwnerType.User:
-			resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
-			break;
-		case OwnerType.Group:
-			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
-			break;
-		default:
-			throw new Error("Invalid Record Owner!");
+			case OwnerType.User:
+				resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
+				break;
+			case OwnerType.Group:
+				resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
+				break;
+			default:
+				throw new Error("Invalid Record Owner!");
 		}
 		return (await this.PUT<CloudMessage>(resource, record)).Convert(
 			CloudMessage
@@ -1036,14 +1045,14 @@ implements INeosHubDebugClient, INeosModerationClient
 	): Promise<CloudResult<RecordPreprocessStatus>> {
 		let resource = "";
 		switch (IdUtil.GetOwnerType(record.OwnerId)) {
-		case OwnerType.User:
-			resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
-			break;
-		case OwnerType.Group:
-			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
-			break;
-		default:
-			throw new Error("Invalid Record Owner!");
+			case OwnerType.User:
+				resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+				break;
+			case OwnerType.Group:
+				resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+				break;
+			default:
+				throw new Error("Invalid Record Owner!");
 		}
 		return (await this.POST<RecordPreprocessStatus>(resource, record)).Convert(
 			RecordPreprocessStatus
@@ -1071,14 +1080,14 @@ implements INeosHubDebugClient, INeosModerationClient
 		} else {
 			let resource = "";
 			switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
-				break;
-			case OwnerType.Group:
-				resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
-				break;
-			default:
-				throw new Error("Invalid Record Owner!");
+				case OwnerType.User:
+					resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
+					break;
+				case OwnerType.Group:
+					resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
+					break;
+				default:
+					throw new Error("Invalid Record Owner!");
 			}
 			return (await this.GET<RecordPreprocessStatus>(resource)).Convert(
 				RecordPreprocessStatus
@@ -1110,18 +1119,18 @@ implements INeosHubDebugClient, INeosModerationClient
 		tag: string
 	): Promise<CloudResult<unknown>> {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-		case OwnerType.User:
-			return this.PUT(
-				"api/users/" + ownerId + "/records/" + recordId + "/tags",
-				tag
-			);
-		case OwnerType.Group:
-			return this.PUT(
-				"api/groups/" + ownerId + "/records/" + recordId + "/tags",
-				tag
-			);
-		default:
-			throw new Error("Invalid record owner");
+			case OwnerType.User:
+				return this.PUT(
+					"api/users/" + ownerId + "/records/" + recordId + "/tags",
+					tag
+				);
+			case OwnerType.Group:
+				return this.PUT(
+					"api/groups/" + ownerId + "/records/" + recordId + "/tags",
+					tag
+				);
+			default:
+				throw new Error("Invalid record owner");
 		}
 	}
 	public MarkStorageDirty(ownerId: string): void {
@@ -1162,38 +1171,38 @@ implements INeosHubDebugClient, INeosModerationClient
 		hash: string
 	): Promise<CloudResult<AssetInfo>> {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-		case OwnerType.User:
-			return (
-				await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
-			).Convert(AssetInfo);
-		case OwnerType.Group:
-			return (
-				await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
-			).Convert(AssetInfo);
-		default:
-			throw new Error("Invalid ownerid");
+			case OwnerType.User:
+				return (
+					await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
+				).Convert(AssetInfo);
+			case OwnerType.Group:
+				return (
+					await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
+				).Convert(AssetInfo);
+			default:
+				throw new Error("Invalid ownerid");
 		}
 	}
 	public async RegisterAssetInfo(
 		assetInfo: AssetInfo
 	): Promise<CloudResult<AssetInfo>> {
 		switch (IdUtil.GetOwnerType(assetInfo.OwnerId)) {
-		case OwnerType.User:
-			return (
-				await this.PUT<AssetInfo>(
-					`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
-					assetInfo
-				)
-			).Convert(AssetInfo);
-		case OwnerType.Group:
-			return (
-				await this.PUT<AssetInfo>(
-					`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
-					assetInfo
-				)
-			).Convert(AssetInfo);
-		default:
-			throw new Error("Invalid ownerid");
+			case OwnerType.User:
+				return (
+					await this.PUT<AssetInfo>(
+						`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+						assetInfo
+					)
+				).Convert(AssetInfo);
+			case OwnerType.Group:
+				return (
+					await this.PUT<AssetInfo>(
+						`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+						assetInfo
+					)
+				).Convert(AssetInfo);
+			default:
+				throw new Error("Invalid ownerid");
 		}
 	}
 	public GetAssetMime(hash: string): Promise<CloudResult<unknown>> {
@@ -1208,12 +1217,12 @@ implements INeosHubDebugClient, INeosModerationClient
 		let str = hash;
 		if (variant != null) str += `&${variant}`;
 		switch (IdUtil.GetOwnerType(ownerId)) {
-		case OwnerType.User:
-			return `api/users/${ownerId}/assets/${str}`;
-		case OwnerType.Group:
-			return `api/groups/${ownerId}/assets/${str}`;
-		default:
-			throw new Error("Invalid ownerId");
+			case OwnerType.User:
+				return `api/users/${ownerId}/assets/${str}`;
+			case OwnerType.Group:
+				return `api/groups/${ownerId}/assets/${str}`;
+			default:
+				throw new Error("Invalid ownerId");
 		}
 	}
 	//TODO UploadAsset
@@ -1227,7 +1236,7 @@ implements INeosHubDebugClient, INeosModerationClient
 				assetUpload.Variant
 			) + "/chunks";
 		let cloudResult;
-		for (;;) {
+		for (; ;) {
 			// ?? Equivalent of While (True)
 			cloudResult = (await this.GET<AssetUploadData>(baseUrl)).Convert(
 				AssetUploadData
@@ -1325,7 +1334,7 @@ implements INeosHubDebugClient, INeosModerationClient
 					featured: feature,
 					targetRecordId: { ownerId, recordId },
 					ownerId: groupId,
-				} as SubmissionJSON)
+				} as ISubmission)
 			)
 		).Convert(Submission);
 	}
@@ -1339,12 +1348,12 @@ implements INeosHubDebugClient, INeosModerationClient
 	}
 	private static GetOwnerPath(ownerId: string): string {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-		case OwnerType.User:
-			return "users";
-		case OwnerType.Group:
-			return "groups";
-		default:
-			throw new Error("Invalid owner type: " + ownerId);
+			case OwnerType.User:
+				return "users";
+			case OwnerType.Group:
+				return "groups";
+			default:
+				throw new Error("Invalid owner type: " + ownerId);
 		}
 	}
 	public async UpsertVariableDefinition(
@@ -1352,8 +1361,7 @@ implements INeosHubDebugClient, INeosModerationClient
 	): Promise<CloudResult<CloudVariableDefinition>> {
 		return (
 			await this.PUT<CloudVariableDefinition>(
-				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${
-					definition.DefinitionOwnerId
+				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${definition.DefinitionOwnerId
 				}/vardefs/${definition.Subpath}`,
 				definition
 			)
@@ -1417,22 +1425,22 @@ implements INeosHubDebugClient, INeosModerationClient
 		);
 		if (cloudResult.IsOK) {
 			switch (cloudResult.Entity?.Value) {
-			case null:
-				break;
-			default: {
-				const result: Out<T> = new Out();
-				CloudVariableHelper.ParseValue<T>(
-					cloudResult.Entity.Value,
-					type,
-					result
-				);
-				return new CloudResult<T>(
-					result.Out,
-					cloudResult.State,
+				case null:
+					break;
+				default: {
+					const result: Out<T> = new Out();
+					CloudVariableHelper.ParseValue<T>(
+						cloudResult.Entity.Value,
+						type,
+						result
+					);
+					return new CloudResult<T>(
+						result.Out,
+						cloudResult.State,
 						cloudResult.Content as string,
 						null
-				);
-			}
+					);
+				}
 			}
 		}
 		return new CloudResult<T>(
@@ -1702,15 +1710,15 @@ implements INeosHubDebugClient, INeosModerationClient
 			? new CloudResult<boolean>(
 				false,
 				cloudResult.State,
-					cloudResult.Content as string,
-					null
-			  )
+				cloudResult.Content as string,
+				null
+			)
 			: new CloudResult<boolean>(
 				true,
 				cloudResult.State,
-					cloudResult.Content as string,
-					null
-			  ); //TODO Verify
+				cloudResult.Content as string,
+				null
+			); //TODO Verify
 	}
 
 	public async GetSugarCube(
@@ -1842,9 +1850,9 @@ implements INeosHubDebugClient, INeosModerationClient
 		return (
 			await this.GET<CurrencyRates>(
 				"https://openexchangerates.org/api/latest.json?app_id=" +
-					appId +
-					"&base=" +
-					baseCurrency
+				appId +
+				"&base=" +
+				baseCurrency
 			)
 		).Convert(CurrencyRates).Entity;
 	}
@@ -1862,6 +1870,6 @@ implements INeosHubDebugClient, INeosModerationClient
 	}
 }
 interface Constructable<T> {
-	new (...args: any): T;
+	new(...args: any): T;
 	constructor: { name: string };
 }

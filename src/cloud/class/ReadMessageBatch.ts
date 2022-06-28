@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { IReadMessageBatch } from "../interface/IReadMessageBatch";
+import { IReadMessageBatch } from "../interface/";
 export class ReadMessageBatch {
 	RecipientId: string;
 	Ids: List<string>;

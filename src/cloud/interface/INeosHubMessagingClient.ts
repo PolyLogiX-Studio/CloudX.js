@@ -1,5 +1,4 @@
-import { Message } from "../class/Message";
-import { ReadMessageBatch } from "../class/ReadMessageBatch";
+import { Message, ReadMessageBatch } from "../class/";
 export interface INeosHubMessagingClient {
 	ReceiveMessage(message: Message): Promise<void>;
 

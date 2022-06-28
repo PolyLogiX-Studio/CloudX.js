@@ -1,5 +1,5 @@
 import { Dictionary } from "@bombitmanbomb/utils/lib";
-import { IMultiLanguageValue } from "../interface/IMultiLanguageValue";
+import { IMultiLanguageValue } from "../interface/";
 
 export class MultiLanguageValue<T> {
 	PrimaryLocale: string;
@@ -23,7 +23,7 @@ export class MultiLanguageValue<T> {
 		if (this.PrimaryLocale == null) this.PrimaryLocale == local;
 		this.ValuesByLocale.AddOrUpdate(local, value, () => value);
 	}
-	MultiLanguageValue(value: T, local = "en") {
+	MultiLanguageValue(value: T, local = "en"): this {
 		this.SetValue(value, local);
 		return this;
 	}

@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { BuildApplication } from "../../enum/BuildApplication";
-import { BuildReferenceType } from "../../enum/BuildReferenceType";
-import { ConfigReferenceType } from "../../enum/ConfigReferenceType";
-import { IBuildChannel } from "../interface/IBuildChannel";
+import {
+	BuildApplication,
+	BuildReferenceType,
+	ConfigReferenceType,
+} from "../../enum/";
+import { IBuildChannel } from "../interface/";
 export class BuildChannel {
 	public static GenerateChannelId(): string {
 		return "CH-" + uuidv4();

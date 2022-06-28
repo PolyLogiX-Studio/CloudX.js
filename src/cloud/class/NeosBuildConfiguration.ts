@@ -1,5 +1,5 @@
-import { NeosConfig } from "./NeosConfig";
-import { INeosBuildConfiguration } from "../interface/INeosBuildConfiguration";
+import { NeosConfig } from "./";
+import { INeosBuildConfiguration } from "../interface/";
 export class NeosBuildConfiguration {
 	public ConfigId: string;
 	public OwnerId: string;

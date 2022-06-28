@@ -1,6 +1,6 @@
-import { OutputDevice } from "../../enum/OutputDevice";
+import { OutputDevice } from "../../enum/";
 
-export interface SessionUserJSON {
+export interface ISessionUser {
 	username: string;
 	userID: string;
 	isPresent: boolean;

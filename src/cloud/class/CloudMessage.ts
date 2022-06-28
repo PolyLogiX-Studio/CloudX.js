@@ -1,4 +1,4 @@
-import { ICloudMessage } from "../interface/ICloudMessage";
+import { ICloudMessage } from "../interface/";
 
 /**
  *Cloud Message Object

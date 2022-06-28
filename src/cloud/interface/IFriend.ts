@@ -1,6 +1,5 @@
-import { FriendStatus } from "../../enum/FriendStatus";
-import { UserStatusJSON } from "../../../lib/cloud/class/UserStatus";
-import { UserProfileJSON } from "../class/UserProfile";
+import { FriendStatus } from "../../enum/";
+import { IUserProfile, IUserStatus } from "./";
 
 export interface IFriend {
 	id: string;
@@ -9,7 +8,7 @@ export interface IFriend {
 	alternateUsernames: string[];
 	friendStatus: FriendStatus;
 	isAccepted: boolean;
-	userStatus: UserStatusJSON;
+	userStatus: IUserStatus;
 	latestMessageTime: Date;
-	profile: UserProfileJSON;
+	profile: IUserProfile;
 }

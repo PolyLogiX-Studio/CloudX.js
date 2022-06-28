@@ -1,4 +1,4 @@
-import { IGroup } from "../interface/IGroup";
+import { IGroup } from "../interface/";
 export class Group {
 	public GroupId: string;
 	public AdminUserId: string;

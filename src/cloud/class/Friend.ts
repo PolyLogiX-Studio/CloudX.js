@@ -1,8 +1,7 @@
-import { FriendStatus } from "../../enum/FriendStatus";
-import { UserStatus } from "./UserStatus";
-import { UserProfile } from "./UserProfile";
+import { FriendStatus } from "../../enum/";
+import { UserStatus, UserProfile } from "./";
 import { List } from "@bombitmanbomb/utils/lib";
-import { IFriend } from "../interface/IFriend";
+import { IFriend } from "../interface/";
 export class Friend {
 	FriendUserId: string;
 	OwnerId: string;

@@ -1,5 +1,5 @@
-import { RecordPreprocessState } from "../../enum/RecordPreprocessState";
-import { IAssetDiff } from "./IAssetDiff";
+import { RecordPreprocessState } from "../../enum/";
+import { IAssetDiff } from "./";
 
 export interface IRecordPreprocessStatus {
 	id: string;

@@ -1,8 +1,7 @@
-import { RecordUtil } from "../../utility/RecordUtil";
-import { IdUtil } from "../../utility/IdUtil";
-import { OwnerType } from "../../enum/OwnerType";
+import { RecordUtil, IdUtil } from "../../utility/";
+import { OwnerType } from "../../enum/";
 import { Out } from "@bombitmanbomb/utils";
-import { IRecordId } from "../interface/IRecordID";
+import { IRecordId } from "../interface/";
 export class RecordId {
 	public Id!: string;
 	public OwnerId!: string;

@@ -1,4 +1,4 @@
-import { IUserSession } from "../interface/IUserSession";
+import { IUserSession } from "../interface/";
 export class UserSession {
 	public UserId: string;
 	public SessionToken: string;

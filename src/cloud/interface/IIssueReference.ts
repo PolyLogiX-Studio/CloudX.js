@@ -1,5 +1,4 @@
-import { IssueSystem } from "../../enum/IssueSystem";
-import { IssueAction } from "../../enum/IssueAction";
+import { IssueSystem, IssueAction } from "../../enum/";
 
 export interface IIssueReference {
 	issueNumber: number;

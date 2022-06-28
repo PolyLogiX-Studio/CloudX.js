@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { IMarkReadBatch } from "../interface/IMarkReadBatch";
+import { IMarkReadBatch } from "../interface/";
 export class MarkReadBatch {
 	public MAX_BATCH_SIZE = 512;
 	SenderId: string;

@@ -1,6 +1,5 @@
-import { IRecordId } from "./IRecordID";
-import { SessionUserJSON } from "../../../lib/cloud/class/SessionUser";
-import { SessionAccessLevel } from "../../enum/SessionAccessLevel";
+import { IRecordId, ISessionUser } from "./";
+import { SessionAccessLevel } from "../../enum/";
 
 export interface ISessionInfo {
 	name: string;
@@ -19,7 +18,7 @@ export interface ISessionInfo {
 	parentSessionIds: string[];
 	nestedSessionIds: string[];
 	sessionURLs: string[];
-	sessionUsers: SessionUserJSON[];
+	sessionUsers: ISessionUser[];
 	thumbnail: string;
 	joinedUsers: number;
 	activeUsers: number;

@@ -1,4 +1,4 @@
-import { TransactionType } from "../../enum/TransactionType";
+import { TransactionType } from "../../enum/";
 
 export interface ICreditTransaction {
 	token: string;

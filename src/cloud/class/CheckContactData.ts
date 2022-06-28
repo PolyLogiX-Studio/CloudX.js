@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { ICheckContactData } from "../interface/ICheckContactData";
+import { ICheckContactData } from "../interface/";
 /**
  * Object for Check Data Request using a Verification Key
  *

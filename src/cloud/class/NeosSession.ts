@@ -1,4 +1,4 @@
-import { INeosSession } from "../interface/INeosSession";
+import { INeosSession } from "../interface/";
 export class NeosSession {
 	public ReverseTimestamp: string;
 	public SessionId: string;

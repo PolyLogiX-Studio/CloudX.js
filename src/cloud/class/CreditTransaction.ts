@@ -1,5 +1,5 @@
-import type { TransactionType } from "../../enum/TransactionType";
-import { ICreditTransaction } from "../interface/ICreditTransaction";
+import type { TransactionType } from "../../enum/";
+import { ICreditTransaction } from "../interface/";
 export class CreditTransaction {
 	public Token: string;
 	public FromUserId: string;

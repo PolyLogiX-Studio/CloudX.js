@@ -1,5 +1,5 @@
 import { Out } from "@bombitmanbomb/utils";
-import { IVersionNumber } from "../interface/IVersionNumber";
+import { IVersionNumber } from "../interface/";
 export class VersionNumber {
 	public readonly MAX_MINUTES = 1440;
 	public Year: number;

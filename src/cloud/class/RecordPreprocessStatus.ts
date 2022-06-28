@@ -1,8 +1,7 @@
-import type { RecordPreprocessState } from "../../enum/RecordPreprocessState";
-import { AssetDiff } from "./AssetDiff";
+import type { RecordPreprocessState } from "../../enum/";
+import { AssetDiff } from "./";
 import { List } from "@bombitmanbomb/utils";
-import { IAssetDiff } from "../interface/IAssetDiff";
-import { IRecordPreprocessStatus } from "../interface/IRecordPreprocessStatus";
+import { IAssetDiff, IRecordPreprocessStatus } from "../interface/";
 export class RecordPreprocessStatus {
 	PreprocessId: string;
 	OwnerId: string;

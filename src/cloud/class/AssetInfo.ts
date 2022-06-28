@@ -1,4 +1,4 @@
-import { IAssetInfo } from "../interface/IAssetInfo";
+import { IAssetInfo } from "../interface/";
 /**
  *
  * @export

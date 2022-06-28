@@ -1,4 +1,4 @@
-import { IBuildUser } from "../interface/IBuildUser";
+import { IBuildUser } from "../interface/";
 export class BuildUser {
 	/**
 	 * Printable username of given user

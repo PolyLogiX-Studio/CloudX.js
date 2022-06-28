@@ -1,6 +1,8 @@
-import { BuildApplication } from "../../enum/BuildApplication";
-import { BuildReferenceType } from "../../enum/BuildReferenceType";
-import { ConfigReferenceType } from "../../enum/ConfigReferenceType";
+import {
+	BuildApplication,
+	BuildReferenceType,
+	ConfigReferenceType,
+} from "../../enum/";
 
 export interface IBuildChannel {
 	channelId: string;

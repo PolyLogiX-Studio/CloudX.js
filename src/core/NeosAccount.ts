@@ -1,4 +1,4 @@
-import { AccountType } from "../enum/AccountType";
+import { AccountType } from "../enum/";
 export class NeosAccount {
 	public static MinCents(type: AccountType): number {
 		const num = 100;

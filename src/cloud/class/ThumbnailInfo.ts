@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { IThumbnailInfo } from "../interface/IThumbnailInfo";
+import { IThumbnailInfo } from "../interface/";
 export class ThumbnailInfo {
 	public static VERSION_KEY = "-v2";
 	public static VERSION = 1;

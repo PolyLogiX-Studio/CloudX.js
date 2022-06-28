@@ -1,5 +1,5 @@
-import { MultiLanguageValue } from "./MultiLanguageValue";
-import { IBuildNote } from "../interface/IBuildNote";
+import { MultiLanguageValue } from "./";
+import { IBuildNote } from "../interface/";
 /**
  * An additional note for a build. Can be a known issue or just any note that doesn't fit other criteria
  */

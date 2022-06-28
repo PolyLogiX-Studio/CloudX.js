@@ -1,4 +1,4 @@
-import { IRecordBase } from "./IRecordBase";
+import { IRecordBase } from "./";
 
 export interface ISearchResults<R extends IRecordBase> {
 	records: R[];

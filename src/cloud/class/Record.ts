@@ -1,15 +1,13 @@
-import type { IRecordBase } from "../interface/IRecordBase";
-import { NeosDBAsset } from "./NeosDBAsset";
-import { Submission } from "./Submission";
-import type { SubmissionJSON } from "./Submission";
+import type {
+	IRecordBase,
+	IRecord,
+	INeosDBAsset,
+	ISubmission,
+} from "../interface/";
+import { NeosDBAsset, Submission, RecordId } from "./";
 import { List, Uri } from "@bombitmanbomb/utils";
-import { IdUtil } from "../../utility/IdUtil";
-import { OwnerType } from "../../enum/OwnerType";
-import { RecordUtil } from "../../utility/RecordUtil";
-import { RecordHelper } from "../../utility/RecordHelper";
-import { RecordId } from "./RecordId";
-import { IRecord } from "../interface/IRecord";
-import { INeosDBAsset } from "../interface/INeosDBAsset";
+import { OwnerType } from "../../enum/";
+import { RecordUtil, RecordHelper, IdUtil } from "../../utility/";
 export class Record implements IRecordBase {
 	public RecordId: string;
 	public OwnerId: string;
@@ -121,7 +119,7 @@ export class Record implements IRecordBase {
 			firstPublishTime: this.FirstPublishTime as Date,
 			creationTime: this.CreationTime as Date,
 			lastModificationTime: this.LastModificationTime,
-			submissions: this.Submissions?.toJSON() as unknown as SubmissionJSON[],
+			submissions: this.Submissions?.toJSON() as unknown as ISubmission[],
 			neosDBmanifest:
 				this.NeosDBManifest?.toJSON() as unknown as INeosDBAsset[],
 		};

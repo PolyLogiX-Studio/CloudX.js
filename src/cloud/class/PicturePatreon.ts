@@ -1,4 +1,4 @@
-import { IPicturePatreon } from "../interface/IPicturePatreon";
+import { IPicturePatreon } from "../interface/";
 export class PicturePatreon {
 	public Name!: string;
 	public PictureURL!: string;

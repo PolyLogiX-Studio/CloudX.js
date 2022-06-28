@@ -1,10 +1,8 @@
 import { Dictionary, List, Out } from "@bombitmanbomb/utils";
-import { Friend } from "../cloud/class/Friend";
-import { SessionInfo } from "../cloud/class/SessionInfo";
-import { CloudXInterface } from "../core/CloudXInterface";
-import { FriendStatus } from "../enum/FriendStatus";
-import { SessionAccessLevel } from "../enum/SessionAccessLevel";
-import { IFriend } from "../cloud/interface/IFriend";
+import { Friend, SessionInfo } from "../cloud/class/";
+import { CloudXInterface } from "../core/";
+import { FriendStatus, SessionAccessLevel } from "../enum/";
+import { IFriend } from "../cloud/interface/";
 export class FriendManager {
 	public static UPDATE_PERIOD_SECONDS = 5;
 	private friends: Dictionary<string, Friend> = new Dictionary();

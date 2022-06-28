@@ -1,5 +1,5 @@
-import type { AssetVariantEntityType } from "../../enum/AssetVariantEntityType";
-import { IAssetVariantComputationTask } from "../interface/IAssetVariantComputationTask";
+import type { AssetVariantEntityType } from "../../enum/";
+import { IAssetVariantComputationTask } from "../interface/";
 /**
  *Asset Variant Computation Info
  *

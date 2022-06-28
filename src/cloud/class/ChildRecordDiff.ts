@@ -1,8 +1,6 @@
-import { RecordInfoOperation } from "../../enum/RecordInfoOperation";
-import { RecordId, RecordIdJSON } from "./RecordId";
-import type { RecordInfoJSON } from "./RecordInfo";
-import { RecordInfo } from "./RecordInfo";
-import { IChildRecordDiff } from "../interface/IChildRecordDiff";
+import { RecordInfoOperation } from "../../enum/";
+import { RecordId, RecordInfo } from "./";
+import { IChildRecordDiff, IRecordId, IRecordInfo } from "../interface/";
 
 /**
  *Child Record Diff Object
@@ -31,8 +29,8 @@ export class ChildRecordDiff {
 		return {
 			operation: this.Operation,
 			created: this.Created,
-			parentRecord: this.ParentRecord?.toJSON() as RecordIdJSON,
-			recordInfo: this.RecordInfo?.toJSON() as RecordInfoJSON,
+			parentRecord: this.ParentRecord?.toJSON() as IRecordId,
+			recordInfo: this.RecordInfo?.toJSON() as IRecordInfo,
 		};
 	}
 	public static RecordInfoOperation: typeof RecordInfoOperation =

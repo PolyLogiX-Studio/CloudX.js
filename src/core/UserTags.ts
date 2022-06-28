@@ -1,5 +1,5 @@
 import { Uri, Out, Dictionary, List } from "@bombitmanbomb/utils";
-import { CloudXInterface } from "./CloudXInterface";
+import { CloudXInterface } from "./";
 export class UserTags {
 	public static NeosTeam = "neos team";
 

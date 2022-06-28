@@ -1,5 +1,5 @@
 import { List } from "@bombitmanbomb/utils";
-import { ICloudVariableDefinition } from "../interface/ICloudVariableDefinition";
+import { ICloudVariableDefinition } from "../interface/";
 /**
  *Cloud Variable Definition
  *

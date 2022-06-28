@@ -1,5 +1,5 @@
-import type { UploadState } from "../../enum/UploadState";
-import { IAssetUploadData } from "../interface/IAssetUploadData";
+import type { UploadState } from "../../enum/";
+import { IAssetUploadData } from "../interface/";
 /**
  * Asset Upload Info
  * @export

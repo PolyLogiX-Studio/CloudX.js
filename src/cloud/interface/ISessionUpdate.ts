@@ -1,6 +1,6 @@
-import { ISessionInfo } from "./ISessionInfo";
+import { ISessionInfo } from "./";
 
-export interface SessionUpdateJSON {
+export interface ISessionUpdate {
 	hostedSessions: ISessionInfo[];
 	removedSessions: string[];
 }

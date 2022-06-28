@@ -1,4 +1,4 @@
-import { UploadState } from "../../enum/UploadState";
+import { UploadState } from "../../enum/";
 
 /**
  * JSON Data for Asset Upload Data

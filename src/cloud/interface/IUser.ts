@@ -1,6 +1,5 @@
-import { PublicBanType } from "../../enum/PublicBanType";
-import { IUserPatreonData } from "./IUserPatreonData";
-import { IUserProfile } from "./IUserProfile";
+import { PublicBanType } from "../../enum/";
+import { IUserPatreonData, IUserProfile } from "./";
 
 export interface IUser {
 	id: string;

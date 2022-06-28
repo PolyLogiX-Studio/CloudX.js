@@ -1,11 +1,11 @@
-import { SessionInfo } from "./SessionInfo";
+import { SessionInfo } from "./";
 import { List } from "@bombitmanbomb/utils";
-import { SessionUpdateJSON } from "../interface/ISessionUpdate";
-import { ISessionInfo } from "../interface/ISessionInfo";
+import { ISessionUpdate, ISessionInfo } from "../interface/";
+import {} from "../interface/";
 export class SessionUpdate {
 	public HostedSessions: List<SessionInfo>;
 	public RemovedSessions: List<string>;
-	constructor($b: SessionUpdateJSON = {} as SessionUpdateJSON) {
+	constructor($b: ISessionUpdate = {} as ISessionUpdate) {
 		this.HostedSessions =
 			$b.hostedSessions instanceof List
 				? $b.hostedSessions
@@ -15,7 +15,7 @@ export class SessionUpdate {
 				? $b.removedSessions
 				: List.ToList($b.removedSessions);
 	}
-	toJSON(): SessionUpdateJSON {
+	toJSON(): ISessionUpdate {
 		return {
 			hostedSessions:
 				this.HostedSessions?.toJSON() as unknown as ISessionInfo[],

@@ -1,4 +1,4 @@
-import { ComputationLockJSON } from "../class/ComputationLock";
+import { IComputationLock } from "./";
 
 /**
  * Json Object for AssetEntry
@@ -10,5 +10,5 @@ export interface IAssetEntry<E> {
 	id: string;
 	ownerId: string;
 	entry: E;
-	computeLock: ComputationLockJSON;
+	computeLock: IComputationLock;
 }

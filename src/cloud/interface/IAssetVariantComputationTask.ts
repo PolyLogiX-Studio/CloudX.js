@@ -1,4 +1,4 @@
-import { AssetVariantEntityType } from "../../enum/AssetVariantEntityType";
+import { AssetVariantEntityType } from "../../enum/";
 
 /**
  *Asset Variant Computation Info JSON

@@ -1,9 +1,10 @@
 import { List } from "@bombitmanbomb/utils/lib";
-import { WorldStartupParameters } from "./WorldStartupParameters";
-import { SessionJoinParameters } from "./SessionJoinParameters";
-import { InputConfig } from "./InputConfig";
-import { INeosConfig } from "../interface/INeosConfig";
-import { ISessionJoinParameters, IWorldStartupParameters } from "../interface";
+import { WorldStartupParameters, SessionJoinParameters, InputConfig } from "./";
+import {
+	ISessionJoinParameters,
+	IWorldStartupParameters,
+	INeosConfig,
+} from "../interface";
 
 /**
  * Advanced options to configure a Neos Client.

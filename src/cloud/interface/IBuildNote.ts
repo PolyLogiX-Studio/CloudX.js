@@ -1,6 +1,6 @@
-import { MultiLanguageValueJSON } from "../class/MultiLanguageValue";
+import { IMultiLanguageValue } from "./";
 
 export interface IBuildNote {
 	noteId: string;
-	description: MultiLanguageValueJSON<string>;
+	description: IMultiLanguageValue<string>;
 }

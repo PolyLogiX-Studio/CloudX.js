@@ -1,7 +1,6 @@
 import { HubConnection, HubConnectionState } from "@bombitmanbomb/signalr";
-import { INeosHubServer } from "../cloud/interface/INeosHubServer";
-import { MarkReadBatch } from "../cloud/class/MarkReadBatch";
-import { Message } from "../cloud/class/Message";
+import { INeosHubServer } from "../cloud/interface/";
+import { MarkReadBatch, Message } from "../cloud/class/";
 import { TimeSpan } from "@bombitmanbomb/utils/lib";
 export class NeosHub implements INeosHubServer {
 	public Hub: HubConnection;

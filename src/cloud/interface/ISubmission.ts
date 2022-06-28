@@ -1,6 +1,6 @@
-import { IRecordId } from "./IRecordID";
+import { IRecordId } from "./";
 
-export interface SubmissionJSON {
+export interface ISubmission {
 	id: string;
 	ownerId: string;
 	targetRecordId: IRecordId;

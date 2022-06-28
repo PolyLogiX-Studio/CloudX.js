@@ -1,13 +1,11 @@
-import { VersionNumberJSON } from "../class/VersionNumber";
-import { BuildStatus } from "../../enum/BuildStatus";
-import { BuildPlatform } from "../../enum/BuildPlatform";
-import { BuildFileJSON } from "../../../lib/BuildFile";
+import { BuildStatus, BuildPlatform } from "../../enum/";
+import { IBuildFile, IVersionNumber } from "./";
 
 export interface IBuildVariantBase {
 	readonly variantId: string;
-	versionNumber: VersionNumberJSON; //TODO VersionNumber
+	versionNumber: IVersionNumber; //TODO VersionNumber
 	readonly versionString: string;
 	status: BuildStatus;
 	platform: BuildPlatform;
-	files: BuildFileJSON[];
+	files: IBuildFile[];
 }

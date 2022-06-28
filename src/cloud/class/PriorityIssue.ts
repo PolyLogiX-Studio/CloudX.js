@@ -1,4 +1,4 @@
-import { IPriorityIssue } from "../interface/IPriorityIssue";
+import { IPriorityIssue } from "../interface/";
 export class PriorityIssue {
 	public TASK_KEY = "update-priority-issues";
 	public PRIORITY_ISSUES_ID = "PriorityIssues";

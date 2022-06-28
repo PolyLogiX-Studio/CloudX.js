@@ -1,5 +1,5 @@
-import { RecordId } from "./RecordId";
-import { SubmissionJSON } from "../interface/ISubmission";
+import { RecordId } from "./";
+import { ISubmission } from "../interface/";
 export class Submission {
 	public Id: string;
 	public GroupId: string;
@@ -10,7 +10,7 @@ export class Submission {
 	public Featured: boolean;
 	public FeaturedByUserId: string;
 	public FeaturedTimestamp?: Date;
-	constructor($b: SubmissionJSON = {} as SubmissionJSON) {
+	constructor($b: ISubmission = {} as ISubmission) {
 		this.Id = $b.id;
 		this.GroupId = $b.ownerId;
 		this.TargetRecordId =
@@ -24,7 +24,7 @@ export class Submission {
 		this.FeaturedByUserId = $b.featuredByUserId;
 		this.FeaturedTimestamp = new Date(($b.featuredTimestamp as Date) ?? 0);
 	}
-	toJSON(): SubmissionJSON {
+	toJSON(): ISubmission {
 		return {
 			id: this.Id,
 			ownerId: this.GroupId,
