@@ -10,7 +10,7 @@ export class AssetEntry<E> {
 	public Id: string;
 	public OwnerId: string;
 	public ComputeLock: ComputationLock;
-	public Entry: any;
+	public Entry: E;
 	constructor($b: IAssetEntry<E> = {} as IAssetEntry<E>) {
 		this.Id = $b.id;
 		this.OwnerId = $b.ownerId;
