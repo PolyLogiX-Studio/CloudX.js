@@ -9,6 +9,7 @@ import {
 	List,
 	Out,
 } from "@bombitmanbomb/utils";
+import { ACloudVariableEventHandler } from "../cloud";
 /**
  *Cloud Variable Proxy
  * @todo
@@ -88,7 +89,7 @@ export class CloudVariableProxy {
 		};
 		Loop();
 	}
-	public Register(onChanged: () => unknown): void {
+	public Register(onChanged: ACloudVariableEventHandler): void {
 		if (this.State == CloudVariableState.Unregistered)
 			throw new Error("Proxy has been unregistered!");
 		let flag = false;

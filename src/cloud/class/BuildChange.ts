@@ -1,7 +1,8 @@
 import { List } from "@bombitmanbomb/utils";
-import { BuildChangeType } from "../../enum/";
+import { BuildChangeType, BuildPlatform, PublishingPlatform } from "../../enum/";
 import { BuildReporter, IssueReference } from "./";
 import { IBuildChange, IBuildReporter, IIssueReference } from "../interface/";
+import { BuildUser } from './BuildUser';
 /**
  *Build Changes
  *
@@ -15,8 +16,10 @@ export class BuildChange {
 	public WorkInProgress: boolean;
 	public BranchSpecific: boolean;
 	public RelatedIssues: List<IssueReference>;
-	public GithubIssueNumbers: List<number>;
+	public Contributors: List<BuildUser>
 	public Reporters: List<BuildReporter>;
+	public AffectedPlatforms: Set<BuildPlatform>;
+	public ExcludedPublishingPlatforms: Set<PublishingPlatform>
 	constructor($b: IBuildChange = {} as IBuildChange) {
 		this.ChangeId = $b.changeId;
 		this.Description = $b.description;
@@ -27,14 +30,15 @@ export class BuildChange {
 			$b.relatedIssues instanceof List
 				? $b.relatedIssues
 				: List.ToListAs($b.relatedIssues, IssueReference);
-		this.GithubIssueNumbers =
-			$b.githubIssueNumbers instanceof List
-				? $b.githubIssueNumbers
-				: List.ToList($b.githubIssueNumbers);
 		this.Reporters =
 			$b.reporters instanceof List
 				? $b.reporters
 				: List.ToListAs($b.reporters, BuildReporter);
+		this.Contributors = $b.contributors instanceof List
+			? $b.contributors
+			: List.ToListAs($b.contributors, BuildUser)
+		this.AffectedPlatforms = $b.affectedPlatforms instanceof Set ? $b.affectedPlatforms :new Set($b.affectedPlatforms)
+		this.ExcludedPublishingPlatforms = $b.excludedPublishingPlatforms instanceof Set ? $b.excludedPublishingPlatforms : new Set($b.excludedPublishingPlatforms)
 	}
 	toJSON(): IBuildChange {
 		return {
@@ -45,8 +49,10 @@ export class BuildChange {
 			branchSpecific: this.BranchSpecific,
 			relatedIssues:
 				this.RelatedIssues.toJSON() as unknown as IIssueReference[],
-			githubIssueNumbers: this.GithubIssueNumbers?.toJSON(),
 			reporters: this.Reporters?.toJSON() as unknown as IBuildReporter[],
+			affectedPlatforms: this.AffectedPlatforms,
+			contributors: this.Contributors,
+			excludedPublishingPlatforms: this.ExcludedPublishingPlatforms
 		};
 	}
 }

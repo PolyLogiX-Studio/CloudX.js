@@ -75,14 +75,15 @@ import {
 import {
 	ProductInfoHeaderValue,
 	NeosHub,
-	InfiniteRetryPolicy
+	InfiniteRetryPolicy,
+	MetadataBatchQuery
 } from "./";
 import {
 	NeosDB_Endpoint,
 	OwnerType,
 	ServerStatus,
 	UploadState,
-	VerificationKeyUse
+	VerificationKeyUse,
 } from "../enum";
 import {
 	FriendManager,
@@ -94,6 +95,9 @@ import {
 	IdUtil,
 	RecordUtil
 } from "../utility";
+import { RecordBatchQuery } from "../TODO";
+import { BitmapMetadata, CubemapMetadata, IAssetMetadata, MeshMetadata, ShaderMetadata } from "@bombitmanbomb/codex/types";
+import { AssetVariantType } from "@bombitmanbomb/codex/types";
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -126,23 +130,18 @@ export class CloudXInterface
 	public static MemoryStreamAllocator: unknown; //TODO
 	public static USE_CDN = true;
 	private static readonly CLOUDX_PRODUCTION_NEOS_API = "https://api.neos.com";
-	private static readonly CLOUDX_STAGING_NEOS_API =
-		"https://cloudx-staging.azurewebsites.net";
-	private static readonly CLOUDX_NEOS_DURABLE_BLOB =
-		"https://cloudxstorage.blob.core.windows.net/";
-	private static readonly CLOUDX_NEOS_OPERATIONAL_BLOB =
-		"https://cloudxoperationalblob.blob.core.windows.net/";
-	private static readonly CLOUDX_NEOS_CDN = "https://cloudx2.azureedge.net/";
-	private static readonly CLOUDX_NEOS_THUMBNAIL_CDN =
-		"https://cloudxthumbnails.azureedge.net/";
-	private static readonly CLOUDX_NEOS_VIDEO_CDN =
-		"https://cloudx2.azureedge.net/";
+	private static readonly CLOUDX_STAGING_NEOS_API = "https://cloudx-staging.azurewebsites.net";
+	private static readonly CLOUDX_NEOS_DURABLE_BLOB = "https://cloudxstorage.blob.core.windows.net/";
+	private static readonly CLOUDX_NEOS_OPERATIONAL_BLOB = "https://cloudxoperationalblob.blob.core.windows.net/";
+	private static readonly CLOUDX_NEOS_CDN = "https://assets.neos.com/";
+	private static readonly CLOUDX_NEOS_THUMBNAIL_CDN = "https://operationaldata.neos.com/thumbnails/";
+	private static readonly CLOUDX_NEOS_VIDEO_CDN = "https://assets.neos.com/";
 	private static readonly LOCAL_NEOS_API = "http://localhost:60612";
-	private static readonly LOCAL_NEOS_BLOB =
-		"http://127.0.0.1:10000/devstoreaccount1/";
+	private static readonly LOCAL_NEOS_BLOB = "http://127.0.0.1:10000/devstoreaccount1/";
 	protected lockobj = new Object();
 	private _hubConnectionToken!: CancellationTokenSource;
 	private _recordBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
+	private _recordCaches: Dictionary<string, unknown> = new Dictionary(); //TODO Type
 	private _metadataBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
 	private _updateCurrentUserInfo!: boolean;
 	private _currentSession!: UserSession;
@@ -206,10 +205,10 @@ export class CloudXInterface
 		return CloudXInterface.NEOS_BLOB + "assets/";
 	}
 	public static get NEOS_ASSETS_CDN(): string {
-		return "https://cloudx2.azureedge.net/assets/";
+		return "https://assets.neos.com/assets/";
 	}
 	public static get NEOS_ASSETS_VIDEO_CDN(): string {
-		return "https://cloudx2.azureedge.net/assets/";
+		return "https://assets.neos.com/assets/";
 	}
 	public static get NEOS_ASSETS_BLOB(): string {
 		return "https://cloudxstorage.blob.core.windows.net/assets/";
@@ -218,38 +217,37 @@ export class CloudXInterface
 		return "https://cloudxstorage.blob.core.windows.net/thumbnails/";
 	}
 	public static get NEOS_THUMBNAILS(): string {
-		return "https://cloudxthumbnails.azureedge.net/";
+		return "https://operationaldata.neos.com/thumbnails/";
 	}
 	public static get NEOS_INSTALL(): string {
-		return "https://cloudx2.azureedge.net/install/";
+		return "https://assets.neos.com/install/";
 	}
 	public static get NEOS_CLOUD_BLOB(): string {
 		return !CloudXInterface.USE_CDN
 			? "https://cloudxstorage.blob.core.windows.net/"
-			: "https://cloudx2.azureedge.net/";
+			: "https://assets.neos.com/";
 	}
 	public HttpClient!: Http;
 	public SafeHttpClient!: Http;
 	public HubClient!: NeosHub;
-	/* //TODO RecordBatch
-	public RecordBatch<R>(type:string):RecordBatchQuery<R>{
+	/// public GitHub:GitHubClient //TODO
+	public RecordBatch<R extends IRecordBase>(type: string): RecordBatchQuery<R> {
 		let obj = new Out
 		if (this._recordBatchQueries.TryGetValue(type, obj))
-			return obj.Out
+			return obj.Out as RecordBatchQuery<R>
 		let recordBatchQuery = new RecordBatchQuery(this)
 		this._recordBatchQueries.TryAdd(type, recordBatchQuery)
-		return recordBatchQuery
+		return recordBatchQuery as RecordBatchQuery<R>
 	}
-	*/
-	/* //TODO MetadataBatch
-	public MetadataBatch<M>(type:string):MetadataBatchQuery<M> {
+
+	public MetadataBatch<M extends IAssetMetadata>(type: string): MetadataBatchQuery<M> {
 		let obj = new Out
 		if (this._metadataBatchQueries.TryGetValue(type, obj))
-			return obj.Out
-		let metadataBatchQuery = new MetadataBatchQuery(this)
+			return obj.Out as MetadataBatchQuery<M>
+		let metadataBatchQuery = new MetadataBatchQuery<M>(this)
 		return metadataBatchQuery
 	}
-	*/
+
 
 	public ScheduleUpdateCurrentUserInfo(): void {
 		this._updateCurrentUserInfo = true;
@@ -1732,9 +1730,50 @@ export class CloudXInterface
 		).Convert(SugarCube);
 	}
 
-	//TODO GatherAsset
-	//TODO GetMetadataURLSegment
-	//TODO GetAssetMetadata
+	public async GatherAsset(signature: string) {
+		try {
+			//return await this.HttpClient?.GetStreamAsync //TODO Implement Data Stream
+		} catch (error) {
+
+		}
+	}
+	public GetMetadataURLSegment(type: any): string {
+		switch (type?.constructor?.name) {
+			case "BitmapMetadata":
+				return "bitmapMetadata"
+			case "CubemapMetadata":
+				return "cubemapMetadata"
+			case "MeshMetadata":
+				return "meshMetadata"
+			case "ShaderMetadata":
+				return "meshMetadata"
+			default:
+				throw new Error("Unsupported metadata type: " + type?.constuctor?.name)
+		}
+	}
+	public async GetAssetMetadata<T extends IAssetMetadata>(hashes: List<string>): Promise<CloudResult<List<T>>>
+	public async GetAssetMetadata(variantType: AssetVariantType, hash: string): Promise<CloudResult<IAssetMetadata>>
+	public async GetAssetMetadata<T extends IAssetMetadata | BitmapMetadata>(hash: string): Promise<CloudResult<T>>
+	public async GetAssetMetadata<T>(a: string | AssetVariantType | List<string>, b?: string): Promise<any> {
+		if (a instanceof List) {
+			this.POST<List<T>>("api/assets/" + this.GetMetadataURLSegment(a[0]), a)
+		} else if (b == null) {
+      return this.GET<T>("api/assets/" + a + "/" + this.GetMetadataURLSegment(a));
+		} else {
+			switch (a) {
+				case AssetVariantType.Texture:
+					return (await this.GetAssetMetadata<BitmapMetadata>(b)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>
+				case AssetVariantType.Cubemap:
+					return (await this.GetAssetMetadata<CubemapMetadata>(b))as unknown  as Promise<CloudResult<List<IAssetMetadata>>>
+				case AssetVariantType.Mesh:
+					return (await this.GetAssetMetadata<MeshMetadata>(b)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>
+				case AssetVariantType.Shader:
+					return (await this.GetAssetMetadata<ShaderMetadata>(b)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>
+				default:
+					throw new Error("Unsupported metadata type: " + a.toString());
+			}
+		}
+	}
 	//TODO RequestAssetVariant
 	//TODO GetAvailableVariants
 	//TODO StoreAssetMetadata

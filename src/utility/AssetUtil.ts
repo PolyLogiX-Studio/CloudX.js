@@ -15,8 +15,8 @@ export class AssetUtil {
 	 * @type {5}
 	 * @memberof AssetUtil
 	 */
-	public static get COMPUTE_VERSION(): 5 {
-		return 5;
+	public static get COMPUTE_VERSION(): 9 {
+		return 9;
 	}
 	/** Generate a hash signature for a given file.
 	 * Will read the file and create a sha256 hash.

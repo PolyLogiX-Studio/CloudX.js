@@ -5,33 +5,33 @@ import { CloudVariable } from '../cloud/class/CloudVariable';
 import { CloudVariableDefinition } from '../cloud/class/CloudVariableDefinition';
 import { CloudXInterface } from './CloudXInterface';
 import { List } from '@bombitmanbomb/utils/lib';
-import { IAssetMetadata } from '@bombitmanbomb/codex';
-const pool = new List<string>()
-export class MetadataBatchQuery<M extends IAssetMetadata> extends BatchQuery<string, M> {
+const pool = new List<CloudVariable>()
+export class VariableWriteBatchQuery extends BatchQuery<CloudVariable, CloudVariable> {
   private cloud: CloudXInterface
 
   constructor(cloud: CloudXInterface) {
     super()
     this.cloud = cloud
-    this.DelaySeconds = 1;
+    this.DelaySeconds = 5;
   }
 
-  public override async RunBatch(batch: List<QueryResult<string, M>>): Promise<void> {
-    let hashes = pool; //TODO Pooling
+  public override async RunBatch(batch: List<QueryResult<CloudVariable, CloudVariable>>): Promise<void> {
+    let requests = pool;
     for (let queryResult of batch)
-      hashes.Add(queryResult.query);
-    let cloudResult = await this.cloud.GetAssetMetadata<M>(hashes);
+      requests.Add(queryResult.query)
+    let cloudResult = await this.cloud.WriteVariableBatch(requests);
     if (!cloudResult.IsOK) {
-      hashes = null as any
-    } else {
+      requests = null as any
+    }
+    else {
       let enumerator = cloudResult.Entity.GetEnumerator()
       while (enumerator.MoveNext()) {
-        let metadata: M = enumerator.Current;
-        let queryResult: QueryResult<string, M> = batch.find((q => q.query == metadata.AssetIdentifier));
+        let result: CloudVariable = enumerator.Current
+        let queryResult: QueryResult<CloudVariable, CloudVariable> = batch.find(q => q.query.VariableOwnerId == result.VariableOwnerId && q.query.Path == result.Path)
         if (queryResult != null)
-          queryResult.result = metadata;
+          queryResult.result = result
       }
-      hashes = null as any;
+      requests = null as any
     }
   }
 }

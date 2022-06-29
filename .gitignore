@@ -10,3 +10,4 @@ dist/
 Local/
 coverage/
 pnpm-lock.yaml
+*.ts.bak

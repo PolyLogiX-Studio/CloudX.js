@@ -14,7 +14,7 @@ export class FriendManager {
 
 	public Cloud!: CloudXInterface;
 
-	public FriendRequestCount!: number;
+	public FriendRequestCount: number = 0;
 
 	public InitialFriendsLoaded!: boolean;
 

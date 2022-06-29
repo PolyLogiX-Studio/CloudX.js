@@ -16,6 +16,7 @@ export class BuildUser {
 	 * Github Username
 	 */
 	GithubHandle: string;
+	
 	constructor($b: IBuildUser = {} as IBuildUser) {
 		this.Username = $b.username;
 		this.NeosUserID = $b.neosUserID;
