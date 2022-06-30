@@ -24,7 +24,7 @@ export class RecordUtil {
 			return false;
 		ownerId.Out = recordUri.Segments[1];
 		if (ownerId.Out == null || ownerId.Out.trim() == "") return false;
-		ownerId.Out = ownerId.Out.substr(0, ownerId.Out.length - 1);
+		ownerId.Out = ownerId.Out.substring(0, ownerId.Out.length - 1);
 		recordId.Out = recordUri.Segments[2];
 		return (
 			!(recordId.Out == null || recordId.Out.trim() == "") &&
