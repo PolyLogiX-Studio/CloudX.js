@@ -1,4 +1,8 @@
-import { CloudVariableDefinition, VariableReadResult, CloudVariable } from "../cloud/class/";
+import {
+	CloudVariableDefinition,
+	VariableReadResult,
+	CloudVariable,
+} from "../cloud/class/";
 import { CloudVariableManager } from "../manager/";
 import { CloudVariableState, OwnerType } from "../enum/";
 import { CloudVariableIdentity, CloudXInterface } from "./";
@@ -50,7 +54,7 @@ export class CloudVariableProxy {
 			? this._definition.DefinitionOwnerId == this.Cloud.CurrentUser?.Id
 			: this.Cloud.IsCurrentUserMemberOfGroup(
 				this._definition.DefinitionOwnerId
-			);
+			  );
 	}
 	public get IsVariableOwner(): boolean {
 		return IdUtil.GetOwnerType(this.Identity.ownerId) == OwnerType.User
@@ -132,8 +136,8 @@ export class CloudVariableProxy {
 			);
 		if (
 			new Date(new Date().getTime() - this.LastCloudWrite.getTime()).getTime() /
-			1000 <
-			30.0 ||
+				1000 <
+				30.0 ||
 			this._writeTask == null
 		)
 			return false;

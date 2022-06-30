@@ -1,7 +1,7 @@
 import { BuildChangeType, PublishingPlatform } from "../../enum/";
 import { IBuildReporter, IIssueReference } from "./";
-import { IBuildUser } from '../../../lib/cloud/interface/IBuildUser';
-import { BuildPlatform } from '../../enum/BuildPlatform';
+import { IBuildUser } from "../../../lib/cloud/interface/IBuildUser";
+import { BuildPlatform } from "../../enum/BuildPlatform";
 
 /**
  *Build Changes JSON
@@ -16,8 +16,8 @@ export interface IBuildChange {
 	workInProgress: boolean;
 	branchSpecific: boolean;
 	relatedIssues: IIssueReference[];
-	contributors: IBuildUser[]
+	contributors: IBuildUser[];
 	reporters: IBuildReporter[];
-	affectedPlatforms: Set<BuildPlatform>
-	excludedPublishingPlatforms: Set<PublishingPlatform>
+	affectedPlatforms: Set<BuildPlatform>;
+	excludedPublishingPlatforms: Set<PublishingPlatform>;
 }

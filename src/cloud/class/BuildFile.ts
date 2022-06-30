@@ -27,7 +27,7 @@ export class BuildFile {
 		this.SizeBytes = $b.sizeBytes;
 	}
 	public get IsFolder(): boolean {
-		return this.Signature != null
+		return this.Signature != null;
 	}
 	toJSON(): IBuildFile {
 		return {

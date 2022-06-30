@@ -12,6 +12,8 @@ export * from './NeosHub';
 export * from './OAuthApplication';
 export * from './OAuthToken';
 export * from './ProductInfoHeaderValue';
+export * from './RecordBatchQuery';
+export * from './RecordCache';
 export * from './RecordSearch';
 export * from './RecordTags';
 export * from './UserTags';
