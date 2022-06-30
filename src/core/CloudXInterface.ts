@@ -77,6 +77,7 @@ import {
 	NeosHub,
 	InfiniteRetryPolicy,
 	MetadataBatchQuery,
+	RecordBatchQuery
 } from "./";
 import {
 	NeosDB_Endpoint,
@@ -87,7 +88,6 @@ import {
 } from "../enum";
 import { FriendManager, MessageManager, TransactionManager } from "../manager";
 import { CloudVariableHelper, IdUtil, RecordUtil } from "../utility";
-import { RecordBatchQuery } from "../TODO";
 import {
 	BitmapMetadata,
 	CubemapMetadata,
