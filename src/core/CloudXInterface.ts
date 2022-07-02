@@ -96,6 +96,7 @@ import {
 	ShaderMetadata,
 } from "@bombitmanbomb/codex/types";
 import { AssetVariantType } from "@bombitmanbomb/codex/types";
+import { RecordCache } from './RecordCache';
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -235,6 +236,7 @@ implements INeosHubDebugClient, INeosModerationClient
 	public SafeHttpClient!: Http;
 	public HubClient!: NeosHub;
 	/// public GitHub:GitHubClient //TODO
+
 	public RecordBatch<R extends IRecordBase>(type: string): RecordBatchQuery<R> {
 		const obj = new Out();
 		if (this._recordBatchQueries.TryGetValue(type, obj))
@@ -242,6 +244,15 @@ implements INeosHubDebugClient, INeosModerationClient
 		const recordBatchQuery = new RecordBatchQuery(this);
 		this._recordBatchQueries.TryAdd(type, recordBatchQuery);
 		return recordBatchQuery as RecordBatchQuery<R>;
+	}
+	
+	public RecordCache<R extends IRecordBase>(type:string): RecordCache<R>{
+		const obj = new Out();
+		if (this._recordCaches.TryGetValue(type, obj))
+			return obj.Out as RecordCache<R>;
+		const recordCache = new RecordCache(this);
+		this._recordBatchQueries.TryAdd(type, recordCache);
+		return recordCache as RecordCache<R>;
 	}
 
 	public MetadataBatch<M extends IAssetMetadata>(
