@@ -245,7 +245,7 @@ implements INeosHubDebugClient, INeosModerationClient
 		this._recordBatchQueries.TryAdd(type, recordBatchQuery);
 		return recordBatchQuery as RecordBatchQuery<R>;
 	}
-	
+
 	public RecordCache<R extends IRecordBase>(type:string): RecordCache<R>{
 		const obj = new Out();
 		if (this._recordCaches.TryGetValue(type, obj))
