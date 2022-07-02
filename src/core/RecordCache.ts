@@ -1,8 +1,8 @@
-import { IRecord } from "../cloud/interface/IRecord";
 import { RecordId } from "../cloud/class/RecordId";
 import { Dictionary, Out } from "@bombitmanbomb/utils/lib";
 import { CloudXInterface } from "./CloudXInterface";
-export class RecordCache<TRecord extends IRecord> {
+import { IRecordBase } from "../cloud";
+export class RecordCache<TRecord extends IRecordBase> {
 	private cached = new Dictionary<RecordId, TRecord>();
 	public CloudInterface: CloudXInterface;
 	constructor(cloudInterface: CloudXInterface) {
