@@ -202,7 +202,7 @@ export class FriendManager {
 					this.InitialFriendsLoaded = true;
 
 			}
-			catch (ex)
+			catch (ex:any)
 			{
 				console.error("Exception updating friends:\n" + ex?.toString());
 			}
