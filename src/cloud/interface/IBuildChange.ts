@@ -1,8 +1,5 @@
-import { BuildChangeType, PublishingPlatform } from "../../enum/";
-import { IBuildReporter, IIssueReference } from "./";
-import { IBuildUser } from "../../../lib/cloud/interface/IBuildUser";
-import { BuildPlatform } from "../../enum/BuildPlatform";
-
+import { BuildChangeType, PublishingPlatform, BuildPlatform } from "../../enum/";
+import { IBuildReporter, IIssueReference, IBuildUser } from "./";
 /**
  *Build Changes JSON
  *
