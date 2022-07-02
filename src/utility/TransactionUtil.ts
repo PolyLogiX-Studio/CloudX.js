@@ -3,6 +3,7 @@ export class TransactionUtil {
 	public static MINIMUM_TRANSFER = 0.0001;
 	public static TARGET_ADDRESS_PREFIX = "Target Address: ";
 	public static ADDRESS_LENGTH = 42;
+	public static NCR_TOTAL_DUPPLY = "NCR_TOTAL_SUPPLY";
 	public static NCR_CONVERSION_VARIABLE = "NCR_CONVERSION";
 	public static CDFT_CONVERSION_VARIABLE = "CDFT_CONVERSION";
 	public static EncodeTargetAddress(address: string): string {

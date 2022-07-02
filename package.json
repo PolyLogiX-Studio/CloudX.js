@@ -58,7 +58,7 @@
 	},
 	"dependencies": {
 		"@bombitmanbomb/basex": "^0.1.0-alpha.2",
-		"@bombitmanbomb/codex": "^0.0.1-alpha.2",
+		"@bombitmanbomb/codex": "^0.0.1-alpha.7",
 		"@bombitmanbomb/http-client": "^2.3.0",
 		"@bombitmanbomb/signalr": "5.0.1-neos",
 		"@bombitmanbomb/utils": "^2.12.5",

@@ -70,30 +70,33 @@ import {
 	UserStatus,
 	VariableReadRequest,
 	VariableReadResult,
-	Visit
+	Visit,
 } from "../cloud";
 import {
 	ProductInfoHeaderValue,
 	NeosHub,
-	InfiniteRetryPolicy
+	InfiniteRetryPolicy,
+	MetadataBatchQuery,
+	RecordBatchQuery
 } from "./";
 import {
 	NeosDB_Endpoint,
 	OwnerType,
 	ServerStatus,
 	UploadState,
-	VerificationKeyUse
+	VerificationKeyUse,
 } from "../enum";
+import { FriendManager, MessageManager, TransactionManager } from "../manager";
+import { CloudVariableHelper, IdUtil, RecordUtil } from "../utility";
 import {
-	FriendManager,
-	MessageManager,
-	TransactionManager
-} from "../manager";
-import {
-	CloudVariableHelper,
-	IdUtil,
-	RecordUtil
-} from "../utility";
+	BitmapMetadata,
+	CubemapMetadata,
+	IAssetMetadata,
+	MeshMetadata,
+	ShaderMetadata,
+} from "@bombitmanbomb/codex/types";
+import { AssetVariantType } from "@bombitmanbomb/codex/types";
+import { RecordCache } from './RecordCache';
 //Huge Class - Core Component
 /**
  * Cloud Endpoint
@@ -112,7 +115,8 @@ export enum CloudEndpoint {
  * @class CloudXInterface
  */
 export class CloudXInterface
-	implements INeosHubDebugClient, INeosModerationClient {
+implements INeosHubDebugClient, INeosModerationClient
+{
 	public static DEBUG_REQUESTS = false;
 	public static DEFAULT_RETRIES = 10;
 	public static readonly SESSION_EXTEND_INTERVAL = 3600;
@@ -132,17 +136,17 @@ export class CloudXInterface
 		"https://cloudxstorage.blob.core.windows.net/";
 	private static readonly CLOUDX_NEOS_OPERATIONAL_BLOB =
 		"https://cloudxoperationalblob.blob.core.windows.net/";
-	private static readonly CLOUDX_NEOS_CDN = "https://cloudx2.azureedge.net/";
+	private static readonly CLOUDX_NEOS_CDN = "https://assets.neos.com/";
 	private static readonly CLOUDX_NEOS_THUMBNAIL_CDN =
-		"https://cloudxthumbnails.azureedge.net/";
-	private static readonly CLOUDX_NEOS_VIDEO_CDN =
-		"https://cloudx2.azureedge.net/";
+		"https://operationaldata.neos.com/thumbnails/";
+	private static readonly CLOUDX_NEOS_VIDEO_CDN = "https://assets.neos.com/";
 	private static readonly LOCAL_NEOS_API = "http://localhost:60612";
 	private static readonly LOCAL_NEOS_BLOB =
 		"http://127.0.0.1:10000/devstoreaccount1/";
 	protected lockobj = new Object();
 	private _hubConnectionToken!: CancellationTokenSource;
 	private _recordBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
+	private _recordCaches: Dictionary<string, unknown> = new Dictionary(); //TODO Type
 	private _metadataBatchQueries: Dictionary<string, unknown> = new Dictionary(); //TODO Type
 	private _updateCurrentUserInfo!: boolean;
 	private _currentSession!: UserSession;
@@ -181,35 +185,35 @@ export class CloudXInterface
 	public static CLOUD_ENDPOINT = CloudXInterface.CloudEndpoint.Production;
 	public static get NEOS_API(): string {
 		switch (CloudXInterface.CLOUD_ENDPOINT) {
-			case CloudXInterface.CloudEndpoint.Production:
-				return "https://api.neos.com";
-			case CloudXInterface.CloudEndpoint.Staging:
-				return "https://cloudx-staging.azurewebsites.net";
-			case CloudXInterface.CloudEndpoint.Local:
-				return "http://localhost:60612";
-			default:
-				throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
+		case CloudXInterface.CloudEndpoint.Production:
+			return "https://api.neos.com";
+		case CloudXInterface.CloudEndpoint.Staging:
+			return "https://cloudx-staging.azurewebsites.net";
+		case CloudXInterface.CloudEndpoint.Local:
+			return "http://localhost:60612";
+		default:
+			throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
 		}
 	}
 	public static get NEOS_BLOB(): string {
 		switch (CloudXInterface.CLOUD_ENDPOINT) {
-			case CloudXInterface.CloudEndpoint.Production:
-			case CloudXInterface.CloudEndpoint.Staging:
-				return CloudXInterface.NEOS_CLOUD_BLOB;
-			case CloudXInterface.CloudEndpoint.Local:
-				return CloudXInterface.NEOS_CLOUD_BLOB;
-			default:
-				throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
+		case CloudXInterface.CloudEndpoint.Production:
+		case CloudXInterface.CloudEndpoint.Staging:
+			return CloudXInterface.NEOS_CLOUD_BLOB;
+		case CloudXInterface.CloudEndpoint.Local:
+			return CloudXInterface.NEOS_CLOUD_BLOB;
+		default:
+			throw new Error("Invalid Endpoint: " + CloudXInterface.CLOUD_ENDPOINT);
 		}
 	}
 	public static get NEOS_ASSETS(): string {
 		return CloudXInterface.NEOS_BLOB + "assets/";
 	}
 	public static get NEOS_ASSETS_CDN(): string {
-		return "https://cloudx2.azureedge.net/assets/";
+		return "https://assets.neos.com/assets/";
 	}
 	public static get NEOS_ASSETS_VIDEO_CDN(): string {
-		return "https://cloudx2.azureedge.net/assets/";
+		return "https://assets.neos.com/assets/";
 	}
 	public static get NEOS_ASSETS_BLOB(): string {
 		return "https://cloudxstorage.blob.core.windows.net/assets/";
@@ -218,38 +222,48 @@ export class CloudXInterface
 		return "https://cloudxstorage.blob.core.windows.net/thumbnails/";
 	}
 	public static get NEOS_THUMBNAILS(): string {
-		return "https://cloudxthumbnails.azureedge.net/";
+		return "https://operationaldata.neos.com/thumbnails/";
 	}
 	public static get NEOS_INSTALL(): string {
-		return "https://cloudx2.azureedge.net/install/";
+		return "https://assets.neos.com/install/";
 	}
 	public static get NEOS_CLOUD_BLOB(): string {
 		return !CloudXInterface.USE_CDN
 			? "https://cloudxstorage.blob.core.windows.net/"
-			: "https://cloudx2.azureedge.net/";
+			: "https://assets.neos.com/";
 	}
 	public HttpClient!: Http;
 	public SafeHttpClient!: Http;
 	public HubClient!: NeosHub;
-	/* //TODO RecordBatch
-	public RecordBatch<R>(type:string):RecordBatchQuery<R>{
-		let obj = new Out
+	/// public GitHub:GitHubClient //TODO
+
+	public RecordBatch<R extends IRecordBase>(type: string): RecordBatchQuery<R> {
+		const obj = new Out();
 		if (this._recordBatchQueries.TryGetValue(type, obj))
-			return obj.Out
-		let recordBatchQuery = new RecordBatchQuery(this)
-		this._recordBatchQueries.TryAdd(type, recordBatchQuery)
-		return recordBatchQuery
+			return obj.Out as RecordBatchQuery<R>;
+		const recordBatchQuery = new RecordBatchQuery(this);
+		this._recordBatchQueries.TryAdd(type, recordBatchQuery);
+		return recordBatchQuery as RecordBatchQuery<R>;
 	}
-	*/
-	/* //TODO MetadataBatch
-	public MetadataBatch<M>(type:string):MetadataBatchQuery<M> {
-		let obj = new Out
+
+	public RecordCache<R extends IRecordBase>(type:string): RecordCache<R>{
+		const obj = new Out();
+		if (this._recordCaches.TryGetValue(type, obj))
+			return obj.Out as RecordCache<R>;
+		const recordCache = new RecordCache(this);
+		this._recordBatchQueries.TryAdd(type, recordCache);
+		return recordCache as RecordCache<R>;
+	}
+
+	public MetadataBatch<M extends IAssetMetadata>(
+		type: string
+	): MetadataBatchQuery<M> {
+		const obj = new Out();
 		if (this._metadataBatchQueries.TryGetValue(type, obj))
-			return obj.Out
-		let metadataBatchQuery = new MetadataBatchQuery(this)
-		return metadataBatchQuery
+			return obj.Out as MetadataBatchQuery<M>;
+		const metadataBatchQuery = new MetadataBatchQuery<M>(this);
+		return metadataBatchQuery;
 	}
-	*/
 
 	public ScheduleUpdateCurrentUserInfo(): void {
 		this._updateCurrentUserInfo = true;
@@ -296,7 +310,7 @@ export class CloudXInterface
 				? new AuthenticationHeaderValue(
 					"neos",
 					value.UserId + ":" + value.SessionToken
-				)
+				  )
 				: (null as unknown as AuthenticationHeaderValue);
 		this.OnSessionUpdated();
 		try {
@@ -477,12 +491,12 @@ export class CloudXInterface
 	public Update(): void {
 		if (this._updateCurrentUserInfo) {
 			switch (this.CurrentUser?.Id) {
-				case null:
-					break;
-				default:
-					this._updateCurrentUserInfo = false;
-					this.UpdateCurrentUserInfo();
-					break;
+			case null:
+				break;
+			default:
+				this._updateCurrentUserInfo = false;
+				this.UpdateCurrentUserInfo();
+				break;
 			}
 		}
 		if (this.CurrentSession != null) {
@@ -522,14 +536,14 @@ export class CloudXInterface
 	}
 	public HasPotentialAccess(ownerId: string): boolean {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.Machine:
-				return true;
-			case OwnerType.User:
-				return ownerId == this.CurrentUser.Id;
-			case OwnerType.Group:
-				return this.CurrentUserMemberships.some((m) => m.GroupId == ownerId);
-			default:
-				return false;
+		case OwnerType.Machine:
+			return true;
+		case OwnerType.User:
+			return ownerId == this.CurrentUser.Id;
+		case OwnerType.Group:
+			return this.CurrentUserMemberships.some((m) => m.GroupId == ownerId);
+		default:
+			return false;
 		}
 	}
 	private SetMemberships(memberships: List<Membership>): void {
@@ -564,18 +578,18 @@ export class CloudXInterface
 			return new Uri("https://neoscloud.blob.core.windows.net/assets/" + str3);
 		let str4;
 		switch (endpoint) {
-			case NeosDB_Endpoint.Blob:
-				str4 = CloudXInterface.NEOS_ASSETS_BLOB;
-				break;
-			case NeosDB_Endpoint.CDN:
-				str4 = CloudXInterface.NEOS_ASSETS_CDN;
-				break;
-			case NeosDB_Endpoint.VideoCDN:
-				str4 = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
-				break;
-			default:
-				str4 = CloudXInterface.NEOS_ASSETS;
-				break;
+		case NeosDB_Endpoint.Blob:
+			str4 = CloudXInterface.NEOS_ASSETS_BLOB;
+			break;
+		case NeosDB_Endpoint.CDN:
+			str4 = CloudXInterface.NEOS_ASSETS_CDN;
+			break;
+		case NeosDB_Endpoint.VideoCDN:
+			str4 = CloudXInterface.NEOS_ASSETS_VIDEO_CDN;
+			break;
+		default:
+			str4 = CloudXInterface.NEOS_ASSETS;
+			break;
 		}
 		return new Uri(str4 + str3);
 	}
@@ -1027,14 +1041,14 @@ export class CloudXInterface
 	): Promise<CloudResult<CloudMessage>> {
 		let resource = "";
 		switch (IdUtil.GetOwnerType(record.OwnerId)) {
-			case OwnerType.User:
-				resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
-				break;
-			case OwnerType.Group:
-				resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
-				break;
-			default:
-				throw new Error("Invalid Record Owner!");
+		case OwnerType.User:
+			resource = `api/users/${record.OwnerId}/records/${record.RecordId}`;
+			break;
+		case OwnerType.Group:
+			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}`;
+			break;
+		default:
+			throw new Error("Invalid Record Owner!");
 		}
 		return (await this.PUT<CloudMessage>(resource, record)).Convert(
 			CloudMessage
@@ -1045,14 +1059,14 @@ export class CloudXInterface
 	): Promise<CloudResult<RecordPreprocessStatus>> {
 		let resource = "";
 		switch (IdUtil.GetOwnerType(record.OwnerId)) {
-			case OwnerType.User:
-				resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
-				break;
-			case OwnerType.Group:
-				resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
-				break;
-			default:
-				throw new Error("Invalid Record Owner!");
+		case OwnerType.User:
+			resource = `api/users/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+			break;
+		case OwnerType.Group:
+			resource = `api/groups/${record.OwnerId}/records/${record.RecordId}/preprocess`;
+			break;
+		default:
+			throw new Error("Invalid Record Owner!");
 		}
 		return (await this.POST<RecordPreprocessStatus>(resource, record)).Convert(
 			RecordPreprocessStatus
@@ -1080,14 +1094,14 @@ export class CloudXInterface
 		} else {
 			let resource = "";
 			switch (IdUtil.GetOwnerType(ownerId)) {
-				case OwnerType.User:
-					resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
-					break;
-				case OwnerType.Group:
-					resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
-					break;
-				default:
-					throw new Error("Invalid Record Owner!");
+			case OwnerType.User:
+				resource = `api/users/${ownerId}/records/${recordId}/preprocess/${id}`;
+				break;
+			case OwnerType.Group:
+				resource = `api/groups/${ownerId}/records/${recordId}/preprocess/${id}`;
+				break;
+			default:
+				throw new Error("Invalid Record Owner!");
 			}
 			return (await this.GET<RecordPreprocessStatus>(resource)).Convert(
 				RecordPreprocessStatus
@@ -1119,18 +1133,18 @@ export class CloudXInterface
 		tag: string
 	): Promise<CloudResult<unknown>> {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return this.PUT(
-					"api/users/" + ownerId + "/records/" + recordId + "/tags",
-					tag
-				);
-			case OwnerType.Group:
-				return this.PUT(
-					"api/groups/" + ownerId + "/records/" + recordId + "/tags",
-					tag
-				);
-			default:
-				throw new Error("Invalid record owner");
+		case OwnerType.User:
+			return this.PUT(
+				"api/users/" + ownerId + "/records/" + recordId + "/tags",
+				tag
+			);
+		case OwnerType.Group:
+			return this.PUT(
+				"api/groups/" + ownerId + "/records/" + recordId + "/tags",
+				tag
+			);
+		default:
+			throw new Error("Invalid record owner");
 		}
 	}
 	public MarkStorageDirty(ownerId: string): void {
@@ -1171,38 +1185,38 @@ export class CloudXInterface
 		hash: string
 	): Promise<CloudResult<AssetInfo>> {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return (
-					await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
-				).Convert(AssetInfo);
-			case OwnerType.Group:
-				return (
-					await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
-				).Convert(AssetInfo);
-			default:
-				throw new Error("Invalid ownerid");
+		case OwnerType.User:
+			return (
+				await this.GET<AssetInfo>(`api/users/${ownerId}/assets/${hash}`)
+			).Convert(AssetInfo);
+		case OwnerType.Group:
+			return (
+				await this.GET<AssetInfo>(`api/groups/${ownerId}/assets/${hash}`)
+			).Convert(AssetInfo);
+		default:
+			throw new Error("Invalid ownerid");
 		}
 	}
 	public async RegisterAssetInfo(
 		assetInfo: AssetInfo
 	): Promise<CloudResult<AssetInfo>> {
 		switch (IdUtil.GetOwnerType(assetInfo.OwnerId)) {
-			case OwnerType.User:
-				return (
-					await this.PUT<AssetInfo>(
-						`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
-						assetInfo
-					)
-				).Convert(AssetInfo);
-			case OwnerType.Group:
-				return (
-					await this.PUT<AssetInfo>(
-						`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
-						assetInfo
-					)
-				).Convert(AssetInfo);
-			default:
-				throw new Error("Invalid ownerid");
+		case OwnerType.User:
+			return (
+				await this.PUT<AssetInfo>(
+					`api/users/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+					assetInfo
+				)
+			).Convert(AssetInfo);
+		case OwnerType.Group:
+			return (
+				await this.PUT<AssetInfo>(
+					`api/groups/${assetInfo.OwnerId}/assets/${assetInfo.AssetHash}`,
+					assetInfo
+				)
+			).Convert(AssetInfo);
+		default:
+			throw new Error("Invalid ownerid");
 		}
 	}
 	public GetAssetMime(hash: string): Promise<CloudResult<unknown>> {
@@ -1217,12 +1231,12 @@ export class CloudXInterface
 		let str = hash;
 		if (variant != null) str += `&${variant}`;
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return `api/users/${ownerId}/assets/${str}`;
-			case OwnerType.Group:
-				return `api/groups/${ownerId}/assets/${str}`;
-			default:
-				throw new Error("Invalid ownerId");
+		case OwnerType.User:
+			return `api/users/${ownerId}/assets/${str}`;
+		case OwnerType.Group:
+			return `api/groups/${ownerId}/assets/${str}`;
+		default:
+			throw new Error("Invalid ownerId");
 		}
 	}
 	//TODO UploadAsset
@@ -1236,7 +1250,7 @@ export class CloudXInterface
 				assetUpload.Variant
 			) + "/chunks";
 		let cloudResult;
-		for (; ;) {
+		for (;;) {
 			// ?? Equivalent of While (True)
 			cloudResult = (await this.GET<AssetUploadData>(baseUrl)).Convert(
 				AssetUploadData
@@ -1348,12 +1362,12 @@ export class CloudXInterface
 	}
 	private static GetOwnerPath(ownerId: string): string {
 		switch (IdUtil.GetOwnerType(ownerId)) {
-			case OwnerType.User:
-				return "users";
-			case OwnerType.Group:
-				return "groups";
-			default:
-				throw new Error("Invalid owner type: " + ownerId);
+		case OwnerType.User:
+			return "users";
+		case OwnerType.Group:
+			return "groups";
+		default:
+			throw new Error("Invalid owner type: " + ownerId);
 		}
 	}
 	public async UpsertVariableDefinition(
@@ -1361,7 +1375,8 @@ export class CloudXInterface
 	): Promise<CloudResult<CloudVariableDefinition>> {
 		return (
 			await this.PUT<CloudVariableDefinition>(
-				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${definition.DefinitionOwnerId
+				`api/${CloudXInterface.GetOwnerPath(definition.DefinitionOwnerId)}/${
+					definition.DefinitionOwnerId
 				}/vardefs/${definition.Subpath}`,
 				definition
 			)
@@ -1425,22 +1440,22 @@ export class CloudXInterface
 		);
 		if (cloudResult.IsOK) {
 			switch (cloudResult.Entity?.Value) {
-				case null:
-					break;
-				default: {
-					const result: Out<T> = new Out();
-					CloudVariableHelper.ParseValue<T>(
-						cloudResult.Entity.Value,
-						type,
-						result
-					);
-					return new CloudResult<T>(
-						result.Out,
-						cloudResult.State,
+			case null:
+				break;
+			default: {
+				const result: Out<T> = new Out();
+				CloudVariableHelper.ParseValue<T>(
+					cloudResult.Entity.Value,
+					type,
+					result
+				);
+				return new CloudResult<T>(
+					result.Out,
+					cloudResult.State,
 						cloudResult.Content as string,
 						null
-					);
-				}
+				);
+			}
 			}
 		}
 		return new CloudResult<T>(
@@ -1710,15 +1725,15 @@ export class CloudXInterface
 			? new CloudResult<boolean>(
 				false,
 				cloudResult.State,
-				cloudResult.Content as string,
-				null
-			)
+					cloudResult.Content as string,
+					null
+			  )
 			: new CloudResult<boolean>(
 				true,
 				cloudResult.State,
-				cloudResult.Content as string,
-				null
-			); //TODO Verify
+					cloudResult.Content as string,
+					null
+			  ); //TODO Verify
 	}
 
 	public async GetSugarCube(
@@ -1732,9 +1747,70 @@ export class CloudXInterface
 		).Convert(SugarCube);
 	}
 
-	//TODO GatherAsset
-	//TODO GetMetadataURLSegment
-	//TODO GetAssetMetadata
+	public async GatherAsset(signature: string) {
+		try {
+			//return await this.HttpClient?.GetStreamAsync //TODO Implement Data Stream
+		} catch (error) {
+			console.error(error);
+		}
+	}
+	public GetMetadataURLSegment(type: any): string {
+		switch (type?.constructor?.name) {
+		case "BitmapMetadata":
+			return "bitmapMetadata";
+		case "CubemapMetadata":
+			return "cubemapMetadata";
+		case "MeshMetadata":
+			return "meshMetadata";
+		case "ShaderMetadata":
+			return "meshMetadata";
+		default:
+			throw new Error("Unsupported metadata type: " + type?.constuctor?.name);
+		}
+	}
+	public async GetAssetMetadata<T extends IAssetMetadata>(
+		hashes: List<string>
+	): Promise<CloudResult<List<T>>>;
+	public async GetAssetMetadata(
+		variantType: AssetVariantType,
+		hash: string
+	): Promise<CloudResult<IAssetMetadata>>;
+	public async GetAssetMetadata<T extends IAssetMetadata | BitmapMetadata>(
+		hash: string
+	): Promise<CloudResult<T>>;
+	public async GetAssetMetadata<T>(
+		a: string | AssetVariantType | List<string>,
+		b?: string
+	): Promise<any> {
+		if (a instanceof List) {
+			this.POST<List<T>>("api/assets/" + this.GetMetadataURLSegment(a[0]), a);
+		} else if (b == null) {
+			return this.GET<T>(
+				"api/assets/" + a + "/" + this.GetMetadataURLSegment(a)
+			);
+		} else {
+			switch (a) {
+			case AssetVariantType.Texture:
+				return (await this.GetAssetMetadata<BitmapMetadata>(
+					b
+				)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>;
+			case AssetVariantType.Cubemap:
+				return (await this.GetAssetMetadata<CubemapMetadata>(
+					b
+				)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>;
+			case AssetVariantType.Mesh:
+				return (await this.GetAssetMetadata<MeshMetadata>(
+					b
+				)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>;
+			case AssetVariantType.Shader:
+				return (await this.GetAssetMetadata<ShaderMetadata>(
+					b
+				)) as unknown as Promise<CloudResult<List<IAssetMetadata>>>;
+			default:
+				throw new Error("Unsupported metadata type: " + a.toString());
+			}
+		}
+	}
 	//TODO RequestAssetVariant
 	//TODO GetAvailableVariants
 	//TODO StoreAssetMetadata
@@ -1850,9 +1926,9 @@ export class CloudXInterface
 		return (
 			await this.GET<CurrencyRates>(
 				"https://openexchangerates.org/api/latest.json?app_id=" +
-				appId +
-				"&base=" +
-				baseCurrency
+					appId +
+					"&base=" +
+					baseCurrency
 			)
 		).Convert(CurrencyRates).Entity;
 	}
@@ -1870,6 +1946,6 @@ export class CloudXInterface
 	}
 }
 interface Constructable<T> {
-	new(...args: any): T;
+	new (...args: any): T;
 	constructor: { name: string };
 }

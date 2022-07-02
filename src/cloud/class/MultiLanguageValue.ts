@@ -23,8 +23,4 @@ export class MultiLanguageValue<T> {
 		if (this.PrimaryLocale == null) this.PrimaryLocale == local;
 		this.ValuesByLocale.AddOrUpdate(local, value, () => value);
 	}
-	MultiLanguageValue(value: T, local = "en"): this {
-		this.SetValue(value, local);
-		return this;
-	}
 }

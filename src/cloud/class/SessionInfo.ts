@@ -108,8 +108,8 @@ export class SessionInfo {
 			...this.SessionURLs.filter((str: string) => {
 				return (
 					str.match(
-							/(ftp|http|https|neos|neosdb):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i
-						) != null
+						/(ftp|http|https|neos|neosdb):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/i
+					) != null
 				);
 			}),
 		]);

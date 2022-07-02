@@ -1,4 +1,8 @@
-import { CloudVariableDefinition, VariableReadResult, CloudVariable } from "../cloud/class/";
+import {
+	CloudVariableDefinition,
+	VariableReadResult,
+	CloudVariable,
+} from "../cloud/class/";
 import { CloudVariableManager } from "../manager/";
 import { CloudVariableState, OwnerType } from "../enum/";
 import { CloudVariableIdentity, CloudXInterface } from "./";
@@ -9,6 +13,7 @@ import {
 	List,
 	Out,
 } from "@bombitmanbomb/utils";
+import { ACloudVariableEventHandler } from "../cloud";
 /**
  *Cloud Variable Proxy
  * @todo
@@ -49,7 +54,7 @@ export class CloudVariableProxy {
 			? this._definition.DefinitionOwnerId == this.Cloud.CurrentUser?.Id
 			: this.Cloud.IsCurrentUserMemberOfGroup(
 				this._definition.DefinitionOwnerId
-			);
+			  );
 	}
 	public get IsVariableOwner(): boolean {
 		return IdUtil.GetOwnerType(this.Identity.ownerId) == OwnerType.User
@@ -88,7 +93,7 @@ export class CloudVariableProxy {
 		};
 		Loop();
 	}
-	public Register(onChanged: () => unknown): void {
+	public Register(onChanged: ACloudVariableEventHandler): void {
 		if (this.State == CloudVariableState.Unregistered)
 			throw new Error("Proxy has been unregistered!");
 		let flag = false;
@@ -131,8 +136,8 @@ export class CloudVariableProxy {
 			);
 		if (
 			new Date(new Date().getTime() - this.LastCloudWrite.getTime()).getTime() /
-			1000 <
-			30.0 ||
+				1000 <
+				30.0 ||
 			this._writeTask == null
 		)
 			return false;
